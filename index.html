@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Punch v1.8 — UI Index (v0.5)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+body{padding:30px 14px;background:var(--bg)}
+.container{max-width:800px;margin:0 auto}
+
+.title-block{
+  text-align:center;
+  margin:0 0 30px;
+  padding:0 0 20px;
+  border-bottom:1px solid var(--bd2);
+}
+.title-main{
+  font-family:'Orbitron';
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:6px;
+  color:var(--t1);
+  margin:0 0 6px;
+}
+.title-sub{
+  font-family:'Orbitron';
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:4px;
+  color:var(--p);
+}
+.title-ver{
+  font-family:'Share Tech Mono';
+  font-size:11px;
+  color:var(--t3);
+  margin:8px 0 0;
+}
+
+.list-heading{
+  font-family:'Orbitron';
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--t3);
+  margin:24px 0 10px;
+}
+
+.list-item{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:16px;
+  align-items:center;
+  padding:16px 20px;
+  background:rgba(18,12,45,0.6);
+  border:1px solid var(--bd2);
+  margin:0 0 10px;
+  cursor:pointer;
+  transition:all .15s;
+  text-decoration:none;
+  color:var(--t1);
+  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
+}
+.list-item:hover{
+  border-color:var(--p);
+  background:rgba(180,74,255,0.1);
+  transform:translateX(4px);
+}
+
+.item-num{
+  font-family:'Orbitron';
+  font-size:18px;
+  font-weight:900;
+  color:var(--p);
+  width:38px;
+  text-align:center;
+}
+
+.item-body{min-width:0}
+.item-name{
+  font-family:'Orbitron';
+  font-size:13px;
+  font-weight:800;
+  color:var(--t1);
+  letter-spacing:1.5px;
+  margin:0 0 3px;
+}
+.item-desc{
+  font-size:11px;
+  color:var(--t2);
+  line-height:1.4;
+}
+
+.item-arrow{
+  font-family:'Orbitron';
+  font-size:14px;
+  font-weight:900;
+  color:var(--p);
+  padding:0 4px;
+}
+
+.badges{
+  display:inline-flex;
+  gap:4px;
+  margin:3px 0 0;
+  flex-wrap:wrap;
+}
+.bdg{
+  padding:1px 6px;
+  font-family:'Orbitron';
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:0.5px;
+}
+.bdg.changed{background:rgba(255,170,0,0.12);color:var(--gd);border:1px solid rgba(255,170,0,0.3)}
+.bdg.new{background:rgba(57,255,20,0.1);color:var(--gn);border:1px solid rgba(57,255,20,0.3)}
+.bdg.hold{background:rgba(0,240,255,0.08);color:var(--cy);border:1px solid rgba(0,240,255,0.3)}
+.bdg.removed{background:rgba(255,68,34,0.08);color:var(--fi);border:1px solid rgba(255,68,34,0.3)}
+.bdg.updated{background:rgba(0,240,255,0.12);color:var(--cy);border:1px solid rgba(0,240,255,0.4)}
+
+.summary-box{
+  margin:30px 0 0;
+  padding:16px 20px;
+  background:rgba(18,12,45,0.4);
+  border:1px dashed var(--bd2);
+  font-size:11px;
+  color:var(--t2);
+  line-height:1.7;
+}
+.summary-box h3{
+  font-family:'Orbitron';
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--gd);
+  margin:0 0 8px;
+}
+.summary-box ul{list-style:none;padding:0}
+.summary-box li{padding:3px 0;padding-left:14px;position:relative}
+.summary-box li::before{
+  content:'▸';
+  position:absolute;
+  left:0;
+  color:var(--p);
+}
+
+.version-bar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin:8px 0 0;
+  font-family:'Orbitron';
+  font-size:10px;
+  letter-spacing:1px;
+}
+.ver-pill{
+  padding:2px 10px;
+  background:rgba(57,255,20,0.1);
+  color:var(--gn);
+  border:1px solid rgba(57,255,20,0.3);
+  font-weight:800;
+}
+.ver-date{color:var(--t3)}
+
+.footer-note{
+  text-align:center;
+  margin:24px 0 0;
+  font-family:'Share Tech Mono';
+  font-size:10px;
+  color:var(--t3);
+  letter-spacing:1px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="title-block">
+<div class="title-main">VIBE PUNCH</div>
+<div class="title-sub">◆ v1.8 UI REDESIGN ◆</div>
+<div class="version-bar">
+  <span class="ver-pill">v0.5</span>
+  <span class="ver-date">2026.04.20</span>
+</div>
+</div>
+
+<!-- Panel pieces -->
+<div class="list-heading">◆ PANEL COMPONENTS</div>
+
+<a href="left.html" class="list-item">
+<div class="item-num">01</div>
+<div class="item-body">
+  <div class="item-name">LEFT PANEL</div>
+  <div class="item-desc">280px 고정 — MODIFIER 전체 UI (v1.9 SLOT) + SETTING</div>
+  <div class="badges">
+    <span class="bdg removed">STREAK FIRE</span>
+    <span class="bdg new">MODIFIER UI 전체</span>
+    <span class="bdg updated">SONG SPEED 2단계</span>
+  </div>
+</div>
+<div class="item-arrow">❯</div>
+</a>
+
+<a href="right.html" class="list-item">
+<div class="item-num">02</div>
+<div class="item-body">
+  <div class="item-name">RIGHT PANEL</div>
+  <div class="item-desc">HOME / STATS / BADGES / LEADERBOARD 4탭</div>
+  <div class="badges">
+    <span class="bdg updated">STREAK 14→24</span>
+    <span class="bdg new">BADGES 40→50</span>
+    <span class="bdg changed">LEADERBOARD 개발변경</span>
+  </div>
+</div>
+<div class="item-arrow">❯</div>
+</a>
+
+<!-- Space hologram -->
+<div class="list-heading">◆ SPACE HOLOGRAM</div>
+
+<a href="space.html" class="list-item">
+<div class="item-num">03</div>
+<div class="item-body">
+  <div class="item-name">SPACE HOLOGRAM (S1 / S2)</div>
+  <div class="item-desc">S1 공간 홀로그램 24 마일스톤 + Streak Fire 완전 이관</div>
+  <div class="badges">
+    <span class="bdg updated">S1 24 MILESTONE</span>
+    <span class="bdg new">STREAK FIRE 통합</span>
+    <span class="bdg">S2 NO CHANGE</span>
+  </div>
+</div>
+<div class="item-arrow">❯</div>
+</a>
+
+<!-- Popups -->
+<div class="list-heading">◆ POPUPS</div>
+
+<a href="popups.html" class="list-item">
+<div class="item-num">04</div>
+<div class="item-body">
+  <div class="item-name">POPUPS × 5</div>
+  <div class="item-desc">FIST Earned / Badge / Rank Up / Review / Track Result — 다이아몬드 스타일</div>
+  <div class="badges">
+    <span class="bdg">NO CHANGE</span>
+  </div>
+</div>
+<div class="item-arrow">❯</div>
+</a>
+
+<!-- Summary -->
+<div class="summary-box">
+<h3>◆ v0.4 → v0.5 CHANGES</h3>
+<ul>
+  <li><strong style="color:var(--t1)">좌측 Streak Fire 완전 제거</strong> — S1 공간 홀로그램으로 이관, 시각화 유일 위치</li>
+  <li><strong style="color:var(--t1)">MODIFIER UI 전체 배치</strong> — v1.9 SLOT 상태, 로직만 v1.9에서 활성화</li>
+  <li><strong style="color:var(--t1)">Song Speed 2단계 축소</strong> — Normal / Fast 1.3x (v1.6 결정)</li>
+  <li><strong style="color:var(--t1)">Streak Champion 14 → 24개</strong> — 긴 기간 보상 공백 메움</li>
+  <li><strong style="color:var(--t1)">FIST 주차 회피</strong> — 추가 10개(5/7/9/12/14/20/28/40/52/70) FIST(1/2/3/6/10/16/24/32/60/80) 비충돌</li>
+  <li><strong style="color:var(--t1)">BADGES 총 40 → 50개</strong> — Streak 증가 반영</li>
+  <li><strong style="color:var(--t1)">Leaderboard 개발 변경 명시</strong> — 기획 유지, v1.8 개발 변경점 표기</li>
+  <li><strong style="color:var(--t1)">S1 마일스톤 링 24개로 확장</strong> — FIST/v0.5 신규/칭호 전용 구분 표시</li>
+</ul>
+</div>
+
+<div class="summary-box" style="border-color:rgba(255,170,0,0.25);background:rgba(255,170,0,0.04)">
+<h3 style="color:var(--gd)">◆ v1.9 SLOT 원칙</h3>
+<ul>
+  <li>UI 구조는 v1.8에서 <strong>완성 배치</strong>. 로직은 v1.9에서 활성화</li>
+  <li>MODIFIER 전체 UI가 좌측 패널에 보임 (사선 패턴 + V1.9 SLOT 배지로 비활성 표시)</li>
+  <li>v1.9 출시 시 <strong>UI 재작업 불필요</strong> — 로직만 연결</li>
+  <li>유저에게 "곧 활성화"라는 기대감 조성 효과</li>
+</ul>
+</div>
+
+<div class="footer-note">VIBE PUNCH v1.8 · UI REDESIGN v0.5 · LILA SOFT 2026</div>
+
+</div>
+</body>
+</html>
