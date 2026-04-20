@@ -1,173 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — Left Panel (v0.5)</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vibe Punch v1.8 — Left Panel (v0.6)</title>
 <link rel="stylesheet" href="common.css">
 <style>
-body{padding:14px;background:var(--bg)}
-.container{max-width:320px;margin:0 auto}
-.hdr{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--t3);
-  text-align:center;
-  margin:0 0 12px;
-  padding:8px;
-  border:1px dashed var(--bd2);
-}
-.back-link{
-  display:inline-block;
-  padding:6px 12px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t2);
-  border:1px solid var(--bd2);
-  text-decoration:none;
-  margin:0 0 12px;
-  transition:all .15s;
-}
-.back-link:hover{border-color:var(--p);color:var(--t1)}
+  body{max-width:900px;margin:0 auto}
+  .hdr{margin-bottom:24px}
+  .hdr h1{font-family:'Orbitron';font-size:var(--fs-lg);font-weight:900;letter-spacing:2px;color:var(--p)}
+  .hdr .meta{color:var(--t2);font-size:var(--fs-sm);margin-top:4px}
+
+  /* ===== LEFT PANEL MOCKUP ===== */
+  .left-mockup{
+    width:320px;
+    background:var(--pnl);
+    border:1px solid var(--bd2);
+    padding:18px;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+    margin:20px auto;
+  }
+
+  /* ===== TOGGLE (MODIFIER / SETTING) ===== */
+  .toggle-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .toggle-btn{
+    flex:1;
+    padding:10px 8px;
+    background:rgba(180,74,255,0.06);
+    border:1px solid var(--bd2);
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:var(--t2);
+    cursor:pointer;
+    text-align:center;
+    position:relative;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .toggle-btn.on{background:rgba(180,74,255,0.2);border-color:var(--p);color:var(--t1)}
+  .toggle-btn .sub-tag{
+    display:block;
+    font-size:10px;
+    color:var(--t3);
+    margin-top:2px;
+    letter-spacing:1px;
+  }
+
+  /* ===== MODIFIER SECTION (설계 참고용 UI) ===== */
+  .mod-section{
+    padding:12px 0;
+    border-top:1px solid var(--bd2);
+    margin-top:10px;
+  }
+  .mod-group{margin-bottom:14px}
+  .mod-group-title{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    font-weight:700;
+    letter-spacing:2px;
+    color:var(--p);
+    margin-bottom:8px;
+  }
+  .mod-options{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .mod-option{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 10px;
+    background:rgba(180,74,255,0.04);
+    border:1px solid var(--bd2);
+    cursor:pointer;
+    clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);
+  }
+  .mod-option.on{background:rgba(255,46,203,0.1);border-color:var(--pk)}
+  .mod-option-label{
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    color:var(--t1);
+    font-weight:600;
+  }
+  .mod-option-score{
+    font-family:'Share Tech Mono';
+    font-size:var(--fs-xs);
+    color:var(--gd);
+  }
+  .mod-option-score.minus{color:var(--fi)}
+  .mod-option-score.zero{color:var(--t3)}
+
+  /* ===== SETTING SECTION ===== */
+  .setting-section{
+    padding:12px 0;
+    border-top:1px solid var(--bd2);
+    margin-top:10px;
+  }
+  .setting-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding:10px 0;
+    border-bottom:1px dashed rgba(180,74,255,0.1);
+  }
+  .setting-row:last-child{border-bottom:none}
+  .setting-label{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:var(--t1);
+  }
+  .setting-value{
+    font-family:'Share Tech Mono';
+    font-size:var(--fs-sm);
+    color:var(--gd);
+  }
+
+  /* ===== INFO PANELS (우측) ===== */
+  .info-side{
+    background:var(--pnl);
+    border:1px solid var(--bd2);
+    padding:18px;
+    margin:14px 0;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+
+  .changelog{
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    line-height:1.8;
+    color:var(--t1);
+  }
+  .changelog li{margin-left:18px;margin-bottom:4px}
+  .changelog h3{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    color:var(--p);
+    margin:14px 0 8px;
+    letter-spacing:1px;
+  }
 </style>
 </head>
 <body>
-<div class="container">
 <a href="index.html" class="back-link">❮ BACK TO LIST</a>
-<div class="hdr">◆ LEFT PANEL · 280px · v0.5</div>
 
-<!-- Modifier / Setting toggle -->
-<div class="pnl">
-<div class="tog">
-  <button class="tog-b on" onclick="togL(this,'mod')">
-    MODIFIER
-    <span class="v-badge">v1.9</span>
-  </button>
-  <button class="tog-b" onclick="togL(this,'set')">SETTING</button>
+<div class="hdr">
+  <h1>◆ LEFT PANEL v0.6 · 320px</h1>
+  <div class="meta">v0.5 → v0.6: Streak Fire 완전 제거 확인 · Modifier "개발 설계용" 주석 · 리스트 드라이 한글 · 폰트 확대</div>
 </div>
 
-<!-- Modifier (v1.9 SLOT - UI 보이지만 비활성) -->
-<div id="l-mod" class="mod-disabled">
-<div class="mod-disabled-overlay">V1.9 SLOT</div>
+<!-- ========== MOCKUP ========== -->
+<div class="left-mockup">
 
-<div class="mod-tooltip">All off = default (5 Life, Normal Speed, SB Off, All Notes)</div>
-
-<div class="mod-section">
-  LIFE
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: 5 Life</span>
-</div>
-<div class="mod-row">
-  <div class="mod-diamond" data-score="-30"></div>
-  <div class="mod-label">No-Fail <span style="color:var(--fi);font-size:10px">-30%</span></div>
-  <div class="mod-diamond" data-score="0"></div>
-  <div class="mod-label">3 Lifes <span style="color:var(--t3);font-size:10px">0%</span></div>
-</div>
-<div class="mod-row one">
-  <div style="display:flex;align-items:center;gap:8px">
-    <div class="mod-diamond" data-score="25"></div>
-    <div class="mod-label">1 Life <span style="color:var(--gn);font-size:10px">+25%</span></div>
+  <!-- TOGGLE ROW: MODIFIER / SETTING -->
+  <div class="toggle-row">
+    <div class="toggle-btn on">
+      MODIFIER
+      <span class="sub-tag">DESIGN REF</span>
+    </div>
+    <div class="toggle-btn">
+      SETTING
+    </div>
   </div>
-  <div></div>
-</div>
 
-<div class="mod-section">
-  POWER SHOT SENSITIVITY
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: 0.5</span>
-</div>
-<div class="mod-row one">
-  <div class="mod-label">PS Sensitivity</div>
-  <div class="mod-pm">
-    <div class="mod-pm-btn">-</div>
-    <div class="mod-pm-val">0.5</div>
-    <div class="mod-pm-btn">+</div>
+  <!-- MODIFIER UI (design reference only) -->
+  <div class="mod-section">
+
+    <!-- LIFE -->
+    <div class="mod-group">
+      <div class="mod-group-title">◆ LIFE</div>
+      <div class="mod-options">
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">No-Fail</span>
+            <span class="dry-kr">실패 불가 (초심자용)</span>
+          </div>
+          <span class="mod-option-score minus">-30%</span>
+        </div>
+        <div class="mod-option on">
+          <div>
+            <span class="mod-option-label">5 Life</span>
+            <span class="dry-kr">기본 5회 실수 허용</span>
+          </div>
+          <span class="mod-option-score zero">±0%</span>
+        </div>
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">3 Lifes</span>
+            <span class="dry-kr">3회 실수만 허용</span>
+          </div>
+          <span class="mod-option-score">+10%</span>
+        </div>
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">1 Life</span>
+            <span class="dry-kr">즉시 실패 (도전)</span>
+          </div>
+          <span class="mod-option-score">+25%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SONG SPEED -->
+    <div class="mod-group">
+      <div class="mod-group-title">◆ SONG SPEED</div>
+      <div class="mod-options">
+        <div class="mod-option on">
+          <div>
+            <span class="mod-option-label">Normal</span>
+            <span class="dry-kr">기본 속도</span>
+          </div>
+          <span class="mod-option-score zero">±0%</span>
+        </div>
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">Fast 1.3x</span>
+            <span class="dry-kr">1.3배속 (빠른 도전)</span>
+          </div>
+          <span class="mod-option-score">+15%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STRONG BULLET -->
+    <div class="mod-group">
+      <div class="mod-group-title">◆ STRONG BULLET</div>
+      <div class="mod-options">
+        <div class="mod-option on">
+          <div>
+            <span class="mod-option-label">OFF</span>
+            <span class="dry-kr">강한 총알 비활성</span>
+          </div>
+          <span class="mod-option-score zero">±0%</span>
+        </div>
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">15%</span>
+            <span class="dry-kr">15% 강한 총알 (파워샷 필요)</span>
+          </div>
+          <span class="mod-option-score">+10%</span>
+        </div>
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">30%</span>
+            <span class="dry-kr">30% 강한 총알 (고난도)</span>
+          </div>
+          <span class="mod-option-score">+20%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PS SENSITIVITY -->
+    <div class="mod-group">
+      <div class="mod-group-title">◆ PS SENSITIVITY</div>
+      <div class="mod-options">
+        <div class="mod-option on">
+          <div>
+            <span class="mod-option-label">0.5 (DEFAULT)</span>
+            <span class="dry-kr">파워샷 민감도 · 0.1~1.0 조절</span>
+          </div>
+          <span class="mod-option-score zero">무영향</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE FILTER -->
+    <div class="mod-group">
+      <div class="mod-group-title">◆ NOTE FILTER</div>
+      <div class="mod-options">
+        <div class="mod-option on">
+          <div>
+            <span class="mod-option-label">All</span>
+            <span class="dry-kr">전체 노트 (기본)</span>
+          </div>
+          <span class="mod-option-score zero">무영향</span>
+        </div>
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">No Bomb</span>
+            <span class="dry-kr">폭탄 노트 제외</span>
+          </div>
+          <span class="mod-option-score zero">무영향</span>
+        </div>
+        <div class="mod-option">
+          <div>
+            <span class="mod-option-label">No Laser</span>
+            <span class="dry-kr">레이저 노트 제외</span>
+          </div>
+          <span class="mod-option-score zero">무영향</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /mod-section -->
+
+</div><!-- /left-mockup -->
+
+<!-- ========== INFO PANELS ========== -->
+
+<div class="info-side">
+  <div class="pnl-t">◆ v0.5 → v0.6 변경</div>
+  <div class="changelog">
+    <h3>🔄 핵심 변경</h3>
+    <ul>
+      <li><b>리스트 드라이 한글 표시 추가</b> — 각 옵션 아래에 한글 설명</li>
+      <li><b>폰트 사이즈 확대</b> — common.css --fs-* 토큰 +2~3px</li>
+      <li><b>Streak Fire 완전 제거 확인</b> — S1 공간 홀로그램으로 완전 이관됨</li>
+      <li><b>Modifier UI "개발 설계 참고" 명시</b> — 실 빌드는 v1.9</li>
+      <li><b>DESIGN REF 배지</b> — MODIFIER 토글 우측 상단에 표시</li>
+    </ul>
+
+    <h3>⚠️ 중요 (v10.7 문서 기준)</h3>
+    <ul>
+      <li>Modifier UI는 v1.9에서 <b>UI + 로직 전부 개발</b></li>
+      <li>v1.8 빌드에는 <b>Modifier UI 배치 안 함</b></li>
+      <li>이 HTML은 <b>개발 설계 참고용</b>만 (v1.9 UI 구상 자료)</li>
+      <li>실 v1.8 빌드 좌측 패널 = SETTING 토글만 활성</li>
+    </ul>
   </div>
 </div>
 
-<div class="mod-section">
-  SONG SPEED
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: Normal · 2단계 (v1.6 결정)</span>
-</div>
-<div class="mod-row one">
-  <div style="display:flex;align-items:center;gap:8px">
-    <div class="mod-diamond" data-score="15"></div>
-    <div class="mod-label">Fast 1.3x <span style="color:var(--gn);font-size:10px">+15%</span></div>
+<div class="info-side">
+  <div class="pnl-t">◆ Modifier 스펙 (v10.7 문서)</div>
+  <div class="changelog">
+    <ul>
+      <li><b>Score 영향 Modifier:</b> Life / Song Speed / Strong Bullet (가산 방식)</li>
+      <li><b>설정 Modifier:</b> PS Sensitivity (공정성 유지, 무영향)</li>
+      <li><b>필터 Modifier:</b> Note Filter (취향, 무영향)</li>
+      <li><b>Score 계산:</b> Score Modifier = Life% + Speed% + SB% (최대 +60%, 최소 -30%)</li>
+      <li><b>XP 공식:</b> XP = Base Score × (1 + Modifier%)</li>
+      <li><b>Boss Rush:</b> XP = Base × 1.5 × (1 + Modifier%)</li>
+    </ul>
   </div>
-  <div></div>
 </div>
-
-<div class="mod-section">
-  STRONG BULLET
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: OFF</span>
-</div>
-<div class="mod-row">
-  <div class="mod-diamond" data-score="10"></div>
-  <div class="mod-label">SB 15% <span style="color:var(--gn);font-size:10px">+10%</span></div>
-  <div class="mod-diamond" data-score="20"></div>
-  <div class="mod-label">SB 30% <span style="color:var(--gn);font-size:10px">+20%</span></div>
-</div>
-
-<div class="mod-section">
-  NOTE FILTER
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: All Notes</span>
-</div>
-<div class="mod-row">
-  <div class="mod-diamond" data-score="0"></div>
-  <div class="mod-label">No Bomb</div>
-  <div class="mod-diamond" data-score="0"></div>
-  <div class="mod-label">No Laser</div>
-</div>
-
-<div class="mod-bonus">
-  <span>SCORE MODIFIER</span>
-  <b>+0%</b>
-</div>
-</div>
-
-<!-- Setting -->
-<div id="l-set" style="display:none">
-  <div class="set-item"><span>Graphic</span><em>Resolution</em></div>
-  <div class="set-item"><span>Mode</span><em>Manual</em></div>
-  <div class="set-item"><span>Render Scale</span><em>1.0x</em></div>
-  <div class="set-item"><span>Sound</span><em>100%</em></div>
-  <div class="set-item"><span>Controllers</span><em>Default</em></div>
-  <div class="set-item"><span>Display</span><em>72 Hz</em></div>
-  <div class="set-item"><span>Health &amp; Safety</span><em></em></div>
-  <div class="set-item"><span>Privacy Policy</span><em></em></div>
-  <div class="set-item"><span>Credit</span><em></em></div>
-</div>
-
-</div>
-
-<!-- Notes -->
-<div style="margin:16px 0 0;padding:10px;background:rgba(18,12,45,0.4);border:1px dashed var(--bd2);font-size:10px;color:var(--t3);line-height:1.6">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v0.5 CHANGES</strong><br>
-  • <strong style="color:var(--fi)">Streak Fire 완전 제거</strong> → S1 공간 홀로그램으로 이관<br>
-  • <strong style="color:var(--gd)">MODIFIER UI 전체 배치</strong> (v1.9 SLOT, 비활성 상태)<br>
-  • Song Speed <strong>2단계로 축소</strong> (Normal / Fast 1.3x — v1.6 결정)<br>
-  • SETTING 토글만 활성
-</div>
-
-<div style="margin:10px 0 0;padding:10px;background:rgba(255,170,0,0.05);border:1px dashed rgba(255,170,0,0.3);font-size:10px;color:var(--t2);line-height:1.6">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v1.9 SLOT 의미</strong><br>
-  UI 구조는 v1.8에서 완성 배치. 로직은 v1.9에서 활성화.<br>
-  이렇게 하면 v1.9 출시 시 UI 재작업 없이 로직만 연결.
-</div>
-
-</div>
-
-<script>
-function togL(btn,which){
-  document.querySelectorAll('.tog-b').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('l-mod').style.display = which==='mod' ? 'block' : 'none';
-  document.getElementById('l-set').style.display = which==='set' ? 'block' : 'none';
-}
-</script>
 
 </body>
 </html>

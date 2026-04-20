@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vibe Punch v1.8 — Boss Rush Challenge (v0.6 신규 · v10.7 반영)</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body{max-width:1200px;margin:0 auto}
+  .hdr{margin-bottom:24px}
+  .hdr h1{font-family:'Orbitron';font-size:var(--fs-lg);font-weight:900;letter-spacing:2px;color:var(--boss)}
+  .hdr .meta{color:var(--t2);font-size:var(--fs-sm);margin-top:4px}
+
+  /* ===== SECTION ===== */
+  .screen-section{
+    background:var(--pnl);
+    border:1px solid var(--bd2);
+    padding:24px;
+    margin:20px 0;
+    clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  }
+  .screen-title{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    font-weight:900;
+    letter-spacing:2px;
+    color:var(--boss);
+    margin-bottom:6px;
+  }
+  .screen-desc{
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    color:var(--t2);
+    margin-bottom:16px;
+  }
+
+  /* ===== SCREEN 1: MODE SELECT ===== */
+  .mode-select{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    padding:20px;
+    background:rgba(6,6,18,0.6);
+    border:1px dashed var(--bd2);
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .mode-card{
+    padding:20px;
+    background:rgba(180,74,255,0.08);
+    border:1px solid var(--bd2);
+    text-align:center;
+    cursor:pointer;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .mode-card.boss-rush{
+    background:rgba(255,102,170,0.1);
+    border-color:var(--boss);
+    box-shadow:0 0 20px rgba(255,102,170,0.3);
+  }
+  .mode-card .ico{
+    font-size:40px;
+    margin-bottom:10px;
+  }
+  .mode-card .name{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    font-weight:900;
+    letter-spacing:2px;
+    color:var(--t1);
+  }
+  .mode-card.boss-rush .name{color:var(--boss)}
+  .mode-card .sub{
+    font-family:'Rajdhani';
+    font-size:var(--fs-xs);
+    color:var(--t2);
+    margin-top:6px;
+    line-height:1.4;
+  }
+  .mode-card .tag-ver{margin-top:8px}
+
+  /* ===== SCREEN 2: PREPARATION ===== */
+  .prep-grid{
+    display:grid;
+    grid-template-columns:1fr 1.5fr 1fr;
+    gap:16px;
+  }
+  .prep-box{
+    background:rgba(255,102,170,0.05);
+    border:1px solid rgba(255,102,170,0.2);
+    padding:16px;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .prep-title{
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:700;
+    letter-spacing:2px;
+    color:var(--boss);
+    margin-bottom:10px;
+  }
+
+  /* FIST select */
+  .fist-row{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .fist-mini{
+    aspect-ratio:1;
+    background:rgba(180,74,255,0.06);
+    border:1px solid var(--bd2);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+    font-size:28px;
+  }
+  .fist-mini.selected{background:rgba(180,74,255,0.2);border-color:var(--p);box-shadow:0 0 12px rgba(180,74,255,0.3)}
+  .fist-mini .n{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    color:var(--t1);
+    letter-spacing:1px;
+    margin-top:3px;
+  }
+  .fist-mini.dlc{border-style:dashed;border-color:rgba(255,170,0,0.3);opacity:0.6}
+
+  /* track select */
+  .track-slot{
+    padding:10px;
+    background:rgba(180,74,255,0.04);
+    border:1px dashed var(--bd);
+    margin-bottom:8px;
+    cursor:pointer;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .track-slot.filled{background:rgba(180,74,255,0.1);border-style:solid}
+  .track-slot .slot-num{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    color:var(--t3);
+    letter-spacing:2px;
+  }
+  .track-slot .slot-name{
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:700;
+    color:var(--t1);
+    margin-top:2px;
+  }
+  .track-slot .slot-meta{
+    font-family:'Rajdhani';
+    font-size:var(--fs-xs);
+    color:var(--t2);
+    margin-top:2px;
+  }
+  .track-slot.empty .slot-name{color:var(--t3)}
+
+  /* modifier mini */
+  .mod-mini-row{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    color:var(--t1);
+    border-bottom:1px dashed rgba(255,102,170,0.1);
+  }
+  .mod-mini-row:last-child{border-bottom:none}
+  .mod-mini-row .k{color:var(--t2);font-size:var(--fs-xs);letter-spacing:1px}
+  .mod-mini-row .v{font-family:'Share Tech Mono'}
+
+  /* preview */
+  .score-preview{
+    background:rgba(255,102,170,0.1);
+    border:1px solid var(--boss);
+    padding:14px;
+    text-align:center;
+    margin-top:12px;
+  }
+  .score-preview .lbl{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    letter-spacing:2px;
+    color:var(--boss);
+  }
+  .score-preview .val{
+    font-family:'Orbitron';
+    font-size:var(--fs-xl);
+    font-weight:900;
+    color:var(--t1);
+    margin-top:4px;
+  }
+  .score-preview .calc{
+    font-family:'Share Tech Mono';
+    font-size:var(--fs-xs);
+    color:var(--t2);
+    margin-top:4px;
+  }
+
+  /* START button row */
+  .start-row{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:16px;
+  }
+
+  /* ===== SCREEN 3: INTERMISSION HUB ===== */
+  .hub-frame{
+    background:
+      radial-gradient(ellipse at center,rgba(255,102,170,0.15) 0%,rgba(6,6,18,0.95) 70%),
+      var(--boss-pnl);
+    border:2px solid var(--boss);
+    padding:30px;
+    position:relative;
+    clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+    box-shadow:0 0 40px rgba(255,102,170,0.2);
+  }
+  .hub-progress-bar{
+    display:flex;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .hub-step{
+    flex:1;
+    padding:8px;
+    background:rgba(255,102,170,0.06);
+    border:1px solid rgba(255,102,170,0.2);
+    text-align:center;
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    letter-spacing:1px;
+    color:var(--t2);
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .hub-step.done{background:rgba(255,102,170,0.25);color:var(--boss);border-color:var(--boss)}
+  .hub-step.current{
+    background:rgba(255,102,170,0.35);
+    color:var(--t1);
+    border-color:var(--boss);
+    box-shadow:0 0 12px rgba(255,102,170,0.3);
+  }
+
+  .hub-countdown-big{
+    font-family:'Orbitron';
+    font-size:96px;
+    font-weight:900;
+    color:var(--boss);
+    text-align:center;
+    letter-spacing:8px;
+    text-shadow:0 0 30px rgba(255,102,170,0.6);
+    line-height:1;
+    margin:10px 0 20px;
+  }
+
+  .hub-body{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:14px;
+  }
+  .hub-card{
+    background:rgba(255,102,170,0.04);
+    border:1px solid rgba(255,102,170,0.2);
+    padding:14px;
+    clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  }
+  .hub-card h5{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    letter-spacing:2px;
+    color:var(--boss);
+    margin-bottom:8px;
+  }
+  .hub-card .big{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    font-weight:900;
+    color:var(--t1);
+    margin-bottom:4px;
+  }
+  .hub-card .sub{
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    color:var(--t2);
+  }
+  .hub-card .plus{color:var(--gd);font-family:'Share Tech Mono';font-size:var(--fs-md)}
+
+  .hub-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 0 0;
+    border-top:1px solid rgba(255,102,170,0.15);
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .hub-accum{
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    color:var(--t2);
+  }
+  .hub-accum b{color:var(--gd);font-family:'Orbitron';font-size:var(--fs-md)}
+  .hub-equipped{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    color:var(--t3);
+    letter-spacing:1px;
+  }
+  .hub-actions{
+    display:flex;
+    gap:8px;
+  }
+
+  /* ===== SCREEN 4: RESULT ===== */
+  .result-boss{
+    background:
+      radial-gradient(ellipse at top,rgba(255,102,170,0.15) 0%,rgba(6,6,18,0.95) 60%),
+      var(--pnl);
+    border:2px solid var(--boss);
+    padding:30px;
+    clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+    box-shadow:0 0 30px rgba(255,102,170,0.2);
+  }
+  .result-hdr{text-align:center;margin-bottom:20px}
+  .result-tag{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    letter-spacing:3px;
+    color:var(--boss);
+  }
+  .result-status{
+    font-family:'Orbitron';
+    font-size:var(--fs-2xl);
+    font-weight:900;
+    letter-spacing:4px;
+    color:var(--t1);
+    margin:6px 0;
+    text-shadow:0 0 20px rgba(255,102,170,0.5);
+  }
+  .result-status.fail{color:var(--fi)}
+
+  /* score calculation rows */
+  .calc-rows{
+    background:rgba(255,102,170,0.05);
+    border:1px solid rgba(255,102,170,0.2);
+    padding:18px;
+    margin:20px 0;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .calc-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    font-family:'Rajdhani';
+    font-size:var(--fs-md);
+    color:var(--t1);
+    border-bottom:1px dashed rgba(255,102,170,0.15);
+  }
+  .calc-row:last-child{border-bottom:none}
+  .calc-row .k{color:var(--t2)}
+  .calc-row .v{font-family:'Share Tech Mono';color:var(--t1)}
+  .calc-row.boost .v{color:var(--boss);font-weight:700}
+  .calc-row.final{
+    border-top:2px solid var(--boss);
+    margin-top:8px;
+    padding-top:12px;
+    font-family:'Orbitron';
+    font-size:var(--fs-lg);
+    font-weight:900;
+  }
+  .calc-row.final .v{color:var(--gd);text-shadow:0 0 8px rgba(255,170,0,0.3)}
+
+  /* per track records */
+  .track-records{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .track-rec{
+    background:rgba(255,102,170,0.04);
+    border:1px solid rgba(255,102,170,0.2);
+    padding:12px;
+    text-align:center;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .track-rec .tag{
+    font-family:'Orbitron';
+    font-size:10px;
+    color:var(--t2);
+    letter-spacing:2px;
+    display:block;
+    margin-bottom:2px;
+  }
+  .track-rec .name{
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:700;
+    color:var(--t1);
+  }
+  .track-rec .grade{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    color:var(--cy);
+    margin-top:2px;
+  }
+  .track-rec .score{
+    font-family:'Share Tech Mono';
+    font-size:var(--fs-md);
+    color:var(--gd);
+    margin-top:4px;
+  }
+
+  /* leaderboard mini */
+  .lb-mini{
+    background:rgba(180,74,255,0.04);
+    border:1px solid var(--bd2);
+    padding:14px;
+    margin:16px 0;
+    clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  }
+  .lb-mini h5{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    letter-spacing:2px;
+    color:var(--p);
+    margin-bottom:8px;
+  }
+  .lb-mini-row{
+    display:flex;
+    justify-content:space-between;
+    padding:4px 0;
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    color:var(--t1);
+  }
+  .lb-mini-row.me{
+    background:rgba(180,74,255,0.1);
+    padding:4px 8px;
+    border-left:2px solid var(--p);
+  }
+
+  /* ===== INFO ===== */
+  .info-side{
+    background:var(--pnl);
+    border:1px solid var(--bd2);
+    padding:18px;
+    margin:14px 0;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .changelog{
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    line-height:1.8;
+    color:var(--t1);
+  }
+  .changelog li{margin-left:18px;margin-bottom:4px}
+  .changelog h3{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    color:var(--boss);
+    margin:14px 0 8px;
+    letter-spacing:1px;
+  }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-link">❮ BACK TO LIST</a>
+
+<div class="hdr">
+  <h1>◆ BOSS RUSH CHALLENGE v0.6 · v10.7 (신규)</h1>
+  <div class="meta">v2.0 콘텐츠 · Standard 2 + Boss 1 = 8~10분 세션 · 인터미션 허브 포함 · 중앙 최상단 모드 선택</div>
+</div>
+
+<!-- ========== SCREEN 1: MODE SELECT ========== -->
+<div class="screen-section">
+  <div class="screen-title">① 중앙 최상단 모드 선택</div>
+  <div class="screen-desc">홈 화면에서 Standard / Boss / Boss Rush 3모드 중 선택</div>
+
+  <div class="mode-select">
+    <div class="mode-card">
+      <div class="ico">🎯</div>
+      <div class="name">STANDARD</div>
+      <div class="sub">
+        기본 플레이<br>
+        <span class="dry-kr">40곡 · Easy/Normal/Hard</span>
+      </div>
+      <div class="tag-ver"><span class="tag design">v1.0~</span></div>
+    </div>
+    <div class="mode-card">
+      <div class="ico">👹</div>
+      <div class="name">BOSS</div>
+      <div class="sub">
+        보스 곡 전용<br>
+        <span class="dry-kr">15곡 · 단일 곡 플레이</span>
+      </div>
+      <div class="tag-ver"><span class="tag design">v1.0~</span></div>
+    </div>
+    <div class="mode-card boss-rush">
+      <div class="ico">⚡</div>
+      <div class="name">BOSS RUSH</div>
+      <div class="sub">
+        3곡 연속 챌린지<br>
+        <span class="dry-kr">Standard 2 + Boss 1 · 8~10분</span>
+      </div>
+      <div class="tag-ver"><span class="tag v20">V2.0</span></div>
+    </div>
+  </div>
+
+  <div class="notice info" style="margin-top:14px">
+    <strong>중앙 최상단 배치 이유:</strong> 유저가 플레이 시작 시 가장 먼저 마주치는 선택지. Boss Rush는 우측 패널이 아닌 이 3모드 선택 단계에 배치.
+  </div>
+</div>
+
+<!-- ========== SCREEN 2: PREPARATION ========== -->
+<div class="screen-section">
+  <div class="screen-title">② Boss Rush 준비 화면</div>
+  <div class="screen-desc">FIST / Modifier / 곡 3개 선택. 확정 후 변경 불가</div>
+
+  <div class="prep-grid">
+
+    <!-- LEFT: FIST + MODIFIER -->
+    <div class="prep-box">
+      <div class="prep-title">◆ FIST (4종 중 선택)</div>
+      <div class="fist-row">
+        <div class="fist-mini selected">
+          🥊
+          <div class="n">FIST #1</div>
+        </div>
+        <div class="fist-mini">
+          🥊
+          <div class="n">FIST #2</div>
+        </div>
+        <div class="fist-mini">
+          🥊
+          <div class="n">FIST #3</div>
+        </div>
+        <div class="fist-mini">
+          🥊
+          <div class="n">FIST #4</div>
+        </div>
+        <div class="fist-mini dlc">
+          🥊
+          <div class="n">DLC <span class="tag dlc">DLC</span></div>
+        </div>
+      </div>
+
+      <div class="prep-title" style="margin-top:14px">◆ EFFECT (자동)</div>
+      <div class="effect-tier max" style="width:100%;justify-content:center">EMBER · TIER 4</div>
+      <div class="sub" style="margin-top:6px;font-family:'Rajdhani';font-size:var(--fs-xs);color:var(--t3)">
+        <span class="dry-kr">최고 단계 자동 장착 (교체 불가)</span>
+      </div>
+
+      <div class="prep-title" style="margin-top:14px">◆ MODIFIER</div>
+      <div class="mod-mini-row"><span class="k">LIFE</span><span class="v">3 Lifes <span style="color:var(--gd)">+10%</span></span></div>
+      <div class="mod-mini-row"><span class="k">SPEED</span><span class="v">Fast 1.3x <span style="color:var(--gd)">+15%</span></span></div>
+      <div class="mod-mini-row"><span class="k">SB</span><span class="v">15% <span style="color:var(--gd)">+10%</span></span></div>
+      <div class="mod-mini-row"><span class="k">PS</span><span class="v">0.5</span></div>
+      <div class="mod-mini-row"><span class="k">FILTER</span><span class="v">All</span></div>
+    </div>
+
+    <!-- CENTER: 3 TRACKS -->
+    <div class="prep-box">
+      <div class="prep-title">◆ 3 TRACKS (Standard 2 + Boss 1)</div>
+      <div class="track-slot filled">
+        <div class="slot-num">TRACK 1 / 3 · STANDARD</div>
+        <div class="slot-name">GOOD DAY</div>
+        <div class="slot-meta">VOL.01 · HARD · 🔥🔥🔥 <span class="dry-kr">· 어려움</span></div>
+      </div>
+      <div class="track-slot filled">
+        <div class="slot-num">TRACK 2 / 3 · STANDARD</div>
+        <div class="slot-name">POWER SURGE</div>
+        <div class="slot-meta">VOL.02 · NORMAL · 🔥🔥 <span class="dry-kr">· 중간</span></div>
+      </div>
+      <div class="track-slot filled">
+        <div class="slot-num">TRACK 3 / 3 · BOSS</div>
+        <div class="slot-name">BOSS 4 · TITAN</div>
+        <div class="slot-meta">HARD · 🔥🔥 <span class="dry-kr">· 보스</span></div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn" style="flex:1;font-size:var(--fs-xs)">🎲 RANDOM</button>
+        <button class="btn" style="flex:1;font-size:var(--fs-xs)">🔁 CHANGE</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: SCORE PREVIEW + LEADERBOARD -->
+    <div class="prep-box">
+      <div class="prep-title">◆ SCORE PREVIEW</div>
+      <div class="score-preview">
+        <div class="lbl">EXPECTED</div>
+        <div class="val">~ 657K XP</div>
+        <div class="calc">350K × 1.5 × 1.35</div>
+      </div>
+
+      <div class="prep-title" style="margin-top:14px">◆ WEEKLY TOP 10</div>
+      <div class="lb-mini">
+        <div class="lb-mini-row"><span>1. VKIMONE</span><span class="xp-plus" style="color:var(--gd);font-family:'Share Tech Mono'">892,450</span></div>
+        <div class="lb-mini-row"><span>2. KYLEKATURN</span><span style="color:var(--gd);font-family:'Share Tech Mono'">821,340</span></div>
+        <div class="lb-mini-row"><span>3. JUN</span><span style="color:var(--gd);font-family:'Share Tech Mono'">712,800</span></div>
+        <div class="lb-mini-row me"><span><b>YOU BEST</b></span><span style="color:var(--gd);font-family:'Share Tech Mono'">595,200</span></div>
+      </div>
+    </div>
+
+  </div><!-- /prep-grid -->
+
+  <div class="start-row">
+    <button class="btn">❮ BACK</button>
+    <button class="btn boss" style="font-size:var(--fs-md);padding:12px 30px">⚡ START BOSS RUSH</button>
+  </div>
+
+  <div class="notice warn" style="margin-top:14px">
+    <strong>⚠️ 경고:</strong> 시작 후 FIST / Modifier / 곡 변경 불가. 1곡 실패 시 Rush 전체 무효.
+  </div>
+</div>
+
+<!-- ========== SCREEN 3: INTERMISSION HUB ========== -->
+<div class="screen-section">
+  <div class="screen-title">③ 인터미션 허브 (곡 사이 10~15초)</div>
+  <div class="screen-desc">Track 1 완료 후 → 허브 1 → Track 2 / Track 2 완료 후 → 허브 2 → Boss</div>
+
+  <div class="hub-frame">
+
+    <!-- Progress bar -->
+    <div class="hub-progress-bar">
+      <div class="hub-step done">✓ TRACK 1 COMPLETE</div>
+      <div class="hub-step current">◆ HUB · PREPARE</div>
+      <div class="hub-step">○ TRACK 2</div>
+      <div class="hub-step">○ HUB</div>
+      <div class="hub-step">○ BOSS</div>
+    </div>
+
+    <!-- Countdown -->
+    <div class="hub-countdown-big hub-pulse">07</div>
+    <div style="text-align:center;font-family:'Orbitron';font-size:var(--fs-xs);color:var(--t3);letter-spacing:2px;margin-bottom:10px">
+      SECONDS TO NEXT TRACK
+    </div>
+
+    <!-- 2x2 content -->
+    <div class="hub-body">
+      <!-- Just cleared -->
+      <div class="hub-card">
+        <h5>◆ JUST CLEARED</h5>
+        <div class="big">GOOD DAY</div>
+        <div class="sub">
+          PERFECT · <span class="plus">+1,100 XP</span><br>
+          Combo 612 · Hit 98%<br>
+          <span class="dry-kr">방금 완료한 곡</span>
+        </div>
+      </div>
+      <!-- Next track -->
+      <div class="hub-card">
+        <h5>◆ NEXT TRACK</h5>
+        <div class="big">POWER SURGE</div>
+        <div class="sub">
+          VOL.02 · NORMAL · 🔥🔥<br>
+          Bullets: 187 · ~2m 40s<br>
+          <span class="dry-kr">다음 곡 준비</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="hub-footer">
+      <div>
+        <div class="hub-accum">ACCUM XP (pending): <b>1,100</b></div>
+        <div class="hub-equipped">🥊 FIST #1 · EMBER · LIFE 3 / FAST / SB 15%</div>
+      </div>
+      <div class="hub-actions">
+        <button class="btn" style="font-size:var(--fs-xs)">+5 SEC</button>
+        <button class="btn boss" style="font-size:var(--fs-xs)">SKIP ❯</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="notice info" style="margin-top:14px">
+    <strong>허브 역할:</strong> 신체 회복 + 몰입 유지 + 긴장감 조성 + 진행 가시성 + 전략 확인. 로딩 화면이 아닌 "인터미션"으로 설계.
+  </div>
+</div>
+
+<!-- ========== SCREEN 4: RESULT ========== -->
+<div class="screen-section">
+  <div class="screen-title">④ Boss Rush 결과 화면</div>
+  <div class="screen-desc">3곡 합산 → × 1.5 Boss Rush 보너스 → × Modifier% → Final XP + Leaderboard 순위</div>
+
+  <div class="result-boss">
+
+    <div class="result-hdr">
+      <div class="result-tag">◆ BOSS RUSH COMPLETE</div>
+      <div class="result-status">CLEARED</div>
+    </div>
+
+    <!-- Per track records -->
+    <div class="track-records">
+      <div class="track-rec">
+        <span class="tag">TRACK 1</span>
+        <div class="name">GOOD DAY</div>
+        <div class="grade">PERFECT</div>
+        <div class="score">98,450</div>
+      </div>
+      <div class="track-rec">
+        <span class="tag">TRACK 2</span>
+        <div class="name">POWER SURGE</div>
+        <div class="grade">GOOD</div>
+        <div class="score">82,340</div>
+      </div>
+      <div class="track-rec">
+        <span class="tag">BOSS</span>
+        <div class="name">TITAN</div>
+        <div class="grade">GOOD</div>
+        <div class="score">165,800</div>
+      </div>
+    </div>
+
+    <!-- Calculation -->
+    <div class="calc-rows">
+      <div class="calc-row">
+        <span class="k">BASE SUM <span class="dry-kr">(3곡 합산)</span></span>
+        <span class="v">346,590</span>
+      </div>
+      <div class="calc-row boost">
+        <span class="k">× 1.5 <span class="dry-kr">(Boss Rush 보너스)</span></span>
+        <span class="v">× 1.5</span>
+      </div>
+      <div class="calc-row boost">
+        <span class="k">× 1.35 <span class="dry-kr">(Modifier +35%: L10 + S15 + SB10)</span></span>
+        <span class="v">× 1.35</span>
+      </div>
+      <div class="calc-row final">
+        <span class="k">FINAL XP</span>
+        <span class="v">701,845</span>
+      </div>
+    </div>
+
+    <!-- Leaderboard placement -->
+    <div class="lb-mini">
+      <h5>◆ BOSS RUSH LEADERBOARD · THIS WEEK</h5>
+      <div class="lb-mini-row"><span>1. VKIMONE</span><span style="color:var(--gd);font-family:'Share Tech Mono'">892,450</span></div>
+      <div class="lb-mini-row"><span>2. KYLEKATURN</span><span style="color:var(--gd);font-family:'Share Tech Mono'">821,340</span></div>
+      <div class="lb-mini-row"><span>3. JUN</span><span style="color:var(--gd);font-family:'Share Tech Mono'">712,800</span></div>
+      <div class="lb-mini-row me"><span><b>4. YOU</b> (+1 rank!)</span><span style="color:var(--gd);font-family:'Share Tech Mono'"><b>701,845</b></span></div>
+      <div class="lb-mini-row"><span>5. KIM JUNG EUN</span><span style="color:var(--gd);font-family:'Share Tech Mono'">695,200</span></div>
+    </div>
+
+    <!-- Badge earned -->
+    <div class="badge-earned" style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(57,255,20,0.08);border:1px solid rgba(57,255,20,0.3);margin:14px 0;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))">
+      <div style="font-size:32px">🏆</div>
+      <div style="flex:1">
+        <div style="font-family:'Orbitron';font-size:var(--fs-xs);letter-spacing:2px;color:var(--gn)">◆ BADGE UNLOCKED</div>
+        <div style="font-family:'Orbitron';font-size:var(--fs-md);font-weight:900;color:var(--t1);margin-top:2px">BOSS RUSH VETERAN</div>
+        <div style="font-family:'Rajdhani';font-size:var(--fs-xs);color:var(--t2);margin-top:2px">
+          <span class="dry-kr">보스 러쉬 10회 클리어 달성</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions" style="display:flex;gap:10px;justify-content:center;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,102,170,0.2)">
+      <button class="btn">↻ RETRY (SAME)</button>
+      <button class="btn">🔧 CHANGE SETUP</button>
+      <button class="btn primary">❮ HOME</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== FAIL VARIANT ========== -->
+<div class="screen-section">
+  <div class="screen-title">⑤ Boss Rush 실패 시 (Track 1/2/3 어디서든 Life 0)</div>
+  <div class="screen-desc">결과 화면 변형. 부분 기록 저장 + 재시도 유도</div>
+
+  <div class="result-boss" style="border-color:var(--fi);box-shadow:0 0 30px rgba(255,68,34,0.15)">
+    <div class="result-hdr">
+      <div class="result-tag" style="color:var(--fi)">◆ BOSS RUSH FAILED</div>
+      <div class="result-status fail">ALMOST THERE!</div>
+      <div style="font-family:'Rajdhani';font-size:var(--fs-sm);color:var(--t2);margin-top:6px">
+        Boss 마지막 구간에서 실패 · <span class="dry-kr">다시 도전해보세요!</span>
+      </div>
+    </div>
+
+    <div class="notice warn" style="margin:20px 0">
+      <strong>Rush 전체 무효:</strong> Final XP = 0. Leaderboard 기록 없음. 단 개별 Track 1/2 기록은 Standard 기록에 저장됨. Boss 미완 — 기록 없음.
+    </div>
+
+    <div class="actions" style="display:flex;gap:10px;justify-content:center;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,68,34,0.2)">
+      <button class="btn boss" style="font-weight:900">↻ RETRY (SAME)</button>
+      <button class="btn">🔧 CHANGE SETUP</button>
+      <button class="btn">❮ HOME</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== CHANGELOG ========== -->
+<div class="info-side">
+  <div class="pnl-t">◆ v10.7 문서 → UI 매핑</div>
+  <div class="changelog">
+    <h3>📐 v10.7 5-4 Boss Rush Challenge 반영</h3>
+    <ul>
+      <li><b>5-4-2 모드 선택:</b> 중앙 최상단 Standard / Boss / Boss Rush 3모드</li>
+      <li><b>5-4-3 인터미션 허브:</b> 10~15초 카운트다운 · 4영역 (진행도/방금 클리어/다음 곡/누적&장착) · SKIP / +5초</li>
+      <li><b>5-4-4 플로우:</b> 9단계 (모드 → 준비 → 확인 → T1 → 허브1 → T2 → 허브2 → BOSS → 결과)</li>
+      <li><b>5-4-5 Score:</b> Base × 1.5 × (1 + Modifier%) · 결과화면 애니메이션</li>
+      <li><b>5-4-6 Boss Slayer Badge:</b> 14개 중 획득 시 결과화면에 표시</li>
+      <li><b>5-4-7 실패 처리:</b> Rush 무효 + 부분 기록 저장 + 재시도 유도 메시지</li>
+      <li><b>5-4-8 화면 구성:</b> 4화면 (모드 진입/준비/허브/결과) 전부 구현</li>
+    </ul>
+
+    <h3>🎨 v0.6 디자인 원칙</h3>
+    <ul>
+      <li><b>컬러:</b> --boss (#ff66aa) 핑크 계열로 Boss Rush 차별화</li>
+      <li><b>폰트:</b> --fs-* 토큰 적용 (가독성 우선)</li>
+      <li><b>리스트 드라이 한글:</b> 영문 옵션/메뉴 아래 한글 설명</li>
+      <li><b>자물쇠 🔓 미사용:</b> v0.6 전체 원칙과 일치</li>
+    </ul>
+
+    <h3>✅ v1.8 / v2.0 배치</h3>
+    <ul>
+      <li><b>v1.8 (v1.8 릴리즈 시):</b> 모드 선택 UI에 "Boss Rush (v2.0)" 잠금 표시 가능 (티저)</li>
+      <li><b>v1.9 (Modifier 도입):</b> Modifier UI만 활성</li>
+      <li><b>v2.0 (Boss Rush 활성):</b> 이 전체 UI 활성화 · 실 플레이 가능</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

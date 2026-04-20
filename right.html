@@ -1,403 +1,849 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — Right Panel (v0.5)</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vibe Punch v1.8 — Right Panel (v0.6)</title>
 <link rel="stylesheet" href="common.css">
 <style>
-body{padding:14px;background:var(--bg)}
-.container{max-width:920px;margin:0 auto}
-.hdr{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--t3);
-  text-align:center;
-  margin:0 0 12px;
-  padding:8px;
-  border:1px dashed var(--bd2);
-}
-.back-link{
-  display:inline-block;
-  padding:6px 12px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t2);
-  border:1px solid var(--bd2);
-  text-decoration:none;
-  margin:0 0 12px;
-  transition:all .15s;
-}
-.back-link:hover{border-color:var(--p);color:var(--t1)}
+  body{max-width:900px;margin:0 auto}
+  .hdr{margin-bottom:24px}
+  .hdr h1{font-family:'Orbitron';font-size:var(--fs-lg);font-weight:900;letter-spacing:2px;color:var(--p)}
+  .hdr .meta{color:var(--t2);font-size:var(--fs-sm);margin-top:4px}
 
-.rank-bar{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-  background:rgba(18,12,45,0.6);
-  border:1px solid var(--bd2);
-  margin:0 0 10px;
-}
+  /* ===== RIGHT PANEL MOCKUP ===== */
+  .right-mockup{
+    background:var(--pnl);
+    border:1px solid var(--bd2);
+    padding:20px;
+    clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+    margin:20px 0;
+  }
+
+  /* ===== TOP RANK (simple overview) ===== */
+  .rank-top{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px;
+    background:rgba(180,74,255,0.06);
+    border:1px solid var(--bd2);
+    margin-bottom:16px;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .rank-top .ico{
+    font-size:44px;
+    filter:drop-shadow(0 0 12px var(--gd));
+  }
+  .rank-top .info{flex:1}
+  .rank-top .role{
+    font-family:'Orbitron';
+    font-size:10px;
+    color:var(--gd);
+    letter-spacing:2px;
+  }
+  .rank-top .name{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    font-weight:900;
+    color:var(--t1);
+    letter-spacing:1px;
+    margin-top:2px;
+  }
+  .rank-top .xp{
+    font-family:'Share Tech Mono';
+    font-size:var(--fs-xs);
+    color:var(--t2);
+    margin-top:2px;
+  }
+
+  /* ===== TABS ===== */
+  .tab-row{
+    display:flex;
+    border-bottom:1px solid var(--bd2);
+    margin-bottom:16px;
+  }
+  .tab-btn{
+    padding:10px 14px;
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:var(--t2);
+    border-bottom:2px solid transparent;
+    cursor:pointer;
+  }
+  .tab-btn.on{color:var(--t1);border-bottom-color:var(--p)}
+
+  /* ===== SUB TAB ===== */
+  .subtab-row{
+    display:flex;
+    gap:14px;
+    border-bottom:1px solid var(--bd2);
+    margin-bottom:14px;
+  }
+  .subtab-btn{
+    padding:8px 4px;
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:var(--t2);
+    border-bottom:2px solid transparent;
+    cursor:pointer;
+  }
+  .subtab-btn.on{color:var(--t1);border-bottom-color:var(--p)}
+
+  /* ===== HOME SECTION ===== */
+  .home-section{margin-bottom:16px}
+  .section-title{
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:700;
+    letter-spacing:2px;
+    color:var(--p);
+    margin-bottom:10px;
+  }
+
+  /* FIST management (v0.6 신규) */
+  .fist-mgmt{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .fist-opt{
+    aspect-ratio:1;
+    background:rgba(180,74,255,0.06);
+    border:1px solid var(--bd2);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:28px;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+    position:relative;
+  }
+  .fist-opt.selected{background:rgba(180,74,255,0.2);border-color:var(--p);box-shadow:0 0 14px rgba(180,74,255,0.3)}
+  .fist-opt .label{
+    font-family:'Orbitron';
+    font-size:10px;
+    color:var(--t1);
+    letter-spacing:1px;
+    margin-top:4px;
+  }
+  .fist-opt .badge-mini{
+    position:absolute;
+    top:3px;
+    right:3px;
+    font-family:'Orbitron';
+    font-size:8px;
+    letter-spacing:1px;
+    padding:2px 4px;
+    background:rgba(255,170,0,0.2);
+    color:var(--gd);
+    border:1px solid rgba(255,170,0,0.3);
+  }
+  .fist-opt.dlc{
+    border-style:dashed;
+    border-color:rgba(255,46,203,0.3);
+    background:rgba(255,46,203,0.04);
+  }
+  .fist-opt.dlc .label{color:var(--pk)}
+
+  /* Effect tier display */
+  .effect-display{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    background:rgba(255,170,0,0.06);
+    border:1px solid rgba(255,170,0,0.3);
+    margin-bottom:10px;
+    clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  }
+  .effect-display .ico{
+    font-size:22px;
+    filter:drop-shadow(0 0 6px var(--gd));
+  }
+  .effect-display .info{flex:1}
+  .effect-display .lbl{
+    font-family:'Orbitron';
+    font-size:10px;
+    letter-spacing:2px;
+    color:var(--gd);
+  }
+  .effect-display .name{
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:900;
+    color:var(--t1);
+    letter-spacing:1px;
+  }
+  .effect-display .note{
+    font-family:'Rajdhani';
+    font-size:10px;
+    color:var(--t3);
+  }
+
+  /* Week stats 4 cards */
+  .week-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .ws-card{
+    background:rgba(180,74,255,0.04);
+    border:1px solid var(--bd2);
+    padding:10px 8px;
+    text-align:center;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .ws-card .lbl{
+    font-family:'Orbitron';
+    font-size:10px;
+    letter-spacing:1.5px;
+    color:var(--t2);
+  }
+  .ws-card .val{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    font-weight:900;
+    color:var(--t1);
+    margin:3px 0;
+  }
+  .ws-card .sub{
+    font-family:'Rajdhani';
+    font-size:10px;
+    color:var(--t3);
+  }
+
+  /* Cleared count */
+  .cleared-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .cleared-card{
+    padding:10px 14px;
+    background:rgba(180,74,255,0.04);
+    border:1px solid var(--bd2);
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .cleared-card .tag{
+    font-family:'Orbitron';
+    font-size:10px;
+    letter-spacing:2px;
+    color:var(--t2);
+  }
+  .cleared-card .num{
+    font-family:'Orbitron';
+    font-size:var(--fs-xl);
+    font-weight:900;
+    color:var(--t1);
+    letter-spacing:1px;
+    margin-top:2px;
+  }
+  .cleared-card .sub{
+    font-family:'Rajdhani';
+    font-size:var(--fs-xs);
+    color:var(--t3);
+  }
+
+  /* Next Badges */
+  .next-badges{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:6px;
+  }
+  .nb-item{
+    padding:10px 8px;
+    background:rgba(57,255,20,0.04);
+    border:1px solid rgba(57,255,20,0.15);
+    text-align:center;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .nb-item .ico{font-size:20px}
+  .nb-item .name{
+    font-family:'Orbitron';
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:1px;
+    color:var(--t1);
+    margin-top:3px;
+  }
+  .nb-item .progress{
+    font-family:'Share Tech Mono';
+    font-size:10px;
+    color:var(--gn);
+    margin-top:2px;
+  }
+
+  /* ===== STATS SECTION ===== */
+  .stats-content{display:none}
+  .stats-content.on{display:block}
+
+  /* overview */
+  .ov-section{margin-bottom:14px}
+
+  /* MY SCORE - track list */
+  .track-list-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
+    background:rgba(180,74,255,0.04);
+    border:1px solid var(--bd2);
+    margin-bottom:4px;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .track-list-row .num{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    color:var(--t3);
+    width:20px;
+  }
+  .track-list-row .t-name{
+    flex:1;
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    font-weight:700;
+    color:var(--t1);
+  }
+  .track-list-row .fire{font-size:var(--fs-xs)}
+  .track-list-row .diff-chips{display:flex;gap:4px}
+  .diff-chip{
+    padding:2px 6px;
+    font-family:'Orbitron';
+    font-size:9px;
+    letter-spacing:1px;
+    border:1px solid var(--bd2);
+    color:var(--t3);
+  }
+  .diff-chip.on{background:var(--p);border-color:var(--p);color:#fff}
+  .track-list-row .grade{
+    font-family:'Orbitron';
+    font-size:10px;
+    color:var(--cy);
+    letter-spacing:1px;
+  }
+  .track-list-row .score{
+    font-family:'Share Tech Mono';
+    font-size:var(--fs-sm);
+    color:var(--gd);
+  }
+
+  .vol-hdr{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    color:var(--t2);
+    letter-spacing:2px;
+    margin:14px 0 6px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+  .vol-hdr .meta{color:var(--t3)}
+
+  /* ===== BADGES SECTION ===== */
+  .badges-content{display:none}
+  .badges-content.on{display:block}
+  .badge-tabs{
+    display:flex;
+    gap:6px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .badge-tab{
+    padding:6px 12px;
+    font-family:'Orbitron';
+    font-size:10px;
+    letter-spacing:1px;
+    color:var(--t2);
+    border:1px solid var(--bd2);
+    background:rgba(180,74,255,0.04);
+    cursor:pointer;
+    clip-path:polygon(0 0,calc(100% - 4px) 0,100% 4px,100% 100%,4px 100%,0 calc(100% - 4px));
+  }
+  .badge-tab.on{background:rgba(180,74,255,0.2);color:var(--t1);border-color:var(--p)}
+
+  .badge-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+  }
+  .bdg{
+    aspect-ratio:1;
+    background:rgba(180,74,255,0.04);
+    border:1px solid var(--bd2);
+    padding:6px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    clip-path:polygon(0 0,calc(100% - 4px) 0,100% 4px,100% 100%,4px 100%,0 calc(100% - 4px));
+  }
+  .bdg .n{
+    font-family:'Orbitron';
+    font-size:8px;
+    letter-spacing:.5px;
+    color:var(--t2);
+    margin-top:3px;
+    line-height:1.2;
+  }
+  .bdg.earned{background:rgba(255,170,0,0.1);border-color:var(--gd)}
+  .bdg.earned .n{color:var(--gd)}
+  .bdg.new{
+    background:rgba(57,255,20,0.12);
+    border-color:var(--gn);
+    animation:pg 2s ease-in-out infinite;
+  }
+  .bdg.new .n{color:var(--gn)}
+  .bdg.prog{background:rgba(180,74,255,0.08);opacity:0.7}
+  .bdg.locked{opacity:0.3}
+
+  /* ===== LEADERBOARD ===== */
+  .lb-content{display:none}
+  .lb-content.on{display:block}
+
+  .lb-filters{
+    display:flex;
+    gap:10px;
+    margin-bottom:14px;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .filter-group{
+    display:flex;
+    gap:4px;
+  }
+  .filter-btn{
+    padding:6px 10px;
+    font-family:'Orbitron';
+    font-size:10px;
+    letter-spacing:1px;
+    color:var(--t2);
+    border:1px solid var(--bd2);
+    background:rgba(180,74,255,0.04);
+    cursor:pointer;
+    clip-path:polygon(0 0,calc(100% - 4px) 0,100% 4px,100% 100%,4px 100%,0 calc(100% - 4px));
+  }
+  .filter-btn.on{background:rgba(180,74,255,0.2);color:var(--t1);border-color:var(--p)}
+
+  .lb-table{
+    background:rgba(180,74,255,0.04);
+    border:1px solid var(--bd2);
+    margin-bottom:14px;
+    clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+  }
+  .lb-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 12px;
+    border-bottom:1px dashed rgba(180,74,255,0.1);
+  }
+  .lb-row:last-child{border-bottom:none}
+  .lb-row.me{background:rgba(180,74,255,0.08);border-left:2px solid var(--p)}
+  .lb-row .rk{
+    font-family:'Orbitron';
+    font-size:var(--fs-xs);
+    font-weight:700;
+    color:var(--gd);
+    width:24px;
+  }
+  .lb-row .usr{
+    flex:1;
+    font-family:'Orbitron';
+    font-size:var(--fs-sm);
+    color:var(--t1);
+  }
+  .lb-row .sc{
+    font-family:'Share Tech Mono';
+    font-size:var(--fs-sm);
+    color:var(--gd);
+  }
+
+  /* ===== CHANGELOG ===== */
+  .info-side{
+    background:var(--pnl);
+    border:1px solid var(--bd2);
+    padding:18px;
+    margin:14px 0;
+    clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+  }
+  .changelog{
+    font-family:'Rajdhani';
+    font-size:var(--fs-sm);
+    line-height:1.8;
+    color:var(--t1);
+  }
+  .changelog li{margin-left:18px;margin-bottom:4px}
+  .changelog h3{
+    font-family:'Orbitron';
+    font-size:var(--fs-md);
+    color:var(--p);
+    margin:14px 0 8px;
+    letter-spacing:1px;
+  }
 </style>
 </head>
 <body>
-<div class="container">
 <a href="index.html" class="back-link">❮ BACK TO LIST</a>
-<div class="hdr">◆ RIGHT PANEL · HOME / STATS / BADGES / LEADERBOARD · v0.5</div>
 
-<div class="pnl" style="min-height:calc(100vh - 120px)">
+<div class="hdr">
+  <h1>◆ RIGHT PANEL v0.6 · 4 TABS</h1>
+  <div class="meta">v0.5 → v0.6: FIST 4종 교체 GUI · 이펙트 등급 표시 · 곡별 🔥 · 자물쇠 삭제 · 폰트 확대 · 리스트 드라이 한글</div>
+</div>
 
-<!-- RANK IDENTITY -->
-<div class="rank-bar">
-  <div style="position:relative;width:62px;height:62px;flex-shrink:0">
-    <svg width="62" height="62" viewBox="0 0 62 62">
-      <circle cx="31" cy="31" r="26" fill="none" stroke="rgba(90,74,122,0.2)" stroke-width="4"/>
-      <circle cx="31" cy="31" r="26" fill="none" stroke="url(#rank-ring)" stroke-width="4" stroke-dasharray="163" stroke-dashoffset="35" stroke-linecap="round" transform="rotate(-90 31 31)"/>
-      <defs><linearGradient id="rank-ring"><stop offset="0%" stop-color="#ffaa00"/><stop offset="100%" stop-color="#ff6600"/></linearGradient></defs>
-    </svg>
-    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
-      <div style="font-size:15px;line-height:1">&#x1F94A;</div>
-      <div style="font-family:'Orbitron';font-size:6px;font-weight:700;color:var(--gd);letter-spacing:.5px;margin:1px 0 0">FIST</div>
+<!-- ========== RIGHT PANEL MOCKUP ========== -->
+<div class="right-mockup">
+
+  <!-- TOP: RANK OVERVIEW (간단 표시, 상세는 S2) -->
+  <div class="rank-top">
+    <div class="ico">🥊</div>
+    <div class="info">
+      <div class="role">FIGHTER · COMMANDER</div>
+      <div class="name">COMMANDER ★★</div>
+      <div class="xp">28,000 / 35,000 XP to COMMANDER ★</div>
     </div>
   </div>
-  <div style="flex:1;min-width:0">
-    <div style="font-family:'Orbitron';font-size:13px;font-weight:900;letter-spacing:1px;color:var(--gd)">COMMANDER <span style="font-size:11px;color:var(--t1)">II</span></div>
-    <div style="font-size:11px;color:var(--t2);margin:2px 0">28,000 / 35,000 XP to <span style="color:var(--t1);font-weight:600">COMMANDER I</span></div>
-    <div style="font-size:11px;color:var(--t3)">Rhythm Combat Universe &middot; Fighter</div>
+
+  <!-- TABS -->
+  <div class="tab-row">
+    <div class="tab-btn on">HOME</div>
+    <div class="tab-btn">STATS</div>
+    <div class="tab-btn">BADGES</div>
+    <div class="tab-btn">LEADERBOARD</div>
+  </div>
+
+  <!-- ========== HOME TAB ========== -->
+  <div class="home-content">
+
+    <!-- FIST MANAGEMENT (v0.6 신규) -->
+    <div class="home-section">
+      <div class="section-title">◆ FIST <span class="tag new">v0.6 · 4종 교체</span></div>
+      <div class="fist-mgmt">
+        <div class="fist-opt selected">
+          🥊
+          <div class="label">FIST #1</div>
+        </div>
+        <div class="fist-opt">
+          🥊
+          <div class="label">FIST #2</div>
+        </div>
+        <div class="fist-opt">
+          🥊
+          <div class="label">FIST #3</div>
+        </div>
+        <div class="fist-opt">
+          🥊
+          <div class="label">FIST #4</div>
+        </div>
+      </div>
+      <div class="dry-kr" style="margin-bottom:10px">4종 중 1개 선택 · 플레이 중 교체 불가</div>
+
+      <!-- DLC placeholder -->
+      <div class="fist-opt dlc" style="width:100%;aspect-ratio:auto;padding:10px;flex-direction:row;gap:10px">
+        <span style="font-size:22px">🥊</span>
+        <div class="label" style="margin:0;font-size:var(--fs-sm)">MORE FIST</div>
+        <span class="badge-mini" style="position:static;margin-left:auto">COMING · DLC</span>
+      </div>
+    </div>
+
+    <!-- EFFECT TIER DISPLAY -->
+    <div class="home-section">
+      <div class="section-title">◆ EQUIPPED EFFECT <span class="dry-kr" style="display:inline;margin:0 0 0 8px;font-size:10px">(유저 등급)</span></div>
+      <div class="effect-display">
+        <div class="ico">🔥</div>
+        <div class="info">
+          <div class="lbl">TIER 4 / 10</div>
+          <div class="name">EMBER</div>
+          <div class="note">
+            <span class="dry-kr">최고 단계 자동 장착 · 교체 불가 · 다음: INFERNO (6주차)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THIS WEEK STATS -->
+    <div class="home-section">
+      <div class="section-title">◆ THIS WEEK</div>
+      <div class="week-stats">
+        <div class="ws-card">
+          <div class="lbl">PUNCHES</div>
+          <div class="val">2,840</div>
+          <div class="sub">R 53% L 47%</div>
+        </div>
+        <div class="ws-card">
+          <div class="lbl">PLAY TIME</div>
+          <div class="val">38M</div>
+          <div class="sub">4 sessions</div>
+        </div>
+        <div class="ws-card">
+          <div class="lbl">CALORIES</div>
+          <div class="val">312</div>
+          <div class="sub">kcal (est.)</div>
+        </div>
+        <div class="ws-card">
+          <div class="lbl">XP EARNED</div>
+          <div class="val">+840</div>
+          <div class="sub">this week</div>
+        </div>
+      </div>
+
+      <div class="cleared-row">
+        <div class="cleared-card">
+          <div class="tag">STANDARD</div>
+          <div class="num">24</div>
+          <div class="sub">tracks cleared <span class="dry-kr">· 클리어한 곡</span></div>
+        </div>
+        <div class="cleared-card">
+          <div class="tag">BOSS</div>
+          <div class="num">3</div>
+          <div class="sub">bosses defeated <span class="dry-kr">· 클리어한 보스</span></div>
+        </div>
+      </div>
+
+      <button class="btn" style="width:100%;margin-top:8px">VIEW ALL STATS ❯</button>
+    </div>
+
+    <!-- NEXT BADGES -->
+    <div class="home-section">
+      <div class="section-title">◆ NEXT BADGES</div>
+      <div class="next-badges">
+        <div class="nb-item">
+          <div class="ico">🎯</div>
+          <div class="name">PERFECT 10</div>
+          <div class="progress">5 / 10</div>
+        </div>
+        <div class="nb-item">
+          <div class="ico">⚔️</div>
+          <div class="name">COMBO 1000</div>
+          <div class="progress">847 / 1000</div>
+        </div>
+        <div class="nb-item">
+          <div class="ico">🔥</div>
+          <div class="name">WEEK 8</div>
+          <div class="progress">7 / 8</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /home-content -->
+
+</div><!-- /right-mockup -->
+
+<!-- ========== STATS TAB MOCKUP ========== -->
+<div class="right-mockup">
+  <div class="pnl-t" style="color:var(--p)">◆ STATS TAB · 3 SUBTABS (v0.6)</div>
+
+  <div class="subtab-row">
+    <div class="subtab-btn on">OVERVIEW</div>
+    <div class="subtab-btn">MY SCORE</div>
+    <div class="subtab-btn">FITNESS</div>
+  </div>
+
+  <!-- MY SCORE preview -->
+  <div class="ov-section">
+    <div class="section-title">◆ MY SCORE · 🔥 난이도 표시 (v0.6)</div>
+    <div class="vol-hdr">
+      <span>VOL.01 · 5 / 5 CLEARED</span>
+      <span class="meta">7앨범 총 35곡</span>
+    </div>
+
+    <div class="track-list-row">
+      <span class="num">1</span>
+      <span class="t-name">POWER SURGE</span>
+      <span class="fire" style="color:var(--gd)">🔥🔥</span>
+      <span class="diff-chips">
+        <span class="diff-chip on">E</span>
+        <span class="diff-chip on">N</span>
+        <span class="diff-chip">H</span>
+      </span>
+      <span class="grade">GOOD</span>
+      <span class="score">82,340</span>
+    </div>
+
+    <div class="track-list-row">
+      <span class="num">2</span>
+      <span class="t-name">NIGHT DRIVE</span>
+      <span class="fire" style="color:var(--fi)">🔥🔥🔥</span>
+      <span class="diff-chips">
+        <span class="diff-chip on">E</span>
+        <span class="diff-chip">N</span>
+        <span class="diff-chip">H</span>
+      </span>
+      <span class="grade">POOR</span>
+      <span class="score">67,220</span>
+    </div>
+
+    <div class="track-list-row">
+      <span class="num">3</span>
+      <span class="t-name">GOOD DAY</span>
+      <span class="fire" style="color:var(--gn)">🔥</span>
+      <span class="diff-chips">
+        <span class="diff-chip on">E</span>
+        <span class="diff-chip on">N</span>
+        <span class="diff-chip on">H</span>
+      </span>
+      <span class="grade" style="color:var(--cy)">PERFECT</span>
+      <span class="score">98,450</span>
+    </div>
+
+    <div class="dry-kr" style="margin-top:10px;text-align:center">
+      🔥 = 클리어율 65%+ (쉬운 곡) / 🔥🔥 = 45~65% / 🔥🔥🔥 = 45% 미만 (어려운 곡)
+    </div>
   </div>
 </div>
 
-<!-- TABS -->
-<div class="rtabs">
-  <div class="rtab on" onclick="rtab('home',this)">HOME</div>
-  <div class="rtab" onclick="rtab('stats',this)">STATS</div>
-  <div class="rtab" onclick="rtab('badge',this)">BADGES</div>
-  <div class="rtab" onclick="rtab('lb',this)">LEADERBOARD</div>
-</div>
+<!-- ========== BADGES TAB MOCKUP ========== -->
+<div class="right-mockup">
+  <div class="pnl-t" style="color:var(--p)">◆ BADGES TAB · 50개 (v0.6)</div>
 
-<!-- HOME -->
-<div id="r-home" class="rp on">
-
-<div class="sec">THIS WEEK</div>
-<div class="g4">
-  <div class="mc"><div class="mc-l">PUNCHES</div><div class="mc-v">2,840</div><div class="mc-s">R 53% L 47%</div></div>
-  <div class="mc"><div class="mc-l">PLAY TIME</div><div class="mc-v">38M</div></div>
-  <div class="mc"><div class="mc-l">CALORIES</div><div class="mc-v" style="color:var(--fi)">312</div><div class="mc-s">kcal (est.)</div></div>
-  <div class="mc"><div class="mc-l">XP EARNED</div><div class="mc-v" style="color:var(--gd)">+840</div></div>
-</div>
-
-<div style="display:flex;gap:6px;margin:8px 0 0">
-  <div class="mc" style="flex:1"><div class="mc-l">STANDARD</div><div class="mc-v">24</div><div class="mc-s">tracks cleared</div></div>
-  <div class="mc" style="flex:1"><div class="mc-l">BOSS</div><div class="mc-v" style="color:var(--pk)">3</div><div class="mc-s">bosses defeated</div></div>
-</div>
-
-<div style="text-align:center;margin:8px 0 0">
-  <div style="display:inline-flex;align-items:center;gap:4px;padding:5px 16px;font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1px;color:var(--t2);border:1px solid var(--bd2);cursor:pointer;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);transition:all .15s" onclick="rtab('stats',document.querySelectorAll('.rtab')[1])">VIEW ALL STATS &#10095;</div>
-</div>
-
-<div class="sec">NEXT BADGES</div>
-<div id="home-next-badges" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
-</div>
-
-<!-- STATS -->
-<div id="r-stats" class="rp">
-<div style="display:flex;gap:1px;margin:0 0 14px;background:rgba(180,74,255,0.06);padding:2px;border-radius:3px">
-  <div class="stab2 on" onclick="stab('sov',this)">OVERVIEW</div>
-  <div class="stab2" onclick="stab('str',this)">MY SCORE</div>
-  <div class="stab2" onclick="stab('sft',this)">FITNESS</div>
-</div>
-
-<!-- OVERVIEW -->
-<div id="sov" class="sp on">
-  <div class="sec">PLAY SUMMARY</div>
-  <div class="g4">
-    <div class="mc"><div class="mc-l">PLAY TIME</div><div class="mc-v">18H</div><div class="mc-s">42 sessions</div></div>
-    <div class="mc"><div class="mc-l">TOTAL XP</div><div class="mc-v" style="color:var(--gd)">28,000</div></div>
-    <div class="mc"><div class="mc-l">STD CLEARED</div><div class="mc-v">24</div></div>
-    <div class="mc"><div class="mc-l">BOSS CLEARED</div><div class="mc-v" style="color:var(--pk)">3</div></div>
+  <div class="badge-tabs">
+    <div class="badge-tab on">ALL 50</div>
+    <div class="badge-tab">RHYTHM 12</div>
+    <div class="badge-tab">COMBO 10</div>
+    <div class="badge-tab">EXPLORE 4</div>
+    <div class="badge-tab">STREAK 24 ★</div>
   </div>
 
-  <div class="sec">COMBAT STATS</div>
-  <div class="g4">
-    <div class="mc"><div class="mc-l">TOTAL PUNCHES</div><div class="mc-v">12,420</div></div>
-    <div class="mc"><div class="mc-l">POWER SHOTS</div><div class="mc-v" style="color:var(--pk)">1,847</div><div class="mc-s">14.9% rate</div></div>
-    <div class="mc"><div class="mc-l">BOMBS DODGED</div><div class="mc-v" style="color:var(--gn)">824</div><div class="mc-s">92% success</div></div>
-    <div class="mc"><div class="mc-l">LASERS BLOCKED</div><div class="mc-v" style="color:var(--cy)">1,245</div><div class="mc-s">88% success</div></div>
-  </div>
-  <div style="margin:8px 0 0">
-    <div class="fbar"><div class="fbar-l">RIGHT</div><div class="fbar-t"><div class="fbar-f" style="width:52%;background:var(--p)"></div></div><div class="fbar-v" style="color:var(--p)">6,458</div></div>
-    <div class="fbar"><div class="fbar-l">LEFT</div><div class="fbar-t"><div class="fbar-f" style="width:48%;background:var(--pk)"></div></div><div class="fbar-v" style="color:var(--pk)">5,962</div></div>
-  </div>
+  <div class="badge-grid">
+    <div class="bdg earned">🎯<div class="n">FIRST</div></div>
+    <div class="bdg earned">🎯<div class="n">PERFECT 5</div></div>
+    <div class="bdg new">⭐<div class="n">COMBO 500</div></div>
+    <div class="bdg earned">🔥<div class="n">WEEK 1</div></div>
+    <div class="bdg earned">🔥<div class="n">WEEK 2</div></div>
 
-  <div class="sec">HIT ACCURACY</div>
-  <div class="g3">
-    <div class="mc"><div class="mc-l">HIT RATE</div><div class="mc-v" style="color:var(--gn)">90%</div><div class="mc-s">hits / total notes</div></div>
-    <div class="mc"><div class="mc-l">MISS RATE</div><div class="mc-v" style="color:var(--fi)">10%</div></div>
-    <div class="mc"><div class="mc-l">POWER SHOT %</div><div class="mc-v" style="color:var(--pk)">14.9%</div><div class="mc-s">of total hits</div></div>
-  </div>
+    <div class="bdg earned">🔥<div class="n">WEEK 3</div></div>
+    <div class="bdg prog">🔥<div class="n">WEEK 4</div></div>
+    <div class="bdg prog">🔥<div class="n">KINDLE 5</div></div>
+    <div class="bdg prog">🔥<div class="n">WEEK 6</div></div>
+    <div class="bdg prog">🔥<div class="n">EMBER 7</div></div>
 
-  <div class="sec">BEST RECORDS</div>
-  <div class="g3">
-    <div class="mc"><div class="mc-l">MAX COMBO</div><div class="mc-v" style="color:var(--cy)">847</div><div class="mc-s">Power Surge</div></div>
-    <div class="mc"><div class="mc-l">TOP SCORE</div><div class="mc-v" style="color:var(--gn)">98,450</div><div class="mc-s">Good Day</div></div>
-    <div class="mc"><div class="mc-l">PERFECT CLEARS</div><div class="mc-v" style="color:var(--cy)">8</div><div class="mc-s">of 24 cleared</div></div>
+    <div class="bdg locked">🔥<div class="n">WEEK 8</div></div>
+    <div class="bdg locked">🔥<div class="n">WEEK 9</div></div>
+    <div class="bdg locked">🔥<div class="n">WEEK 10</div></div>
+    <div class="bdg locked">🔥<div class="n">WEEK 12</div></div>
+    <div class="bdg locked">🔥<div class="n">WEEK 14</div></div>
   </div>
 
-  <div class="sec">RECENT 5 PLAYS</div>
-  <div class="trow"><span class="tnum" style="color:var(--gn)">&#x25CF;</span><span class="tname">Good Day <span style="font-size:11px;color:var(--t3)">(H)</span></span><span class="tgrade g-perf">PERFECT</span><span style="font-size:11px;color:var(--t3)">4/11</span></div>
-  <div class="trow"><span class="tnum" style="color:var(--gn)">&#x25CF;</span><span class="tname">Power Surge <span style="font-size:11px;color:var(--t3)">(N)</span></span><span class="tgrade g-good">GOOD</span><span style="font-size:11px;color:var(--t3)">4/11</span></div>
-  <div class="trow"><span class="tnum" style="color:var(--gn)">&#x25CF;</span><span class="tname">Neon Lights <span style="font-size:11px;color:var(--t3)">(E)</span></span><span class="tgrade g-good">GOOD</span><span style="font-size:11px;color:var(--t3)">4/10</span></div>
-  <div class="trow"><span class="tnum" style="color:var(--fi)">&#x2717;</span><span class="tname">Deep Waters <span style="font-size:11px;color:var(--t3)">(E)</span></span><span style="font-size:11px;color:var(--fi)">FAIL</span><span style="font-size:11px;color:var(--t3)">4/9</span></div>
-  <div class="trow"><span class="tnum" style="color:var(--gn)">&#x25CF;</span><span class="tname">Rumor <span style="font-size:11px;color:var(--t3)">(E)</span></span><span class="tgrade g-perf">PERFECT</span><span style="font-size:11px;color:var(--t3)">4/7</span></div>
-</div>
-
-<!-- MY SCORE -->
-<div id="str" class="sp">
-  <div class="dtabs"><div class="dtab on">ALL</div><div class="dtab">EASY</div><div class="dtab">NORMAL</div><div class="dtab">HARD</div></div>
-
-  <div style="margin:0 0 4px"><span style="font-family:'Orbitron';font-size:10px;font-weight:700;color:var(--p)">VOL.01</span> <span style="font-size:11px;color:var(--t3)">5/5</span></div>
-  <div class="trow"><span class="tnum">1</span><span class="tname">Power Surge</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd ok">N</div><div class="dd no">H</div></div><span class="tgrade g-good">GOOD</span><span class="tscore">82,340</span></div>
-  <div class="trow"><span class="tnum">2</span><span class="tname">Night Drive</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd no">N</div><div class="dd no">H</div></div><span class="tgrade g-poor">POOR</span><span class="tscore">67,220</span></div>
-  <div class="trow"><span class="tnum">3</span><span class="tname">Good Day</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd ok">N</div><div class="dd ok">H</div></div><span class="tgrade g-perf">PERFECT</span><span class="tscore">98,450</span></div>
-  <div class="trow"><span class="tnum">4</span><span class="tname">Electric Feel</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd no">N</div><div class="dd no">H</div></div><span class="tgrade g-good">GOOD</span><span class="tscore">71,890</span></div>
-  <div class="trow"><span class="tnum">5</span><span class="tname">Midnight Run</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd no">N</div><div class="dd no">H</div></div><span class="tgrade g-poor">POOR</span><span class="tscore">52,100</span></div>
-
-  <div style="text-align:center;padding:14px 0 8px;font-family:'Orbitron';font-size:9px;color:var(--t3);letter-spacing:2px">▼ VOL.02~VOL.06 (SCROLL)</div>
-</div>
-
-<!-- FITNESS -->
-<div id="sft" class="sp">
-  <div class="period"><button class="pbtn">WEEK</button><button class="pbtn on">MONTH</button><button class="pbtn">ALL</button></div>
-  <div class="g3">
-    <div class="mc"><div class="mc-l">CALORIES</div><div class="mc-v" style="color:var(--fi)">1,580</div><div class="mc-s">kcal</div></div>
-    <div class="mc"><div class="mc-l">ACTIVE</div><div class="mc-v">4H12M</div></div>
-    <div class="mc"><div class="mc-l">AVG/SESS</div><div class="mc-v">76</div><div class="mc-s">kcal</div></div>
+  <div class="dry-kr" style="margin-top:10px">
+    ⚠️ v0.6: 자물쇠 🔓 아이콘 제거 · 색상 농도로만 상태 구분 (획득 = 골드 / 신규 = 초록 펄스 / 진행 = 퍼플 연함 / 잠금 = 매우 어두움)
   </div>
-  <div class="sec">MOVEMENT</div>
-  <div class="g3">
-    <div class="mc"><div class="mc-l">DODGES</div><div class="mc-v">824</div></div>
-    <div class="mc"><div class="mc-l">GUARDS</div><div class="mc-v">1,245</div></div>
-    <div class="mc"><div class="mc-l">INTENSITY</div><div class="mc-v" style="color:var(--gd)">6.2</div><div class="mc-s">of 10</div></div>
+</div>
+
+<!-- ========== LEADERBOARD TAB MOCKUP ========== -->
+<div class="right-mockup">
+  <div class="pnl-t" style="color:var(--p)">◆ LEADERBOARD TAB (v0.6)</div>
+
+  <div class="lb-filters">
+    <div class="filter-group">
+      <div class="filter-btn">VOL.01</div>
+      <div class="filter-btn on">VOL.02</div>
+      <div class="filter-btn">VOL.03</div>
+      <div class="filter-btn">VOL.04</div>
+      <div class="filter-btn">VOL.05</div>
+      <div class="filter-btn">VOL.06</div>
+    </div>
+    <div class="filter-group" style="margin-left:auto">
+      <div class="filter-btn on">EASY</div>
+      <div class="filter-btn">NORMAL</div>
+      <div class="filter-btn">HARD</div>
+    </div>
   </div>
-  <div class="sec">WEEKLY CALORIES</div>
-  <div class="cchart">
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center"><div class="cbar" style="height:42%;background:linear-gradient(to top,#ff4422,#ff8800)"></div><div class="cbar-l">W1</div></div>
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center"><div class="cbar" style="height:52%;background:linear-gradient(to top,#ff4422,#ff8800)"></div><div class="cbar-l">W2</div></div>
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center"><div class="cbar" style="height:68%;background:linear-gradient(to top,#ff4422,#ffaa00)"></div><div class="cbar-l">W3</div></div>
-    <div style="flex:1;display:flex;flex-direction:column;align-items:center"><div class="cbar" style="height:86%;background:linear-gradient(to top,#ff4422,#ffcc00)"></div><div class="cbar-l">W4</div></div>
+
+  <div class="dry-kr" style="margin-bottom:10px">
+    곡 선택 시 In-game과 자동 싱크 · Modifier 필터는 v1.9에서 활성화 예정
   </div>
-  <div style="text-align:center;font-size:10px;color:var(--gn)">&#9650; +15% vs last month</div>
-</div>
 
-</div>
-
-<!-- BADGES (v0.5: Streak 14→24, 총 58개) -->
-<div id="r-badge" class="rp">
-<div style="display:flex;align-items:center;gap:12px;margin:0 0 12px">
-  <div style="position:relative;width:56px;height:56px">
-    <svg width="56" height="56" viewBox="0 0 56 56">
-      <circle cx="28" cy="28" r="23" fill="none" stroke="rgba(90,74,122,0.2)" stroke-width="4"/>
-      <circle cx="28" cy="28" r="23" fill="none" stroke="url(#bg2)" stroke-width="4" stroke-dasharray="145" stroke-dashoffset="93" stroke-linecap="round" transform="rotate(-90 28 28)"/>
-      <defs><linearGradient id="bg2"><stop offset="0%" stop-color="#b44aff"/><stop offset="100%" stop-color="#ff2ecb"/></linearGradient></defs>
-    </svg>
-    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-family:'Orbitron';font-size:14px;font-weight:900">18</span><span style="font-size:11px;color:var(--t3)">/50</span></div>
+  <div class="lb-table">
+    <div class="lb-row">
+      <span class="rk">1</span>
+      <span class="usr">VKIMONE</span>
+      <span class="sc">2,356,885</span>
+    </div>
+    <div class="lb-row">
+      <span class="rk">2</span>
+      <span class="usr">KYLEKATURN</span>
+      <span class="sc">1,850,078</span>
+    </div>
+    <div class="lb-row">
+      <span class="rk">3</span>
+      <span class="usr">JUN</span>
+      <span class="sc">665,815</span>
+    </div>
+    <div class="lb-row me">
+      <span class="rk">4</span>
+      <span class="usr"><b>YOU · KIM JUNG EUN</b></span>
+      <span class="sc">252,000</span>
+    </div>
+    <div class="lb-row">
+      <span class="rk">5</span>
+      <span class="usr">JM CHOE</span>
+      <span class="sc">125,030</span>
+    </div>
   </div>
-  <div><div style="font-family:'Orbitron';font-size:12px;font-weight:800">18 OF 50 EARNED</div><div style="font-size:10px;color:var(--t2)">★ Streak 14→24로 확대 (v0.5)</div></div>
+
+  <div class="section-title">◆ MY BEST · THIS TRACK</div>
+  <div class="week-stats" style="grid-template-columns:repeat(3,1fr)">
+    <div class="ws-card">
+      <div class="lbl">SCORE</div>
+      <div class="val" style="color:var(--gd)">252,000</div>
+      <div class="sub">Rank #4</div>
+    </div>
+    <div class="ws-card">
+      <div class="lbl">COMBO</div>
+      <div class="val">412</div>
+      <div class="sub">max streak</div>
+    </div>
+    <div class="ws-card">
+      <div class="lbl">GRADE</div>
+      <div class="val" style="color:var(--cy)">GOOD</div>
+      <div class="sub">this track</div>
+    </div>
+  </div>
 </div>
 
-<div class="sec">COLLECTION</div>
-<div class="ctabs">
-  <div class="ctab on">ALL 50</div>
-  <div class="ctab">RHYTHM 12</div>
-  <div class="ctab">COMBO 10</div>
-  <div class="ctab">EXPLORE 4</div>
-  <div class="ctab">STREAK 24 ★</div>
+<!-- ========== CHANGELOG ========== -->
+<div class="info-side">
+  <div class="pnl-t">◆ v0.5 → v0.6 변경</div>
+  <div class="changelog">
+    <h3>🔄 핵심 변경</h3>
+    <ul>
+      <li><b>FIST 4종 교체 GUI 신규</b> — HOME 탭 상단에 4개 슬롯 + DLC placeholder</li>
+      <li><b>이펙트 등급 표시 추가</b> — "TIER 4 / 10 · EMBER" 자동 장착 명시 (교체 불가)</li>
+      <li><b>곡별 🔥 난이도 MY SCORE 탭에 반영</b> — 🔥/🔥🔥/🔥🔥🔥 클리어율 기반</li>
+      <li><b>자물쇠 🔓 아이콘 완전 삭제</b> — Badge 상태는 색상 농도로만 구분</li>
+      <li><b>전체 폰트 사이즈 확대</b> — --fs-* 토큰 적용</li>
+      <li><b>리스트 드라이 한글 표시</b> — 각 섹션/옵션 아래 한글 설명</li>
+      <li><b>상단 Rank 간소화</b> — 상세는 S2 홀로그램 별도 (rank_badge.html)</li>
+    </ul>
+
+    <h3>⚠️ v10.7 문서 정합성</h3>
+    <ul>
+      <li><b>FIST 4종:</b> 유저 교체 GUI 존재 + DLC 확장 예정</li>
+      <li><b>이펙트:</b> 교체 불가 (등급 표시) · 최고 단계 자동 장착</li>
+      <li><b>Badge 50개:</b> Rhythm 12 + Combo 10 + Explore 4 + Streak 24</li>
+      <li><b>곡별 🔥:</b> v1.8에 포함 (v10.6/v10.7에서 v1.8로 되돌림)</li>
+      <li><b>Leaderboard Modifier 필터:</b> v1.9에서 활성화 (v1.8은 난이도 필터만)</li>
+    </ul>
+
+    <h3>🚫 변경 없음</h3>
+    <ul>
+      <li>4탭 구조 (HOME / STATS / BADGES / LEADERBOARD)</li>
+      <li>3서브탭 (Overview / MY SCORE / Fitness) — History 삭제 유지</li>
+      <li>Streak Champion 24개</li>
+      <li>앨범별 그룹 + 난이도 필터</li>
+    </ul>
+  </div>
 </div>
-<div id="bgrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 0 8px;max-height:500px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(180,74,255,0.2) transparent"></div>
-
-<div style="margin:10px 0 0;padding:8px 10px;background:rgba(255,170,0,0.05);border-left:2px solid var(--gd);font-size:10px;color:var(--t2);line-height:1.5">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1px;font-size:9px">◆ STREAK 24 CHANGE</strong><br>
-  14개 기존 유지 + <strong>10개 추가</strong> (5/7/9/12/14/20/28/40/52/70주). FIST 획득 주차(1/2/3/6/10/16/24/32/60/80)와 겹치지 않음.
-</div>
-</div>
-
-<!-- LEADERBOARD -->
-<div id="r-lb" class="rp">
-<div style="margin:0 0 10px;padding:10px;background:rgba(255,170,0,0.05);border-left:3px solid var(--gd);font-size:11px;color:var(--t2);line-height:1.6">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v1.8 LEADERBOARD 개발 변경점</strong><br>
-  v1.7까지와 탭 구조가 다름 — 개발 변경 필요. 기획상 위치/구조는 유지.
-</div>
-
-<div class="sec">SELECT TRACK</div>
-<div style="display:flex;gap:6px;margin:0 0 10px">
-  <select style="flex:1;padding:6px 8px;font-family:Orbitron;font-size:11px;font-weight:600;background:rgba(18,12,45,0.8);border:1px solid var(--bd2);color:var(--t1);letter-spacing:.5px">
-    <option>VOL.01</option><option>VOL.02</option><option>VOL.03</option><option>VOL.04</option><option selected>VOL.05</option><option>VOL.06</option>
-  </select>
-  <select style="flex:2;padding:6px 8px;font-family:Rajdhani;font-size:12px;font-weight:500;background:rgba(18,12,45,0.8);border:1px solid var(--bd2);color:var(--t1)">
-    <option selected>Nightcrawler Beat</option><option>Punk's Not Dead</option><option>Survival Synth</option><option>Synthetic Bliss</option><option>Vibe Punch</option>
-  </select>
-</div>
-<div style="font-size:11px;color:var(--t3);margin:0 0 8px">In-game: auto-syncs with selected track</div>
-
-<div class="dtabs">
-  <div class="dtab on">EASY</div>
-  <div class="dtab">NORMAL</div>
-  <div class="dtab">HARD</div>
-</div>
-<div class="lb-row"><span class="lb-rank" style="color:var(--gd)">1</span><span class="lb-name">VKIMONE</span><span class="lb-score">2,356,885</span></div>
-<div class="lb-row"><span class="lb-rank">2</span><span class="lb-name">KYLEKATURN</span><span class="lb-score">1,850,078</span></div>
-<div class="lb-row"><span class="lb-rank">3</span><span class="lb-name">JUN</span><span class="lb-score">665,815</span></div>
-<div class="lb-row"><span class="lb-rank">4</span><span class="lb-name">KIM JUNG EUN</span><span class="lb-score">252,000</span></div>
-<div class="lb-row me"><span class="lb-rank" style="color:var(--p)">5</span><span class="lb-name">JM CHOE</span><span class="lb-score" style="color:var(--p)">125,030</span></div>
-<div class="lb-row"><span class="lb-rank">6</span><span class="lb-name">SEGA SAMMY</span><span class="lb-score">75,800</span></div>
-<div class="lb-row"><span class="lb-rank">7</span><span class="lb-name">SONY</span><span class="lb-score">75,600</span></div>
-
-<div class="sec" style="margin-top:14px">MY BEST — THIS TRACK</div>
-<div class="g3">
-  <div class="mc"><div class="mc-l">SCORE</div><div class="mc-v" style="color:var(--p);font-size:16px">125,030</div></div>
-  <div class="mc"><div class="mc-l">COMBO</div><div class="mc-v" style="font-size:16px">412</div></div>
-  <div class="mc"><div class="mc-l">GRADE</div><div class="mc-v" style="color:var(--gn);font-size:16px">GOOD</div></div>
-</div>
-</div>
-
-</div>
-
-<!-- Notes -->
-<div style="margin:16px 0 0;padding:10px;background:rgba(18,12,45,0.4);border:1px dashed var(--bd2);font-size:10px;color:var(--t3);line-height:1.7">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v0.5 CHANGES</strong><br>
-  • <strong style="color:var(--t1)">Streak Champion 14 → 24개 확대</strong> (긴 기간 보상 보강)<br>
-  • 추가 주차: <strong>5, 7, 9, 12, 14, 20, 28, 40, 52, 70</strong> (FIST 주차 회피)<br>
-  • BADGES 총 40 → 50개 (Streak 증가 반영)<br>
-  • LEADERBOARD 탭: v1.8 개발 변경점 명시 (기획은 유지)<br>
-  • STATS 3서브탭 구조 유지 (Overview/MY SCORE/Fitness)
-</div>
-
-</div>
-
-<script>
-function rtab(id,btn){
-  ['r-home','r-stats','r-lb','r-badge'].forEach(p=>document.getElementById(p).classList.remove('on'));
-  document.getElementById('r-'+id).classList.add('on');
-  document.querySelectorAll('.rtabs .rtab').forEach(t=>t.classList.remove('on'));
-  if(btn&&btn.classList)btn.classList.add('on');
-}
-function stab(id,el){
-  ['sov','str','sft'].forEach(s=>{var e=document.getElementById(s);if(e)e.classList.remove('on')});
-  document.getElementById(id).classList.add('on');
-  el.parentElement.querySelectorAll('.stab2').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on');
-}
-
-// ========== Badges: 50개 (Rhythm 12 + Combo 10 + Explore 4 + Streak 24) ==========
-const B=[
-// RHYTHM 12
-{n:'First Clear',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear any track'},
-{n:'Good Clear',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear with Good'},
-{n:'Perfect Clear',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear with Perfect'},
-{n:'Easy Master',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear all Easy'},
-{n:'Norm Grad',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear Normal'},
-{n:'Hard Grad',s:'new',c:'#b44aff',i:'&#9733;',d:'Clear Hard'},
-{n:'No Miss Run',s:'new',c:'#b44aff',i:'&#9733;',d:'Finish 0 misses'},
-{n:'Full Clear',s:'progress',c:'#b44aff',i:'&#9733;',d:'Clear 30 tracks',p:'24/30',pw:80},
-{n:'Perfect x3',s:'progress',c:'#b44aff',i:'&#9733;',d:'Perfect 3',p:'1/3',pw:33},
-{n:'Perfect x5',s:'progress',c:'#b44aff',i:'&#9733;',d:'Perfect 5',p:'1/5',pw:20},
-{n:'Perfect Album',s:'locked',c:'#b44aff',i:'&#9733;',d:'Perfect album'},
-{n:'Score 90K',s:'locked',c:'#b44aff',i:'&#9733;',d:'Score 90K+'},
-
-// COMBO 10
-{n:'Combo 50',s:'earned',c:'#ffaa00',i:'&#9889;',d:'50 hits'},
-{n:'Combo 100',s:'earned',c:'#ffaa00',i:'&#9889;',d:'100 hits'},
-{n:'Combo 300',s:'earned',c:'#ffaa00',i:'&#9889;',d:'300 hits'},
-{n:'Combo 500',s:'new',c:'#ffaa00',i:'&#9889;',d:'500 hits'},
-{n:'Full Combo',s:'earned',c:'#ffaa00',i:'&#9889;',d:'Hit every note'},
-{n:'Power Combo',s:'earned',c:'#ffaa00',i:'&#9889;',d:'10 PS in row'},
-{n:'Combo 1K',s:'progress',c:'#ffaa00',i:'&#9889;',d:'1K hits',p:'847/1K',pw:85},
-{n:'Lifetime 10K',s:'progress',c:'#ffaa00',i:'&#9889;',d:'10K combo',p:'8.2K/10K',pw:82},
-{n:'Combo 2K',s:'locked',c:'#ffaa00',i:'&#9889;',d:'2K hits'},
-{n:'Combo 5K',s:'locked',c:'#ffaa00',i:'&#9889;',d:'5K hits'},
-
-// EXPLORE 4
-{n:'Tourist',s:'earned',c:'#00f0ff',i:'&#9873;',d:'3 albums'},
-{n:'All Album',s:'new',c:'#00f0ff',i:'&#9873;',d:'Every album'},
-{n:'Diff Diver',s:'earned',c:'#00f0ff',i:'&#9873;',d:'E, N, and H'},
-{n:'Mode Mixer',s:'earned',c:'#00f0ff',i:'&#9873;',d:'Std and Boss'},
-
-// STREAK 24 (v0.5 확대)
-{n:'Week 1',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'1 week streak',fist:true},
-{n:'Week 2',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'2 week streak',fist:true},
-{n:'Week 3',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'3 week streak',fist:true},
-{n:'Week 4',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'4 week streak'},
-{n:'Week 5',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'5 week streak',newish:true},
-{n:'Week 6',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'6 week streak',fist:true},
-{n:'Week 7',s:'new',c:'#ff8800',i:'&#x1F525;',d:'7 week streak',newish:true},
-{n:'Week 8',s:'progress',c:'#ff8800',i:'&#x1F525;',d:'8 week streak',p:'7/8',pw:87},
-{n:'Week 9',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'9 week streak',newish:true},
-{n:'Week 10',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'10 week streak',fist:true},
-{n:'Week 12',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'12 week streak',newish:true},
-{n:'Week 14',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'14 week streak',newish:true},
-{n:'Week 16',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'16 week streak',fist:true},
-{n:'Week 20',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'20 week streak',newish:true},
-{n:'Week 24',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'24 week streak',fist:true},
-{n:'Week 28',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'28 week streak',newish:true},
-{n:'Week 32',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'32 week streak',fist:true},
-{n:'Week 40',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'40 week streak',newish:true},
-{n:'Week 44',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'44 week streak'},
-{n:'Week 52',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'52 week streak',newish:true},
-{n:'Week 60',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'60 week streak',fist:true},
-{n:'Week 70',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'70 week streak',newish:true},
-{n:'Week 80',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'80 week streak',fist:true},
-{n:'Week 100',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'100 week streak'},
-];
-
-function makeBadgeCard(b){
-  var st=b.s;
-  var earned=st==='earned'||st==='new';
-  var inProg=st==='progress';
-  var op=earned?'1':inProg?'0.55':'0.3';
-  var bg=earned?'rgba(22,14,50,0.85)':inProg?'rgba(18,12,45,0.5)':'rgba(18,12,45,0.25)';
-  var bc=st==='new'?'rgba(57,255,20,0.3)':earned?b.c+'35':inProg?'rgba(180,74,255,0.15)':'rgba(80,60,120,0.08)';
-  var ic=earned?b.c:'var(--t3)';
-
-  var d=document.createElement('div');
-  d.style.cssText='width:100%;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 6px 10px;background:'+bg+';border:1px solid '+bc+';text-align:center;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);opacity:'+op+';cursor:pointer;transition:all .2s;position:relative';
-
-  var h='';
-  // FIST 표시
-  if(b.fist)h+='<div style="position:absolute;top:3px;right:3px;font-family:Orbitron;font-size:7px;font-weight:900;color:#ff4422;background:rgba(255,68,34,0.15);padding:1px 3px;border-radius:2px;letter-spacing:0.5px">FIST</div>';
-  // NEW 표시 (v0.5 신규)
-  if(b.newish)h+='<div style="position:absolute;top:3px;left:3px;font-family:Orbitron;font-size:7px;font-weight:900;color:#39ff14;background:rgba(57,255,20,0.15);padding:1px 3px;border-radius:2px;letter-spacing:0.5px">v0.5</div>';
-
-  h+='<div style="width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;background:'+(earned?b.c+'1a':'rgba(35,25,60,0.4)')+';border:1px solid '+(earned?b.c+'44':'rgba(80,60,120,0.12)')+';color:'+ic+'">'+b.i+'</div>';
-  h+='<div style="font-size:11px;font-weight:600;line-height:1.2;color:'+(st==='locked'?'var(--t3)':'var(--t1)')+'">'+b.n+'</div>';
-  h+='<div style="font-size:10px;color:var(--t3);line-height:1.3;padding:0 2px">'+b.d+'</div>';
-
-  if(inProg&&b.pw){
-    h+='<div style="width:80%;height:3px;background:rgba(35,25,60,0.8);border-radius:2px;overflow:hidden;margin:2px 0 0"><div style="height:100%;width:'+b.pw+'%;background:var(--p);border-radius:2px"></div></div>';
-    h+='<div style="font-family:Orbitron;font-size:11px;color:var(--t2)">'+b.p+'</div>';
-  } else if(st==='new'){
-    h+='<div style="font-family:Orbitron;font-size:11px;font-weight:700;color:var(--gn);letter-spacing:.5px;margin:2px 0 0">NEW</div>';
-  } else if(earned){
-    h+='<div style="font-family:Orbitron;font-size:11px;color:'+b.c+';letter-spacing:.5px;margin:2px 0 0">EARNED</div>';
-  }
-
-  d.innerHTML=h;
-  return d;
-}
-
-(function(){
-  var g=document.getElementById('bgrid');
-  B.forEach(function(b){g.appendChild(makeBadgeCard(b))});
-
-  var hg=document.getElementById('home-next-badges');
-  B.filter(function(b){return b.s==='progress'}).sort(function(a,b){return(b.pw||0)-(a.pw||0)}).slice(0,3).forEach(function(b){hg.appendChild(makeBadgeCard(b))});
-})();
-</script>
 
 </body>
 </html>
