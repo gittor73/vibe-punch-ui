@@ -1,9 +1,7 @@
 /* ==========================================================
-   Vibe Punch v1.8 — Common CSS
+   Vibe Punch v1.8 — Common CSS v0.5
    ==========================================================
-   원본: vibe_punch_ui_v3_36.html 의 :root, .pnl, .mc, .sec,
-   .rtabs, .tog, .stab2, .dtabs, .ctabs, .trow, .lb-row,
-   .fbar, .cchart 등 모두 계승.
+   v0.5 변경: MODIFIER 관련 클래스 추가 (vibe_punch_ui_v3_36.html 참조)
    ========================================================== */
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -112,23 +110,6 @@ body::before{
 }
 .pnl-t i{color:var(--p);font-style:normal}
 
-/* ===== Flame (Streak Fire) ===== */
-.flame{
-  position:absolute;
-  bottom:6px;
-  border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
-  animation:fd .55s ease-in-out infinite;
-  filter:blur(.4px);
-}
-.emb{
-  position:absolute;
-  width:3px;
-  height:3px;
-  border-radius:50%;
-  background:var(--gd);
-  animation:eu 1.6s ease-out infinite;
-}
-
 /* ===== Toggle (MODIFIER / SETTING) ===== */
 .tog{display:flex;margin:0 0 10px}
 .tog-b{
@@ -144,6 +125,7 @@ body::before{
   cursor:pointer;
   color:var(--t3);
   transition:all .2s;
+  position:relative;
 }
 .tog-b:first-child{clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
 .tog-b:last-child{clip-path:polygon(4px 0,100% 0,100% 100%,0 100%)}
@@ -152,25 +134,191 @@ body::before{
   border-color:var(--bd);
   color:#fff;
 }
-.tog-b.disabled{
-  background:rgba(18,12,45,0.3);
-  color:var(--t3);
-  cursor:not-allowed;
-  opacity:0.5;
-  position:relative;
-}
-.tog-b.disabled::after{
-  content:'v1.9';
+
+/* v1.9 버전 배지 (tog-b 우측 상단) */
+.tog-b .v-badge{
   position:absolute;
   top:-6px;
   right:4px;
+  font-family:'Orbitron';
   font-size:8px;
-  color:var(--gd);
   font-weight:900;
   letter-spacing:0;
+  color:var(--gd);
   background:rgba(255,170,0,0.15);
   padding:1px 4px;
   border-radius:2px;
+  border:1px solid rgba(255,170,0,0.35);
+  line-height:1.2;
+}
+
+/* ===== Modifier ===== */
+.mod-tooltip{
+  font-size:10px;
+  color:var(--t2);
+  padding:6px 8px;
+  background:rgba(18,12,45,0.5);
+  border-left:2px solid var(--tl);
+  margin:0 0 10px;
+  line-height:1.4;
+}
+
+.mod-section{
+  font-family:'Orbitron';
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  color:var(--t2);
+  margin:10px 0 6px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+}
+.mod-section .v-tag{
+  font-family:'Orbitron';
+  font-size:8px;
+  font-weight:900;
+  color:var(--gd);
+  background:rgba(255,170,0,0.12);
+  padding:1px 5px;
+  border-radius:2px;
+  border:1px solid rgba(255,170,0,0.3);
+  letter-spacing:0.5px;
+  line-height:1.2;
+}
+
+.mod-row{
+  display:grid;
+  grid-template-columns:16px 1fr 16px 1fr;
+  gap:6px 8px;
+  align-items:center;
+  margin:0 0 6px;
+}
+.mod-row.one{
+  grid-template-columns:1fr auto;
+}
+
+.mod-diamond{
+  width:12px;
+  height:12px;
+  background:rgba(35,25,60,0.6);
+  border:1px solid var(--bd2);
+  transform:rotate(45deg);
+  cursor:pointer;
+  transition:all .15s;
+  position:relative;
+}
+.mod-diamond:hover{
+  border-color:var(--p);
+  background:rgba(180,74,255,0.1);
+}
+.mod-diamond.active{
+  background:linear-gradient(135deg,var(--p),var(--pk));
+  border-color:var(--pk);
+  box-shadow:0 0 8px rgba(255,46,203,0.5);
+}
+
+.mod-label{
+  font-size:11px;
+  color:var(--t2);
+  font-weight:500;
+  line-height:1.3;
+}
+.mod-diamond.active + .mod-label{
+  color:var(--t1);
+  font-weight:600;
+}
+
+.mod-pm{
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  background:rgba(18,12,45,0.6);
+  border:1px solid var(--bd2);
+  padding:2px;
+}
+.mod-pm-btn{
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(35,25,60,0.6);
+  color:var(--t2);
+  cursor:pointer;
+  font-family:'Orbitron';
+  font-size:12px;
+  font-weight:700;
+  transition:all .12s;
+}
+.mod-pm-btn:hover{background:rgba(180,74,255,0.2);color:#fff}
+.mod-pm-val{
+  min-width:30px;
+  text-align:center;
+  font-family:'Orbitron';
+  font-size:11px;
+  font-weight:700;
+  color:var(--t1);
+  padding:0 4px;
+}
+
+.mod-bonus{
+  margin:12px 0 0;
+  padding:8px 10px;
+  background:linear-gradient(135deg,rgba(255,170,0,0.08),rgba(255,46,203,0.06));
+  border:1px solid rgba(255,170,0,0.25);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-family:'Orbitron';
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  color:var(--t2);
+}
+.mod-bonus b{
+  font-size:14px;
+  color:var(--gd);
+  font-weight:900;
+  letter-spacing:0;
+}
+
+/* Whole modifier block disabled state (v1.8 slot) */
+.mod-disabled{
+  position:relative;
+  opacity:0.55;
+  pointer-events:none;
+}
+.mod-disabled::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0,
+      transparent 14px,
+      rgba(255,170,0,0.04) 14px,
+      rgba(255,170,0,0.04) 15px
+    );
+  pointer-events:none;
+  z-index:1;
+}
+.mod-disabled-overlay{
+  position:absolute;
+  top:8px;
+  right:8px;
+  z-index:2;
+  background:rgba(255,170,0,0.15);
+  border:1px solid rgba(255,170,0,0.4);
+  padding:3px 8px;
+  font-family:'Orbitron';
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  color:var(--gd);
 }
 
 /* ===== Setting items ===== */

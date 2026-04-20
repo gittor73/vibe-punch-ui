@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — Right Panel</title>
+<title>Vibe Punch v1.8 — Right Panel (v0.5)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="common.css">
 <style>
@@ -35,7 +35,6 @@ body{padding:14px;background:var(--bg)}
 }
 .back-link:hover{border-color:var(--p);color:var(--t1)}
 
-/* Rank identity bar (GRACE 제거 버전) */
 .rank-bar{
   display:flex;
   align-items:center;
@@ -50,11 +49,11 @@ body{padding:14px;background:var(--bg)}
 <body>
 <div class="container">
 <a href="index.html" class="back-link">❮ BACK TO LIST</a>
-<div class="hdr">◆ RIGHT PANEL · HOME / STATS / BADGES / LEADERBOARD</div>
+<div class="hdr">◆ RIGHT PANEL · HOME / STATS / BADGES / LEADERBOARD · v0.5</div>
 
 <div class="pnl" style="min-height:calc(100vh - 120px)">
 
-<!-- ============ RANK IDENTITY (GRACE 제거됨) ============ -->
+<!-- RANK IDENTITY -->
 <div class="rank-bar">
   <div style="position:relative;width:62px;height:62px;flex-shrink:0">
     <svg width="62" height="62" viewBox="0 0 62 62">
@@ -74,7 +73,7 @@ body{padding:14px;background:var(--bg)}
   </div>
 </div>
 
-<!-- ============ TABS ============ -->
+<!-- TABS -->
 <div class="rtabs">
   <div class="rtab on" onclick="rtab('home',this)">HOME</div>
   <div class="rtab" onclick="rtab('stats',this)">STATS</div>
@@ -82,7 +81,7 @@ body{padding:14px;background:var(--bg)}
   <div class="rtab" onclick="rtab('lb',this)">LEADERBOARD</div>
 </div>
 
-<!-- ============ HOME (WEEKLY STREAK + FIST STATUS 섹션 삭제됨) ============ -->
+<!-- HOME -->
 <div id="r-home" class="rp on">
 
 <div class="sec">THIS WEEK</div>
@@ -99,24 +98,19 @@ body{padding:14px;background:var(--bg)}
 </div>
 
 <div style="text-align:center;margin:8px 0 0">
-  <div style="display:inline-flex;align-items:center;gap:4px;padding:5px 16px;font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1px;color:var(--t2);border:1px solid var(--bd2);cursor:pointer;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);transition:all .15s" onclick="rtab('stats',document.querySelectorAll('.rtab')[1])" onmouseover="this.style.borderColor='var(--p)';this.style.color='var(--t1)'" onmouseout="this.style.borderColor='';this.style.color=''">VIEW ALL STATS &#10095;</div>
+  <div style="display:inline-flex;align-items:center;gap:4px;padding:5px 16px;font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1px;color:var(--t2);border:1px solid var(--bd2);cursor:pointer;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);transition:all .15s" onclick="rtab('stats',document.querySelectorAll('.rtab')[1])">VIEW ALL STATS &#10095;</div>
 </div>
 
-<!-- NEXT BADGES -->
 <div class="sec">NEXT BADGES</div>
 <div id="home-next-badges" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
-
-<!-- Removed: WEEKLY STREAK section (moved to S1 space hologram)
-     Removed: FIST STATUS section (separate storage/equip UI exists) -->
 </div>
 
-<!-- ============ STATS (서브탭 3개: OVERVIEW / MY SCORE / FITNESS) ============ -->
+<!-- STATS -->
 <div id="r-stats" class="rp">
 <div style="display:flex;gap:1px;margin:0 0 14px;background:rgba(180,74,255,0.06);padding:2px;border-radius:3px">
   <div class="stab2 on" onclick="stab('sov',this)">OVERVIEW</div>
   <div class="stab2" onclick="stab('str',this)">MY SCORE</div>
   <div class="stab2" onclick="stab('sft',this)">FITNESS</div>
-  <!-- History 삭제됨 (Overview에 RECENT 5 통합) -->
 </div>
 
 <!-- OVERVIEW -->
@@ -155,7 +149,6 @@ body{padding:14px;background:var(--bg)}
     <div class="mc"><div class="mc-l">PERFECT CLEARS</div><div class="mc-v" style="color:var(--cy)">8</div><div class="mc-s">of 24 cleared</div></div>
   </div>
 
-  <!-- History 삭제됨 → Recent 5 plays 통합 -->
   <div class="sec">RECENT 5 PLAYS</div>
   <div class="trow"><span class="tnum" style="color:var(--gn)">&#x25CF;</span><span class="tname">Good Day <span style="font-size:11px;color:var(--t3)">(H)</span></span><span class="tgrade g-perf">PERFECT</span><span style="font-size:11px;color:var(--t3)">4/11</span></div>
   <div class="trow"><span class="tnum" style="color:var(--gn)">&#x25CF;</span><span class="tname">Power Surge <span style="font-size:11px;color:var(--t3)">(N)</span></span><span class="tgrade g-good">GOOD</span><span style="font-size:11px;color:var(--t3)">4/11</span></div>
@@ -166,7 +159,7 @@ body{padding:14px;background:var(--bg)}
 
 <!-- MY SCORE -->
 <div id="str" class="sp">
-  <div class="dtabs"><div class="dtab on" onclick="dtab(this)">ALL</div><div class="dtab" onclick="dtab(this)">EASY</div><div class="dtab" onclick="dtab(this)">NORMAL</div><div class="dtab" onclick="dtab(this)">HARD</div></div>
+  <div class="dtabs"><div class="dtab on">ALL</div><div class="dtab">EASY</div><div class="dtab">NORMAL</div><div class="dtab">HARD</div></div>
 
   <div style="margin:0 0 4px"><span style="font-family:'Orbitron';font-size:10px;font-weight:700;color:var(--p)">VOL.01</span> <span style="font-size:11px;color:var(--t3)">5/5</span></div>
   <div class="trow"><span class="tnum">1</span><span class="tname">Power Surge</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd ok">N</div><div class="dd no">H</div></div><span class="tgrade g-good">GOOD</span><span class="tscore">82,340</span></div>
@@ -175,17 +168,12 @@ body{padding:14px;background:var(--bg)}
   <div class="trow"><span class="tnum">4</span><span class="tname">Electric Feel</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd no">N</div><div class="dd no">H</div></div><span class="tgrade g-good">GOOD</span><span class="tscore">71,890</span></div>
   <div class="trow"><span class="tnum">5</span><span class="tname">Midnight Run</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd no">N</div><div class="dd no">H</div></div><span class="tgrade g-poor">POOR</span><span class="tscore">52,100</span></div>
 
-  <div style="margin:10px 0 4px"><span style="font-family:'Orbitron';font-size:10px;font-weight:700;color:var(--p)">VOL.02</span> <span style="font-size:11px;color:var(--t3)">3/5</span></div>
-  <div class="trow"><span class="tnum">1</span><span class="tname">Catch22</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd ok">N</div><div class="dd no">H</div></div><span class="tgrade g-good">GOOD</span><span class="tscore">842,100</span></div>
-  <div class="trow"><span class="tnum">2</span><span class="tname" style="opacity:0.5">Prodigy Vision</span><span style="font-size:11px;color:var(--t3);font-style:italic;margin-left:auto">not played</span></div>
-  <div class="trow"><span class="tnum">3</span><span class="tname">Rumor</span><div style="display:flex;gap:1px"><div class="dd ok">E</div><div class="dd no">N</div><div class="dd no">H</div></div><span class="tgrade g-good">GOOD</span><span class="tscore">562,410</span></div>
-
-  <div style="text-align:center;padding:14px 0 8px;font-family:'Orbitron';font-size:9px;color:var(--t3);letter-spacing:2px">▼ VOL.03~VOL.06 (SCROLL)</div>
+  <div style="text-align:center;padding:14px 0 8px;font-family:'Orbitron';font-size:9px;color:var(--t3);letter-spacing:2px">▼ VOL.02~VOL.06 (SCROLL)</div>
 </div>
 
 <!-- FITNESS -->
 <div id="sft" class="sp">
-  <div class="period"><button class="pbtn" onclick="per(this)">WEEK</button><button class="pbtn on" onclick="per(this)">MONTH</button><button class="pbtn" onclick="per(this)">ALL</button></div>
+  <div class="period"><button class="pbtn">WEEK</button><button class="pbtn on">MONTH</button><button class="pbtn">ALL</button></div>
   <div class="g3">
     <div class="mc"><div class="mc-l">CALORIES</div><div class="mc-v" style="color:var(--fi)">1,580</div><div class="mc-s">kcal</div></div>
     <div class="mc"><div class="mc-l">ACTIVE</div><div class="mc-v">4H12M</div></div>
@@ -205,12 +193,11 @@ body{padding:14px;background:var(--bg)}
     <div style="flex:1;display:flex;flex-direction:column;align-items:center"><div class="cbar" style="height:86%;background:linear-gradient(to top,#ff4422,#ffcc00)"></div><div class="cbar-l">W4</div></div>
   </div>
   <div style="text-align:center;font-size:10px;color:var(--gn)">&#9650; +15% vs last month</div>
-  <div class="note">Calorie estimates based on VR fitness research.</div>
 </div>
 
 </div>
 
-<!-- ============ BADGES (40개, 4카테고리) ============ -->
+<!-- BADGES (v0.5: Streak 14→24, 총 58개) -->
 <div id="r-badge" class="rp">
 <div style="display:flex;align-items:center;gap:12px;margin:0 0 12px">
   <div style="position:relative;width:56px;height:56px">
@@ -219,50 +206,49 @@ body{padding:14px;background:var(--bg)}
       <circle cx="28" cy="28" r="23" fill="none" stroke="url(#bg2)" stroke-width="4" stroke-dasharray="145" stroke-dashoffset="93" stroke-linecap="round" transform="rotate(-90 28 28)"/>
       <defs><linearGradient id="bg2"><stop offset="0%" stop-color="#b44aff"/><stop offset="100%" stop-color="#ff2ecb"/></linearGradient></defs>
     </svg>
-    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-family:'Orbitron';font-size:14px;font-weight:900">14</span><span style="font-size:11px;color:var(--t3)">/40</span></div>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span style="font-family:'Orbitron';font-size:14px;font-weight:900">18</span><span style="font-size:11px;color:var(--t3)">/50</span></div>
   </div>
-  <div><div style="font-family:'Orbitron';font-size:12px;font-weight:800">14 OF 40 EARNED</div><div style="font-size:10px;color:var(--t2)">3 new this week</div></div>
-</div>
-
-<div style="display:flex;gap:12px;margin:0 0 8px">
-  <div style="flex:2;min-width:0">
-    <div class="sec" style="margin-top:0">RECENTLY UNLOCKED</div>
-    <div id="recent-badges" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px"></div>
-  </div>
-  <div style="flex:3;min-width:0">
-    <div class="sec" style="margin-top:0">NEXT UNLOCKABLE</div>
-    <div id="next-badges" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px"></div>
-  </div>
+  <div><div style="font-family:'Orbitron';font-size:12px;font-weight:800">18 OF 50 EARNED</div><div style="font-size:10px;color:var(--t2)">★ Streak 14→24로 확대 (v0.5)</div></div>
 </div>
 
 <div class="sec">COLLECTION</div>
 <div class="ctabs">
-  <div class="ctab on" onclick="ctab(this)">ALL 40</div>
-  <div class="ctab" onclick="ctab(this)">RHYTHM 12</div>
-  <div class="ctab" onclick="ctab(this)">COMBO 10</div>
-  <div class="ctab" onclick="ctab(this)">EXPLORE 4</div>
-  <div class="ctab" onclick="ctab(this)">STREAK 14</div>
+  <div class="ctab on">ALL 50</div>
+  <div class="ctab">RHYTHM 12</div>
+  <div class="ctab">COMBO 10</div>
+  <div class="ctab">EXPLORE 4</div>
+  <div class="ctab">STREAK 24 ★</div>
 </div>
-<div id="bgrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 0 8px;max-height:400px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(180,74,255,0.2) transparent"></div>
+<div id="bgrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:0 0 8px;max-height:500px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(180,74,255,0.2) transparent"></div>
+
+<div style="margin:10px 0 0;padding:8px 10px;background:rgba(255,170,0,0.05);border-left:2px solid var(--gd);font-size:10px;color:var(--t2);line-height:1.5">
+  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1px;font-size:9px">◆ STREAK 24 CHANGE</strong><br>
+  14개 기존 유지 + <strong>10개 추가</strong> (5/7/9/12/14/20/28/40/52/70주). FIST 획득 주차(1/2/3/6/10/16/24/32/60/80)와 겹치지 않음.
+</div>
 </div>
 
-<!-- ============ LEADERBOARD ============ -->
+<!-- LEADERBOARD -->
 <div id="r-lb" class="rp">
+<div style="margin:0 0 10px;padding:10px;background:rgba(255,170,0,0.05);border-left:3px solid var(--gd);font-size:11px;color:var(--t2);line-height:1.6">
+  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v1.8 LEADERBOARD 개발 변경점</strong><br>
+  v1.7까지와 탭 구조가 다름 — 개발 변경 필요. 기획상 위치/구조는 유지.
+</div>
+
 <div class="sec">SELECT TRACK</div>
 <div style="display:flex;gap:6px;margin:0 0 10px">
-  <select id="lb-album" style="flex:1;padding:6px 8px;font-family:Orbitron;font-size:11px;font-weight:600;background:rgba(18,12,45,0.8);border:1px solid var(--bd2);color:var(--t1);letter-spacing:.5px">
+  <select style="flex:1;padding:6px 8px;font-family:Orbitron;font-size:11px;font-weight:600;background:rgba(18,12,45,0.8);border:1px solid var(--bd2);color:var(--t1);letter-spacing:.5px">
     <option>VOL.01</option><option>VOL.02</option><option>VOL.03</option><option>VOL.04</option><option selected>VOL.05</option><option>VOL.06</option>
   </select>
-  <select id="lb-track" style="flex:2;padding:6px 8px;font-family:Rajdhani;font-size:12px;font-weight:500;background:rgba(18,12,45,0.8);border:1px solid var(--bd2);color:var(--t1)">
+  <select style="flex:2;padding:6px 8px;font-family:Rajdhani;font-size:12px;font-weight:500;background:rgba(18,12,45,0.8);border:1px solid var(--bd2);color:var(--t1)">
     <option selected>Nightcrawler Beat</option><option>Punk's Not Dead</option><option>Survival Synth</option><option>Synthetic Bliss</option><option>Vibe Punch</option>
   </select>
 </div>
 <div style="font-size:11px;color:var(--t3);margin:0 0 8px">In-game: auto-syncs with selected track</div>
 
 <div class="dtabs">
-  <div class="dtab on" onclick="dtab(this)">EASY</div>
-  <div class="dtab" onclick="dtab(this)">NORMAL</div>
-  <div class="dtab" onclick="dtab(this)">HARD</div>
+  <div class="dtab on">EASY</div>
+  <div class="dtab">NORMAL</div>
+  <div class="dtab">HARD</div>
 </div>
 <div class="lb-row"><span class="lb-rank" style="color:var(--gd)">1</span><span class="lb-name">VKIMONE</span><span class="lb-score">2,356,885</span></div>
 <div class="lb-row"><span class="lb-rank">2</span><span class="lb-name">KYLEKATURN</span><span class="lb-score">1,850,078</span></div>
@@ -284,78 +270,88 @@ body{padding:14px;background:var(--bg)}
 
 <!-- Notes -->
 <div style="margin:16px 0 0;padding:10px;background:rgba(18,12,45,0.4);border:1px dashed var(--bd2);font-size:10px;color:var(--t3);line-height:1.7">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v1.8 CHANGES vs ORIGINAL HTML</strong><br>
-  • GRACE 배지 삭제 (FIST 보관/장착 UI 별도 존재)<br>
-  • HOME: WEEKLY STREAK 섹션 삭제 → S1 공간 홀로그램으로 통합<br>
-  • HOME: FIST STATUS 섹션 삭제 → 별도 UI<br>
-  • STATS: HISTORY 서브탭 삭제 → OVERVIEW에 RECENT 5 PLAYS 통합<br>
-  • BADGES: 105 → 40개, 4카테고리 (RHYTHM 12 / COMBO 10 / EXPLORE 4 / STREAK 14)<br>
-  • Leaderboard / My Score / Fitness 구조는 기존 HTML 그대로
+  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v0.5 CHANGES</strong><br>
+  • <strong style="color:var(--t1)">Streak Champion 14 → 24개 확대</strong> (긴 기간 보상 보강)<br>
+  • 추가 주차: <strong>5, 7, 9, 12, 14, 20, 28, 40, 52, 70</strong> (FIST 주차 회피)<br>
+  • BADGES 총 40 → 50개 (Streak 증가 반영)<br>
+  • LEADERBOARD 탭: v1.8 개발 변경점 명시 (기획은 유지)<br>
+  • STATS 3서브탭 구조 유지 (Overview/MY SCORE/Fitness)
 </div>
 
 </div>
 
 <script>
 function rtab(id,btn){
-  var panels=['r-home','r-stats','r-lb','r-badge'];
-  panels.forEach(function(p){document.getElementById(p).classList.remove('on')});
+  ['r-home','r-stats','r-lb','r-badge'].forEach(p=>document.getElementById(p).classList.remove('on'));
   document.getElementById('r-'+id).classList.add('on');
-  document.querySelectorAll('.rtabs .rtab').forEach(function(t){t.classList.remove('on')});
+  document.querySelectorAll('.rtabs .rtab').forEach(t=>t.classList.remove('on'));
   if(btn&&btn.classList)btn.classList.add('on');
 }
-function dtab(el){el.parentElement.querySelectorAll('.dtab').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
-function stab(id,el){['sov','str','sft'].forEach(s=>{var e=document.getElementById(s);if(e){e.classList.remove('on')}});document.getElementById(id).classList.add('on');el.parentElement.querySelectorAll('.stab2').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
-function per(el){el.parentElement.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('on'));el.classList.add('on')}
-function ctab(el){el.parentElement.querySelectorAll('.ctab').forEach(t=>t.classList.remove('on'));el.classList.add('on')}
+function stab(id,el){
+  ['sov','str','sft'].forEach(s=>{var e=document.getElementById(s);if(e)e.classList.remove('on')});
+  document.getElementById(id).classList.add('on');
+  el.parentElement.querySelectorAll('.stab2').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+}
 
-// ========== 40 Badges Data (기존 HTML 패턴 그대로, 4카테고리로 재구성) ==========
+// ========== Badges: 50개 (Rhythm 12 + Combo 10 + Explore 4 + Streak 24) ==========
 const B=[
-// RHYTHM MASTER 12
+// RHYTHM 12
 {n:'First Clear',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear any track'},
 {n:'Good Clear',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear with Good'},
 {n:'Perfect Clear',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear with Perfect'},
-{n:'Easy Master',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear all Easy tracks'},
-{n:'Norm Grad',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear a Normal track'},
-{n:'Hard Grad',s:'new',c:'#b44aff',i:'&#9733;',d:'Clear a Hard track'},
-{n:'No Miss Run',s:'new',c:'#b44aff',i:'&#9733;',d:'Finish with 0 misses'},
-{n:'Full Clear',s:'progress',c:'#b44aff',i:'&#9733;',d:'Clear all 30 tracks',p:'24/30',pw:80},
-{n:'Perfect x3',s:'progress',c:'#b44aff',i:'&#9733;',d:'Perfect 3 tracks',p:'1/3',pw:33},
-{n:'Perfect x5',s:'progress',c:'#b44aff',i:'&#9733;',d:'Perfect 5 tracks',p:'1/5',pw:20},
-{n:'Perfect Album',s:'locked',c:'#b44aff',i:'&#9733;',d:'Perfect all tracks in album'},
-{n:'Score 90K',s:'locked',c:'#b44aff',i:'&#9733;',d:'Score 90K+ single track'},
+{n:'Easy Master',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear all Easy'},
+{n:'Norm Grad',s:'earned',c:'#b44aff',i:'&#9733;',d:'Clear Normal'},
+{n:'Hard Grad',s:'new',c:'#b44aff',i:'&#9733;',d:'Clear Hard'},
+{n:'No Miss Run',s:'new',c:'#b44aff',i:'&#9733;',d:'Finish 0 misses'},
+{n:'Full Clear',s:'progress',c:'#b44aff',i:'&#9733;',d:'Clear 30 tracks',p:'24/30',pw:80},
+{n:'Perfect x3',s:'progress',c:'#b44aff',i:'&#9733;',d:'Perfect 3',p:'1/3',pw:33},
+{n:'Perfect x5',s:'progress',c:'#b44aff',i:'&#9733;',d:'Perfect 5',p:'1/5',pw:20},
+{n:'Perfect Album',s:'locked',c:'#b44aff',i:'&#9733;',d:'Perfect album'},
+{n:'Score 90K',s:'locked',c:'#b44aff',i:'&#9733;',d:'Score 90K+'},
 
-// COMBO KING 10
-{n:'Combo 50',s:'earned',c:'#ffaa00',i:'&#9889;',d:'50 consecutive hits'},
-{n:'Combo 100',s:'earned',c:'#ffaa00',i:'&#9889;',d:'100 consecutive hits'},
-{n:'Combo 300',s:'earned',c:'#ffaa00',i:'&#9889;',d:'300 consecutive hits'},
-{n:'Combo 500',s:'new',c:'#ffaa00',i:'&#9889;',d:'500 consecutive hits'},
+// COMBO 10
+{n:'Combo 50',s:'earned',c:'#ffaa00',i:'&#9889;',d:'50 hits'},
+{n:'Combo 100',s:'earned',c:'#ffaa00',i:'&#9889;',d:'100 hits'},
+{n:'Combo 300',s:'earned',c:'#ffaa00',i:'&#9889;',d:'300 hits'},
+{n:'Combo 500',s:'new',c:'#ffaa00',i:'&#9889;',d:'500 hits'},
 {n:'Full Combo',s:'earned',c:'#ffaa00',i:'&#9889;',d:'Hit every note'},
-{n:'Power Combo',s:'earned',c:'#ffaa00',i:'&#9889;',d:'10 Power Shots in row'},
-{n:'Combo 1K',s:'progress',c:'#ffaa00',i:'&#9889;',d:'1K consecutive hits',p:'847/1K',pw:85},
-{n:'Lifetime 10K',s:'progress',c:'#ffaa00',i:'&#9889;',d:'10K total combo',p:'8.2K/10K',pw:82},
-{n:'Combo 2K',s:'locked',c:'#ffaa00',i:'&#9889;',d:'2K consecutive hits'},
-{n:'Combo 5K',s:'locked',c:'#ffaa00',i:'&#9889;',d:'5K consecutive hits'},
+{n:'Power Combo',s:'earned',c:'#ffaa00',i:'&#9889;',d:'10 PS in row'},
+{n:'Combo 1K',s:'progress',c:'#ffaa00',i:'&#9889;',d:'1K hits',p:'847/1K',pw:85},
+{n:'Lifetime 10K',s:'progress',c:'#ffaa00',i:'&#9889;',d:'10K combo',p:'8.2K/10K',pw:82},
+{n:'Combo 2K',s:'locked',c:'#ffaa00',i:'&#9889;',d:'2K hits'},
+{n:'Combo 5K',s:'locked',c:'#ffaa00',i:'&#9889;',d:'5K hits'},
 
 // EXPLORE 4
-{n:'Tourist',s:'earned',c:'#00f0ff',i:'&#9873;',d:'Play from 3 albums'},
-{n:'All Album',s:'new',c:'#00f0ff',i:'&#9873;',d:'Play from every album'},
-{n:'Diff Diver',s:'earned',c:'#00f0ff',i:'&#9873;',d:'Play E, N, and H'},
-{n:'Mode Mixer',s:'earned',c:'#00f0ff',i:'&#9873;',d:'Standard and Boss'},
+{n:'Tourist',s:'earned',c:'#00f0ff',i:'&#9873;',d:'3 albums'},
+{n:'All Album',s:'new',c:'#00f0ff',i:'&#9873;',d:'Every album'},
+{n:'Diff Diver',s:'earned',c:'#00f0ff',i:'&#9873;',d:'E, N, and H'},
+{n:'Mode Mixer',s:'earned',c:'#00f0ff',i:'&#9873;',d:'Std and Boss'},
 
-// STREAK CHAMPION 14 (14 milestones)
-{n:'Week 1',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'1 week streak'},
-{n:'Week 2',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'2 week streak'},
-{n:'Week 3',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'3 week streak'},
+// STREAK 24 (v0.5 확대)
+{n:'Week 1',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'1 week streak',fist:true},
+{n:'Week 2',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'2 week streak',fist:true},
+{n:'Week 3',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'3 week streak',fist:true},
 {n:'Week 4',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'4 week streak'},
-{n:'Week 6',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'6 week streak'},
-{n:'Week 8',s:'new',c:'#ff8800',i:'&#x1F525;',d:'8 week streak'},
-{n:'Week 10',s:'progress',c:'#ff8800',i:'&#x1F525;',d:'10 week streak',p:'7/10',pw:70},
-{n:'Week 16',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'16 week streak'},
-{n:'Week 24',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'24 week streak'},
-{n:'Week 32',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'32 week streak'},
+{n:'Week 5',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'5 week streak',newish:true},
+{n:'Week 6',s:'earned',c:'#ff8800',i:'&#x1F525;',d:'6 week streak',fist:true},
+{n:'Week 7',s:'new',c:'#ff8800',i:'&#x1F525;',d:'7 week streak',newish:true},
+{n:'Week 8',s:'progress',c:'#ff8800',i:'&#x1F525;',d:'8 week streak',p:'7/8',pw:87},
+{n:'Week 9',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'9 week streak',newish:true},
+{n:'Week 10',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'10 week streak',fist:true},
+{n:'Week 12',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'12 week streak',newish:true},
+{n:'Week 14',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'14 week streak',newish:true},
+{n:'Week 16',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'16 week streak',fist:true},
+{n:'Week 20',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'20 week streak',newish:true},
+{n:'Week 24',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'24 week streak',fist:true},
+{n:'Week 28',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'28 week streak',newish:true},
+{n:'Week 32',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'32 week streak',fist:true},
+{n:'Week 40',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'40 week streak',newish:true},
 {n:'Week 44',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'44 week streak'},
-{n:'Week 60',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'60 week streak'},
-{n:'Week 80',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'80 week streak'},
+{n:'Week 52',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'52 week streak',newish:true},
+{n:'Week 60',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'60 week streak',fist:true},
+{n:'Week 70',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'70 week streak',newish:true},
+{n:'Week 80',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'80 week streak',fist:true},
 {n:'Week 100',s:'locked',c:'#ff8800',i:'&#x1F525;',d:'100 week streak'},
 ];
 
@@ -369,23 +365,14 @@ function makeBadgeCard(b){
   var ic=earned?b.c:'var(--t3)';
 
   var d=document.createElement('div');
-  d.style.width='100%';
-  d.style.aspectRatio='3/4';
-  d.style.display='flex';
-  d.style.flexDirection='column';
-  d.style.alignItems='center';
-  d.style.justifyContent='center';
-  d.style.gap='4px';
-  d.style.padding='12px 6px 10px';
-  d.style.background=bg;
-  d.style.border='1px solid '+bc;
-  d.style.textAlign='center';
-  d.style.clipPath='polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)';
-  d.style.opacity=op;
-  d.style.cursor='pointer';
-  d.style.transition='all .2s';
+  d.style.cssText='width:100%;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px 6px 10px;background:'+bg+';border:1px solid '+bc+';text-align:center;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);opacity:'+op+';cursor:pointer;transition:all .2s;position:relative';
 
   var h='';
+  // FIST 표시
+  if(b.fist)h+='<div style="position:absolute;top:3px;right:3px;font-family:Orbitron;font-size:7px;font-weight:900;color:#ff4422;background:rgba(255,68,34,0.15);padding:1px 3px;border-radius:2px;letter-spacing:0.5px">FIST</div>';
+  // NEW 표시 (v0.5 신규)
+  if(b.newish)h+='<div style="position:absolute;top:3px;left:3px;font-family:Orbitron;font-size:7px;font-weight:900;color:#39ff14;background:rgba(57,255,20,0.15);padding:1px 3px;border-radius:2px;letter-spacing:0.5px">v0.5</div>';
+
   h+='<div style="width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;background:'+(earned?b.c+'1a':'rgba(35,25,60,0.4)')+';border:1px solid '+(earned?b.c+'44':'rgba(80,60,120,0.12)')+';color:'+ic+'">'+b.i+'</div>';
   h+='<div style="font-size:11px;font-weight:600;line-height:1.2;color:'+(st==='locked'?'var(--t3)':'var(--t1)')+'">'+b.n+'</div>';
   h+='<div style="font-size:10px;color:var(--t3);line-height:1.3;padding:0 2px">'+b.d+'</div>';
@@ -405,12 +392,7 @@ function makeBadgeCard(b){
 
 (function(){
   var g=document.getElementById('bgrid');
-  var rg=document.getElementById('recent-badges');
-  var ng=document.getElementById('next-badges');
-
   B.forEach(function(b){g.appendChild(makeBadgeCard(b))});
-  B.filter(function(b){return b.s==='new'}).slice(0,2).forEach(function(b){rg.appendChild(makeBadgeCard(b))});
-  B.filter(function(b){return b.s==='progress'}).sort(function(a,b){return(b.pw||0)-(a.pw||0)}).slice(0,3).forEach(function(b){ng.appendChild(makeBadgeCard(b))});
 
   var hg=document.getElementById('home-next-badges');
   B.filter(function(b){return b.s==='progress'}).sort(function(a,b){return(b.pw||0)-(a.pw||0)}).slice(0,3).forEach(function(b){hg.appendChild(makeBadgeCard(b))});

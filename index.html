@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — UI Index</title>
+<title>Vibe Punch v1.8 — UI Index (v0.5)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="common.css">
 <style>
@@ -75,7 +75,6 @@ body{padding:30px 14px;background:var(--bg)}
   color:var(--p);
   width:38px;
   text-align:center;
-  letter-spacing:0;
 }
 
 .item-body{min-width:0}
@@ -92,12 +91,6 @@ body{padding:30px 14px;background:var(--bg)}
   color:var(--t2);
   line-height:1.4;
 }
-.item-meta{
-  font-family:'Share Tech Mono';
-  font-size:10px;
-  color:var(--t3);
-  margin:3px 0 0;
-}
 
 .item-arrow{
   font-family:'Orbitron';
@@ -111,6 +104,7 @@ body{padding:30px 14px;background:var(--bg)}
   display:inline-flex;
   gap:4px;
   margin:3px 0 0;
+  flex-wrap:wrap;
 }
 .bdg{
   padding:1px 6px;
@@ -122,7 +116,8 @@ body{padding:30px 14px;background:var(--bg)}
 .bdg.changed{background:rgba(255,170,0,0.12);color:var(--gd);border:1px solid rgba(255,170,0,0.3)}
 .bdg.new{background:rgba(57,255,20,0.1);color:var(--gn);border:1px solid rgba(57,255,20,0.3)}
 .bdg.hold{background:rgba(0,240,255,0.08);color:var(--cy);border:1px solid rgba(0,240,255,0.3)}
-.bdg.removed{background:rgba(255,68,34,0.08);color:var(--fi);border:1px solid rgba(255,68,34,0.3);text-decoration:line-through}
+.bdg.removed{background:rgba(255,68,34,0.08);color:var(--fi);border:1px solid rgba(255,68,34,0.3)}
+.bdg.updated{background:rgba(0,240,255,0.12);color:var(--cy);border:1px solid rgba(0,240,255,0.4)}
 
 .summary-box{
   margin:30px 0 0;
@@ -150,6 +145,25 @@ body{padding:30px 14px;background:var(--bg)}
   color:var(--p);
 }
 
+.version-bar{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  margin:8px 0 0;
+  font-family:'Orbitron';
+  font-size:10px;
+  letter-spacing:1px;
+}
+.ver-pill{
+  padding:2px 10px;
+  background:rgba(57,255,20,0.1);
+  color:var(--gn);
+  border:1px solid rgba(57,255,20,0.3);
+  font-weight:800;
+}
+.ver-date{color:var(--t3)}
+
 .footer-note{
   text-align:center;
   margin:24px 0 0;
@@ -166,19 +180,24 @@ body{padding:30px 14px;background:var(--bg)}
 <div class="title-block">
 <div class="title-main">VIBE PUNCH</div>
 <div class="title-sub">◆ v1.8 UI REDESIGN ◆</div>
-<div class="title-ver">GUI_REDESIGN_v0.4 · 2026.04.20</div>
+<div class="version-bar">
+  <span class="ver-pill">v0.5</span>
+  <span class="ver-date">2026.04.20</span>
+</div>
 </div>
 
 <!-- Panel pieces -->
-<div class="list-heading">◆ PANEL COMPONENTS (SEPARATED)</div>
+<div class="list-heading">◆ PANEL COMPONENTS</div>
 
 <a href="left.html" class="list-item">
 <div class="item-num">01</div>
 <div class="item-body">
   <div class="item-name">LEFT PANEL</div>
-  <div class="item-desc">280px 고정 — Streak Fire + SETTING 토글</div>
+  <div class="item-desc">280px 고정 — MODIFIER 전체 UI (v1.9 SLOT) + SETTING</div>
   <div class="badges">
-    <span class="bdg changed">MODIFIER v1.9 SLOT</span>
+    <span class="bdg removed">STREAK FIRE</span>
+    <span class="bdg new">MODIFIER UI 전체</span>
+    <span class="bdg updated">SONG SPEED 2단계</span>
   </div>
 </div>
 <div class="item-arrow">❯</div>
@@ -188,94 +207,74 @@ body{padding:30px 14px;background:var(--bg)}
 <div class="item-num">02</div>
 <div class="item-body">
   <div class="item-name">RIGHT PANEL</div>
-  <div class="item-desc">HOME / STATS / BADGES / LEADERBOARD 4탭 — 기존 HTML 구조 그대로 + v1.8 변경분만</div>
+  <div class="item-desc">HOME / STATS / BADGES / LEADERBOARD 4탭</div>
   <div class="badges">
-    <span class="bdg removed">GRACE</span>
-    <span class="bdg removed">WEEKLY STREAK</span>
-    <span class="bdg removed">FIST STATUS</span>
-    <span class="bdg changed">BADGES 40</span>
+    <span class="bdg updated">STREAK 14→24</span>
+    <span class="bdg new">BADGES 40→50</span>
+    <span class="bdg changed">LEADERBOARD 개발변경</span>
   </div>
 </div>
 <div class="item-arrow">❯</div>
 </a>
 
 <!-- Space hologram -->
-<div class="list-heading">◆ SPACE HOLOGRAM COMPONENTS</div>
+<div class="list-heading">◆ SPACE HOLOGRAM</div>
 
 <a href="space.html" class="list-item">
 <div class="item-num">03</div>
 <div class="item-body">
-  <div class="item-name">SPACE HOLOGRAM (S1 / S2 / T1)</div>
-  <div class="item-desc">공간 홀로그램 3종 구성요소 설계도 — S1 공간, S2 상공 RANK, T1→S1 통합</div>
+  <div class="item-name">SPACE HOLOGRAM (S1 / S2)</div>
+  <div class="item-desc">S1 공간 홀로그램 24 마일스톤 + Streak Fire 완전 이관</div>
   <div class="badges">
-    <span class="bdg hold">S1 HOLD</span>
-    <span class="bdg changed">S2 SIMPLIFIED</span>
-    <span class="bdg removed">T1 MERGED</span>
+    <span class="bdg updated">S1 24 MILESTONE</span>
+    <span class="bdg new">STREAK FIRE 통합</span>
+    <span class="bdg">S2 NO CHANGE</span>
   </div>
 </div>
 <div class="item-arrow">❯</div>
 </a>
 
 <!-- Popups -->
-<div class="list-heading">◆ POPUPS (DIAMOND STYLE)</div>
+<div class="list-heading">◆ POPUPS</div>
 
 <a href="popups.html" class="list-item">
 <div class="item-num">04</div>
 <div class="item-body">
   <div class="item-name">POPUPS × 5</div>
-  <div class="item-desc">FIST Earned / Badge Earned / Rank Up / Review / Track Result — 첨부 UNLOCKED 다이아몬드 스타일</div>
+  <div class="item-desc">FIST Earned / Badge / Rank Up / Review / Track Result — 다이아몬드 스타일</div>
   <div class="badges">
-    <span class="bdg removed">P4 FIST SWAP</span>
-    <span class="bdg new">DIAMOND FRAME</span>
+    <span class="bdg">NO CHANGE</span>
   </div>
 </div>
 <div class="item-arrow">❯</div>
 </a>
 
-<!-- Reference -->
-<div class="list-heading">◆ REFERENCE</div>
-
-<a href="https://fonts.google.com" class="list-item" style="pointer-events:none;opacity:0.5" target="_blank">
-<div class="item-num" style="color:var(--t3)">05</div>
-<div class="item-body">
-  <div class="item-name" style="color:var(--t2)">ORIGINAL HTML (v3.36)</div>
-  <div class="item-desc">vibe_punch_ui_v3_36.html — 프로젝트 파일에서 참조</div>
-  <div class="item-meta">PROJECT FILE · NOT LINKED HERE</div>
-</div>
-<div class="item-arrow" style="color:var(--t3)">·</div>
-</a>
-
 <!-- Summary -->
 <div class="summary-box">
-<h3>◆ WHAT CHANGED vs ORIGINAL HTML</h3>
+<h3>◆ v0.4 → v0.5 CHANGES</h3>
 <ul>
-  <li><strong style="color:var(--t1)">GRACE 배지 삭제</strong> — FIST 보관/장착 UI 별도 존재</li>
-  <li><strong style="color:var(--t1)">WEEKLY STREAK 섹션 삭제</strong> — S1 공간 홀로그램으로 통합</li>
-  <li><strong style="color:var(--t1)">FIST STATUS 섹션 삭제</strong> — 별도 UI 존재</li>
-  <li><strong style="color:var(--t1)">STATS HISTORY 서브탭 삭제</strong> — OVERVIEW에 RECENT 5 통합 (3서브탭)</li>
-  <li><strong style="color:var(--t1)">BADGES 105 → 40개</strong> — 4카테고리 (Rhythm 12 / Combo 10 / Explore 4 / Streak 14)</li>
-  <li><strong style="color:var(--t1)">MODIFIER 토글 v1.9 비활성</strong> — 슬롯 예약, SETTING만 활성</li>
-  <li><strong style="color:var(--t1)">팝업 P4 FIST SWAP 삭제</strong> — 별도 UI</li>
-  <li><strong style="color:var(--t1)">팝업 전체 재설계</strong> — 다이아몬드 프레임 + 심플 OK 버튼 + 텍스트 최소화</li>
-  <li><strong style="color:var(--t1)">Streak 마일스톤 14단계 확정</strong> — FIST 10개 + 칭호/이펙트 4개</li>
+  <li><strong style="color:var(--t1)">좌측 Streak Fire 완전 제거</strong> — S1 공간 홀로그램으로 이관, 시각화 유일 위치</li>
+  <li><strong style="color:var(--t1)">MODIFIER UI 전체 배치</strong> — v1.9 SLOT 상태, 로직만 v1.9에서 활성화</li>
+  <li><strong style="color:var(--t1)">Song Speed 2단계 축소</strong> — Normal / Fast 1.3x (v1.6 결정)</li>
+  <li><strong style="color:var(--t1)">Streak Champion 14 → 24개</strong> — 긴 기간 보상 공백 메움</li>
+  <li><strong style="color:var(--t1)">FIST 주차 회피</strong> — 추가 10개(5/7/9/12/14/20/28/40/52/70) FIST(1/2/3/6/10/16/24/32/60/80) 비충돌</li>
+  <li><strong style="color:var(--t1)">BADGES 총 40 → 50개</strong> — Streak 증가 반영</li>
+  <li><strong style="color:var(--t1)">Leaderboard 개발 변경 명시</strong> — 기획 유지, v1.8 개발 변경점 표기</li>
+  <li><strong style="color:var(--t1)">S1 마일스톤 링 24개로 확장</strong> — FIST/v0.5 신규/칭호 전용 구분 표시</li>
 </ul>
 </div>
 
 <div class="summary-box" style="border-color:rgba(255,170,0,0.25);background:rgba(255,170,0,0.04)">
-<h3 style="color:var(--gd)">◆ KEPT FROM ORIGINAL HTML</h3>
+<h3 style="color:var(--gd)">◆ v1.9 SLOT 원칙</h3>
 <ul>
-  <li>전체 레이아웃: 280px + 1fr, gap 14px, max-width 1200px</li>
-  <li>컬러 토큰: --p / --pk / --cy / --gd / --fi / --tl / --gn 전부 그대로</li>
-  <li>폰트: Orbitron (제목/숫자), Rajdhani (본문), Share Tech Mono (값)</li>
-  <li>카드 스타일: .mc 클래스 (label 11px + value 20px + sub 10px)</li>
-  <li>탭 스타일: .rtabs .rtab .stab2 .dtabs .ctabs 전부 재활용</li>
-  <li>그리드: .g4 / .g3 / .g2</li>
-  <li>애니메이션: 불꽃 fd / ember eu / 슬라이드업 su / 펄스 glow pg</li>
-  <li>clip-path polygon: 패널/카드/버튼 각진 모서리 효과</li>
+  <li>UI 구조는 v1.8에서 <strong>완성 배치</strong>. 로직은 v1.9에서 활성화</li>
+  <li>MODIFIER 전체 UI가 좌측 패널에 보임 (사선 패턴 + V1.9 SLOT 배지로 비활성 표시)</li>
+  <li>v1.9 출시 시 <strong>UI 재작업 불필요</strong> — 로직만 연결</li>
+  <li>유저에게 "곧 활성화"라는 기대감 조성 효과</li>
 </ul>
 </div>
 
-<div class="footer-note">VIBE PUNCH v1.8 · UI REDESIGN · LILA SOFT 2026</div>
+<div class="footer-note">VIBE PUNCH v1.8 · UI REDESIGN v0.5 · LILA SOFT 2026</div>
 
 </div>
 </body>
