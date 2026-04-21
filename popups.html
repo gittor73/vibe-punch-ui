@@ -154,21 +154,6 @@ body{padding:14px;background:var(--bg)}
   line-height:1.5;
   opacity:0.7;
 }
-.lock-badge{
-  position:absolute;
-  bottom:-10px;
-  right:-10px;
-  width:28px;
-  height:28px;
-  background:var(--pk);
-  transform:rotate(-45deg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  color:#000;
-  border-radius:3px;
-}
 
 /* ===== Popup text ===== */
 .pop-heading{
@@ -209,7 +194,6 @@ body{padding:14px;background:var(--bg)}
 .diamond-outer.rank{border-color:var(--gd);box-shadow:0 0 40px rgba(255,170,0,0.4),inset 0 0 20px rgba(255,170,0,0.15)}
 .art-diamond.rank{border-color:var(--gd);box-shadow:0 0 30px rgba(255,170,0,0.4)}
 .art-diamond-inner.rank{color:var(--gd)}
-.lock-badge.rank{background:var(--gd)}
 .pop-subheading.rank{color:var(--gd)}
 
 .diamond-outer.badge{border-color:#b44aff;box-shadow:0 0 40px rgba(180,74,255,0.4),inset 0 0 20px rgba(180,74,255,0.15)}
@@ -254,7 +238,7 @@ body{padding:14px;background:var(--bg)}
 <body>
 <div class="container">
 <a href="index.html" class="back-link">❮ BACK TO LIST</a>
-<div class="hdr">◆ POPUPS · DIAMOND STYLE · v0.5 (변경 없음)</div>
+<div class="hdr">◆ POPUPS · DIAMOND STYLE · v0.6 · 자물쇠 제거 + P6 분리 (→ result.html)</div>
 
 <div style="padding:12px 14px;background:rgba(0,221,181,0.04);border-left:3px solid var(--tl);margin:0 0 24px;font-size:11px;color:var(--t2);line-height:1.7">
 <strong style="color:var(--tl);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ DESIGN PRINCIPLE</strong><br>
@@ -276,7 +260,6 @@ body{padding:14px;background:var(--bg)}
 <div class="diamond-content">
 <div class="art-diamond">
 <div class="art-diamond-inner">NANO BANANA<br>FIST ART<br>#5</div>
-<div class="lock-badge">🔓</div>
 </div>
 <div class="pop-heading">EARNED</div>
 <div class="pop-subheading">FIRESTORM</div>
@@ -298,7 +281,6 @@ body{padding:14px;background:var(--bg)}
 <div class="diamond-content">
 <div class="art-diamond badge">
 <div class="art-diamond-inner badge">NANO BANANA<br>BADGE ART<br>★</div>
-<div class="lock-badge">🔓</div>
 </div>
 <div class="pop-heading">UNLOCKED</div>
 <div class="pop-subheading badge">PERFECT 5</div>
@@ -355,59 +337,15 @@ body{padding:14px;background:var(--bg)}
 
 </div>
 
-<!-- ============ P6 · TRACK RESULT (custom, not diamond) ============ -->
-<div class="pop-label">P6 · TRACK RESULT SCREEN</div>
-<div class="pop-trigger">Track complete — XP breakdown + progress + action buttons</div>
-
-<div style="background:rgba(12,8,35,0.92);border:1px solid var(--bd2);padding:20px;margin:0 0 14px">
-<div style="text-align:center;margin:0 0 14px">
-<div style="font-family:'Orbitron';font-size:10px;font-weight:800;letter-spacing:4px;color:var(--cy);margin:0 0 6px">◆ TRACK COMPLETE</div>
-<div style="font-family:'Orbitron';font-size:42px;font-weight:900;letter-spacing:8px;color:var(--cy);text-shadow:0 0 20px rgba(0,240,255,0.4)">PERFECT</div>
-<div style="font-family:'Orbitron';font-size:14px;font-weight:900;letter-spacing:2px;color:#fff;margin:8px 0 0">GOOD DAY</div>
-<div style="font-size:11px;color:var(--t2);margin:2px 0">VOL.01 · HARD</div>
-</div>
-
-<div class="sec">PERFORMANCE</div>
-<div class="g4">
-<div class="mc"><div class="mc-l">SCORE</div><div class="mc-v" style="color:var(--gn)">98,450</div><div class="mc-s">+12,210 best</div></div>
-<div class="mc"><div class="mc-l">MAX COMBO</div><div class="mc-v" style="color:var(--cy)">612</div><div class="mc-s">all hit</div></div>
-<div class="mc"><div class="mc-l">HIT RATE</div><div class="mc-v" style="color:var(--gn)">98%</div><div class="mc-s">599 / 612</div></div>
-<div class="mc"><div class="mc-l">CALORIES</div><div class="mc-v" style="color:var(--fi)">42</div><div class="mc-s">kcal</div></div>
-</div>
-
-<div class="sec">XP REWARD</div>
-<div style="background:rgba(255,170,0,0.04);border:1px solid rgba(255,170,0,0.25);padding:14px">
-<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t2);margin:0 0 4px">
-  <span>BASE SCORE XP</span><span style="color:#fff;font-family:Orbitron;font-weight:700">+600</span>
-</div>
-<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t2);margin:0 0 4px">
-  <span>PERFECT GRADE BONUS</span><span style="color:#fff;font-family:Orbitron;font-weight:700">+300</span>
-</div>
-<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t2);margin:0 0 4px">
-  <span>HARD DIFFICULTY BONUS</span><span style="color:#fff;font-family:Orbitron;font-weight:700">+200</span>
-</div>
-<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin:0 0 4px;border:1px dashed rgba(180,74,255,0.3);padding:4px 8px;opacity:0.6">
-  <span>◆ MODIFIER BONUS <em style="font-family:monospace;font-style:normal">(v1.9)</em></span><span style="font-family:Orbitron">SLOT</span>
-</div>
-<div style="border-top:1px solid rgba(255,170,0,0.3);margin:8px 0 0;padding:8px 0 0;display:flex;justify-content:space-between">
-  <span style="font-family:Orbitron;font-weight:900;letter-spacing:2px;color:var(--gd);font-size:13px">TOTAL EARNED</span>
-  <span style="font-family:Orbitron;font-weight:900;color:var(--gd);font-size:18px">+1,100</span>
-</div>
-</div>
-
-<div style="display:flex;gap:6px;margin:14px 0 0">
-<button class="pop-ok" style="flex:1;background:rgba(18,12,45,0.7);border:1px solid var(--bd2);color:var(--t2);font-weight:700">↻ RETRY</button>
-<button class="pop-ok" style="flex:1;background:rgba(18,12,45,0.7);border:1px solid var(--bd2);color:var(--t2);font-weight:700">❮ HOME</button>
-<button class="pop-ok" style="flex:1;background:rgba(0,240,255,0.15);border:1px solid var(--cy);color:var(--cy)">NEXT ❯</button>
-</div>
-</div>
-
 <!-- Footer -->
 <div class="pop-notes" style="margin:20px 0 0">
-<b>◆ v1.8 CHANGES vs PREVIOUS DESIGN</b><br>
+<b>◆ v0.6 CHANGES</b><br>
+• <strong style="color:var(--fi)">자물쇠 🔓 아이콘 삭제</strong> — P1 FIST / P2 BADGE 2군데 (미사용 .lock-badge CSS도 제거)<br>
+• <strong style="color:var(--cy)">P6 TRACK RESULT 분리</strong> → 독립 페이지 result.html로 이관<br>
+<br>
+<b>◆ v1.8 DESIGN PRINCIPLE (유지)</b><br>
 • P1~P3 + P5: 첨부 UNLOCKED 팝업 스타일 적용 (다이아몬드 프레임 + 아트 + 짧은 제목 + OK)<br>
 • <strong style="color:var(--fi)">P4 FIST SWAP 삭제</strong> — FIST 보관 및 장착 UI가 별도 존재함<br>
-• P6 TRACK RESULT는 데이터량이 많아 다이아몬드 형식 대신 전통 패널 유지<br>
 • 설명 텍스트 최소화 (제목 2줄 원칙)<br>
 • 버튼 1개만 (YES/NO 분기 없음) — 긍정 피드백으로 모멘텀 유지
 </div>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Punch v1.8 — S2 Overhead Badge 3 Variations (v0.6)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+body{padding:14px;background:var(--bg)}
+.container{max-width:1100px;margin:0 auto}
+.hdr{
+  font-family:'Orbitron';
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--t3);
+  text-align:center;
+  margin:0 0 12px;
+  padding:8px;
+  border:1px dashed var(--bd2);
+}
+.back-link{
+  display:inline-block;
+  padding:6px 12px;
+  font-family:'Orbitron';
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  color:var(--t2);
+  border:1px solid var(--bd2);
+  text-decoration:none;
+  margin:0 0 12px;
+  transition:all .15s;
+}
+.back-link:hover{border-color:var(--p);color:var(--t1)}
+
+/* ===== 3 col grid ===== */
+.s2-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin:0 0 18px;
+}
+@media(max-width:900px){.s2-grid{grid-template-columns:1fr}}
+
+.var-card{
+  background:rgba(12,8,35,0.9);
+  border:1px solid var(--bd2);
+  padding:18px;
+  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));
+}
+.var-label{
+  font-family:'Orbitron';
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:3px;
+  color:var(--p);
+  margin:0 0 4px;
+}
+.var-name{
+  font-family:'Orbitron';
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:2px;
+  color:#fff;
+  margin:0 0 4px;
+}
+.var-tagline{
+  font-size:11px;
+  color:var(--t3);
+  margin:0 0 16px;
+  font-style:italic;
+}
+
+/* ===== Stage (simulated overhead view) ===== */
+.stage{
+  aspect-ratio:1/1;
+  background:
+    radial-gradient(ellipse at 50% 40%,rgba(180,74,255,0.25) 0%,transparent 50%),
+    radial-gradient(ellipse at 30% 90%,rgba(255,46,203,0.15) 0%,transparent 50%),
+    linear-gradient(to bottom,#1a0830 0%,#0a0320 75%,#060612 100%);
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--bd2);
+  margin:0 0 12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Overhead perspective — ceiling grid hint */
+.stage::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(to bottom,rgba(180,74,255,0.08) 0%,transparent 40%),
+    repeating-linear-gradient(90deg,transparent 0,transparent 30px,rgba(180,74,255,0.04) 30px,rgba(180,74,255,0.04) 31px);
+  pointer-events:none;
+}
+
+/* ============ A. CLASSIC ============ */
+.badge-a{
+  position:relative;
+  width:150px;
+  height:150px;
+  z-index:5;
+  animation:float-slow 4s ease-in-out infinite;
+}
+.badge-a-ring{
+  position:absolute;
+  inset:0;
+  border:3px solid var(--gd);
+  border-radius:50%;
+  box-shadow:0 0 24px rgba(255,170,0,0.5),inset 0 0 12px rgba(255,170,0,0.2);
+}
+.badge-a-inner{
+  position:absolute;
+  inset:12px;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 30%,rgba(255,170,0,0.25),rgba(18,12,45,0.9) 70%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+}
+.badge-a-rank{
+  font-family:'Orbitron';
+  font-size:38px;
+  font-weight:900;
+  color:var(--gd);
+  text-shadow:0 0 10px rgba(255,170,0,0.6);
+  letter-spacing:-2px;
+  line-height:1;
+}
+.badge-a-stars{
+  font-size:11px;
+  color:var(--gd);
+  letter-spacing:2px;
+  line-height:1;
+}
+.badge-a-xp{
+  font-family:'Share Tech Mono';
+  font-size:9px;
+  color:var(--t2);
+  letter-spacing:1px;
+  margin:2px 0 0;
+}
+.badge-a-title{
+  font-family:'Orbitron';
+  font-size:9px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:2px;
+  margin:2px 0 0;
+}
+
+/* ============ B. MINIMAL ============ */
+.badge-b{
+  position:relative;
+  min-width:200px;
+  padding:18px 24px;
+  background:rgba(18,12,45,0.75);
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,170,0,0.4);
+  text-align:center;
+  z-index:5;
+  box-shadow:0 0 30px rgba(255,170,0,0.25);
+  clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);
+  animation:float-slow 4s ease-in-out infinite;
+}
+.badge-b-rank{
+  font-family:'Orbitron';
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:6px;
+  color:#fff;
+  line-height:1;
+}
+.badge-b-line{
+  height:1px;
+  background:linear-gradient(to right,transparent,var(--gd),transparent);
+  margin:8px 0;
+}
+.badge-b-info{
+  font-family:'Share Tech Mono';
+  font-size:10px;
+  color:var(--gd);
+  letter-spacing:1.5px;
+}
+.badge-b-info .stars{margin:0 4px;color:var(--gd)}
+.badge-b-title{
+  font-family:'Orbitron';
+  font-size:9px;
+  font-weight:800;
+  color:var(--t2);
+  letter-spacing:2.5px;
+  margin:6px 0 0;
+}
+
+/* ============ C. ORBIT ============ */
+.badge-c{
+  position:relative;
+  width:160px;
+  height:160px;
+  z-index:5;
+  animation:orbit-rotate 12s linear infinite;
+}
+.badge-c-ring-outer{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:conic-gradient(from 270deg, var(--gd) 0deg, var(--gd) 288deg, rgba(255,170,0,0.15) 288deg, rgba(255,170,0,0.15) 360deg);
+  mask:radial-gradient(circle at center,transparent 62%,#000 64%,#000 72%,transparent 74%);
+  -webkit-mask:radial-gradient(circle at center,transparent 62%,#000 64%,#000 72%,transparent 74%);
+  filter:drop-shadow(0 0 8px rgba(255,170,0,0.6));
+}
+.badge-c-inner{
+  position:absolute;
+  inset:28px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,170,0,0.2),rgba(18,12,45,0.95));
+  border:1px solid rgba(255,170,0,0.5);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  animation:orbit-rotate-reverse 12s linear infinite;
+}
+.badge-c-rank{
+  font-family:'Orbitron';
+  font-size:34px;
+  font-weight:900;
+  color:var(--gd);
+  line-height:1;
+  letter-spacing:-2px;
+  text-shadow:0 0 10px rgba(255,170,0,0.6);
+}
+.badge-c-title{
+  font-family:'Orbitron';
+  font-size:8px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:1.5px;
+  margin:2px 0 0;
+}
+.badge-c-star{
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:var(--gd);
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  filter:drop-shadow(0 0 6px rgba(255,170,0,0.9));
+}
+.badge-c-star.s1{top:8px;left:50%;transform:translateX(-50%)}
+.badge-c-star.s2{bottom:20px;left:16px}
+.badge-c-star.s3{bottom:20px;right:16px}
+
+@keyframes float-slow{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+@keyframes orbit-rotate{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+@keyframes orbit-rotate-reverse{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(-360deg)}
+}
+
+/* ===== Description ===== */
+.var-desc{
+  font-size:11px;
+  color:var(--t2);
+  line-height:1.6;
+  margin:10px 0 0;
+}
+.var-desc b{
+  display:block;
+  font-family:Orbitron;
+  font-size:9px;
+  letter-spacing:1.5px;
+  color:var(--t3);
+  margin:8px 0 3px;
+}
+.var-desc ul{list-style:none;padding:0;margin:0}
+.var-desc li{padding:2px 0 2px 12px;position:relative}
+.var-desc li::before{
+  content:'▸';
+  position:absolute;
+  left:0;
+  color:var(--p);
+}
+
+/* ===== Evaluation ===== */
+.eval-box{
+  margin:18px 0 0;
+  padding:16px 20px;
+  background:rgba(18,12,45,0.5);
+  border:1px dashed rgba(255,170,0,0.3);
+}
+.eval-box h3{
+  font-family:'Orbitron';
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2.5px;
+  color:var(--gd);
+  margin:0 0 10px;
+}
+.eval-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:8px 14px;
+  font-size:11px;
+  color:var(--t2);
+  align-items:center;
+}
+.eval-grid .head{
+  font-family:'Orbitron';
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  color:var(--t3);
+  padding:0 0 4px;
+  border-bottom:1px solid var(--bd2);
+}
+.eval-grid .crit{color:var(--t1);font-weight:500}
+.score{
+  font-family:'Orbitron';
+  font-weight:800;
+  text-align:center;
+  padding:3px 0;
+}
+.score.hi{color:var(--gn)}
+.score.mid{color:var(--gd)}
+.score.lo{color:var(--fi)}
+
+.pop-notes{
+  margin:18px 0 0;
+  padding:10px 14px;
+  background:rgba(18,12,45,0.4);
+  border:1px dashed var(--bd2);
+  font-size:11px;
+  color:var(--t3);
+  line-height:1.6;
+}
+.pop-notes b{color:var(--t2);font-family:Orbitron;letter-spacing:1.5px;font-size:10px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back-link">❮ BACK TO LIST</a>
+<div class="hdr">◆ S2 · OVERHEAD RANK BADGE · 3 VARIATIONS · v0.6</div>
+
+<div style="padding:12px 14px;background:rgba(255,170,0,0.04);border-left:3px solid var(--gd);margin:0 0 18px;font-size:11px;color:var(--t2);line-height:1.7">
+<strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ DESIGN BRIEF</strong><br>
+플레이어 머리 위 공중에 떠있는 RANK 배지. 현재 Rank (예: COMMANDER) + 별 단계 + XP 진행률 + 칭호를 표시. VR 몰입을 해치지 않는 시야 주변부 배치. 같은 정보(COMMANDER ★★, 28K/35K XP)를 세 가지 방식으로 표현 — 팀에서 선택하기 위한 후보.
+</div>
+
+<div class="s2-grid">
+
+<!-- ============ A. CLASSIC ============ -->
+<div class="var-card">
+  <div class="var-label">◆ VARIATION A</div>
+  <div class="var-name">CLASSIC</div>
+  <div class="var-tagline">정보 밀도 · 원형 프레임 · 전통적</div>
+
+  <div class="stage">
+    <div class="badge-a">
+      <div class="badge-a-ring"></div>
+      <div class="badge-a-inner">
+        <div class="badge-a-rank">C</div>
+        <div class="badge-a-stars">★★</div>
+        <div class="badge-a-xp">28K / 35K</div>
+        <div class="badge-a-title">COMMANDER</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="var-desc">
+    <b>구성</b>
+    <ul>
+      <li>외곽 원형 링 (골드 글로우)</li>
+      <li>중앙 등급 문자 C (38px)</li>
+      <li>별 단계 ★★ (티어 표시)</li>
+      <li>XP 진행 28K/35K</li>
+      <li>하단 칭호 COMMANDER</li>
+    </ul>
+    <b>장점</b>
+    <ul>
+      <li>정보가 한눈에 모두 보임</li>
+      <li>원형이라 회전 관계없음</li>
+      <li>익숙한 군 계급장 메타포</li>
+    </ul>
+    <b>단점</b>
+    <ul>
+      <li>정보량이 많아 시각 방해 가능</li>
+      <li>원형 = 다른 UI와 구분 약함</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ B. MINIMAL ============ -->
+<div class="var-card">
+  <div class="var-label">◆ VARIATION B</div>
+  <div class="var-name">MINIMAL</div>
+  <div class="var-tagline">등급 중심 · 가로형 · 몰입 우선</div>
+
+  <div class="stage">
+    <div class="badge-b">
+      <div class="badge-b-rank">C</div>
+      <div class="badge-b-line"></div>
+      <div class="badge-b-info">
+        <span class="stars">★★</span> · 28K/35K
+      </div>
+      <div class="badge-b-title">COMMANDER</div>
+    </div>
+  </div>
+
+  <div class="var-desc">
+    <b>구성</b>
+    <ul>
+      <li>큰 등급 문자 C (32px, 중심)</li>
+      <li>구분선 + 별·XP 한 줄</li>
+      <li>칭호 하단 작게</li>
+      <li>유리판 느낌 (backdrop-blur)</li>
+    </ul>
+    <b>장점</b>
+    <ul>
+      <li>시야 방해 최소 (핵심만)</li>
+      <li>한눈 판독 1초 이내</li>
+      <li>가로형 = 시야 하단 배치 가능</li>
+    </ul>
+    <b>단점</b>
+    <ul>
+      <li>정보 밀도 낮음 (XP가 작음)</li>
+      <li>시각적 임팩트 적음</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ C. ORBIT ============ -->
+<div class="var-card">
+  <div class="var-label">◆ VARIATION C</div>
+  <div class="var-name">ORBIT</div>
+  <div class="var-tagline">XP 원형 진행률 · 동적 · 성취감</div>
+
+  <div class="stage">
+    <div class="badge-c">
+      <div class="badge-c-ring-outer"></div>
+      <div class="badge-c-inner">
+        <div class="badge-c-rank">C</div>
+        <div class="badge-c-title">COMMANDER</div>
+      </div>
+      <div class="badge-c-star s1"></div>
+      <div class="badge-c-star s2"></div>
+      <div class="badge-c-star s3"></div>
+    </div>
+  </div>
+
+  <div class="var-desc">
+    <b>구성</b>
+    <ul>
+      <li>원형 진행 링 (XP 80% 채움)</li>
+      <li>중앙 등급 문자 C</li>
+      <li>별 3개 링 외곽 배치</li>
+      <li>서서히 회전 애니메이션</li>
+    </ul>
+    <b>장점</b>
+    <ul>
+      <li>XP 진행률 직관 (링 채움)</li>
+      <li>동적 움직임 = 살아있는 느낌</li>
+      <li>레벨업 시 링 완성 연출 가능</li>
+    </ul>
+    <b>단점</b>
+    <ul>
+      <li>회전 애니메이션 = 시선 유도 과다 위험</li>
+      <li>구현 복잡도 높음</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<!-- Evaluation -->
+<div class="eval-box">
+<h3>◆ 평가 기준 비교 (1~5점)</h3>
+<div class="eval-grid">
+  <div class="head">기준</div>
+  <div class="head" style="text-align:center">A. CLASSIC</div>
+  <div class="head" style="text-align:center">B. MINIMAL</div>
+  <div class="head" style="text-align:center">C. ORBIT</div>
+
+  <div class="crit">VR 몰입 (시야 방해 적음)</div>
+  <div class="score mid">3</div>
+  <div class="score hi">5</div>
+  <div class="score mid">3</div>
+
+  <div class="crit">한눈 판독 (2초 이내)</div>
+  <div class="score hi">4</div>
+  <div class="score hi">5</div>
+  <div class="score mid">3</div>
+
+  <div class="crit">등급 진행 가시성 (XP 직관)</div>
+  <div class="score mid">3</div>
+  <div class="score lo">2</div>
+  <div class="score hi">5</div>
+
+  <div class="crit">FIST 아이콘과 조화</div>
+  <div class="score hi">4</div>
+  <div class="score hi">4</div>
+  <div class="score mid">3</div>
+
+  <div class="crit">구현 난이도 (낮을수록 ↑)</div>
+  <div class="score hi">4</div>
+  <div class="score hi">5</div>
+  <div class="score mid">2</div>
+
+  <div class="crit" style="font-family:Orbitron;font-weight:800;color:var(--gd);font-size:10px;letter-spacing:1px;border-top:1px solid var(--bd2);padding-top:6px">TOTAL</div>
+  <div class="score mid" style="border-top:1px solid var(--bd2);padding-top:6px;font-size:14px">18</div>
+  <div class="score hi" style="border-top:1px solid var(--bd2);padding-top:6px;font-size:14px">21</div>
+  <div class="score mid" style="border-top:1px solid var(--bd2);padding-top:6px;font-size:14px">16</div>
+</div>
+</div>
+
+<!-- Footer -->
+<div class="pop-notes">
+<b>◆ v0.6 NEW FILE</b><br>
+• S2 오버헤드 RANK 배지 디자인 후보 3종 비교 페이지 신규 생성<br>
+• 팀 논의용 — 평가 기준별 점수 및 장단점 정리<br>
+• 선택 후 본 UI(space.html S2)에 통합 예정<br>
+<br>
+<b>◆ SHARED DATA</b><br>
+• 3종 모두 같은 데이터 표시: COMMANDER ★★ / 28K-35K XP<br>
+• Rank 22단계 전용 (RECRUIT → CHAMPION)<br>
+• FIST 이펙트와 독립 레이어 (별도 장착)
+</div>
+
+</div>
+</body>
+</html>
