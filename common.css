@@ -1,27 +1,73 @@
 /* ==========================================================
-   Vibe Punch v1.8 — Common CSS v0.6
+   Vibe Punch v1.8 — Common CSS v0.7
    ==========================================================
-   v0.5 변경: MODIFIER 관련 클래스 추가 (vibe_punch_ui_v3_36.html 참조)
-   v0.6 변경: 폰트 크기 계층별 차등 확대 (가독성 개선, 탭류는 유지)
+   v0.6: 폰트 계층별 확대
+   v0.7: 흑백 기반 + 선택적 색상 유지 (가독성 우선)
+        - 페이지 BG: 블랙 / 박스 내부: 블랙 90%
+        - UI 테두리: 50% 회색 / UI 폰트: 흰색+딤드 50%
+        - 설명 콘텐츠: 80% 회색
+        - 설명 블록: 흰 배경 + 다크그레이 글씨 (반전 강조)
+        - 게임 연출(불꽃/이펙트) · 버전 배지 · 팝업 4종 ·
+          데이터 시각화(차트/바)만 색상 유지
    ========================================================== */
 
 *{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  --bg:#060612;
-  --p:#b44aff;
-  --pk:#ff2ecb;
-  --cy:#00f0ff;
-  --gn:#39ff14;
-  --gd:#ffaa00;
-  --fi:#ff4422;
-  --tl:#00ddb5;
-  --t1:#f0e8ff;
-  --t2:#8878aa;
-  --t3:#5a4a7a;
-  --bd:rgba(180,74,255,0.35);
-  --bd2:rgba(180,74,255,0.12);
-  --pnl:rgba(12,8,35,0.92);
+  /* ===== 배경 ===== */
+  --bg:    #000000;
+  --pnl:   #1a1a1a;
+  --pnl-2: #262626;
+  --pnl-3: #0d0d0d;
+
+  /* ===== 테두리 ===== */
+  --bd:    #808080;
+  --bd2:   #4d4d4d;
+  --bd3:   #b3b3b3;
+
+  /* ===== UI 텍스트 ===== */
+  --t1:    #ffffff;
+  --t2:    #cccccc;
+  --t3:    #808080;
+  --t4:    #666666;
+
+  /* ===== 설명 블록 (반전) ===== */
+  --note-bg:   #ffffff;
+  --note-t:    #1a1a1a;
+  --note-t2:   #4d4d4d;
+  --note-bd:   #808080;
+  --note-hl:   #000000;
+
+  /* ===== 시맨틱 색상 (선택적 유지) ===== */
+  --fire:      #ff8800;
+  --fire-hi:   #ffaa00;
+  --fire-lo:   #cc5500;
+
+  --v-new:     #39ff14;
+  --v-slot:    #ffaa00;
+  --v-change:  #00d9ff;
+  --v-remove:  #ff4422;
+
+  --data-a:    #4a9eff;
+  --data-b:    #39ff14;
+  --data-c:    #ffaa00;
+  --data-d:    #ff4422;
+  --data-e:    #b44aff;
+
+  --pop-fist:   #00ddb5;
+  --pop-badge:  #b44aff;
+  --pop-rank:   #ffaa00;
+  --pop-review: #00d9ff;
+  --pop-pink:   #ff2ecb;
+
+  /* ===== 레거시 별칭 (기존 HTML 호환) ===== */
+  --p:   #808080;
+  --pk:  var(--pop-pink);
+  --cy:  var(--v-change);
+  --gn:  var(--data-b);
+  --gd:  var(--fire-hi);
+  --fi:  var(--fire-lo);
+  --tl:  var(--pop-fist);
 }
 
 body{
@@ -30,16 +76,6 @@ body{
   color:var(--t1);
   overflow-x:hidden;
   min-height:100vh;
-}
-
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(ellipse at 30% 20%,rgba(100,30,180,0.1) 0%,transparent 50%),
-    radial-gradient(ellipse at 80% 90%,rgba(180,74,255,0.06) 0%,transparent 40%);
-  pointer-events:none;
 }
 
 /* ===== Animations ===== */
@@ -59,12 +95,12 @@ body::before{
   to{transform:translateY(0);opacity:1}
 }
 @keyframes pg{
-  0%,100%{box-shadow:0 0 10px rgba(180,74,255,0.2)}
-  50%{box-shadow:0 0 24px rgba(180,74,255,0.4)}
+  0%,100%{box-shadow:0 0 0 1px var(--bd2)}
+  50%{box-shadow:0 0 0 1px var(--bd3)}
 }
 @keyframes pulse-mint{
-  0%,100%{box-shadow:0 0 20px rgba(0,221,181,0.3)}
-  50%{box-shadow:0 0 40px rgba(0,221,181,0.6)}
+  0%,100%{box-shadow:0 0 0 1px var(--bd2)}
+  50%{box-shadow:0 0 0 1px var(--bd3)}
 }
 
 /* ===== Layout ===== */
@@ -83,33 +119,26 @@ body::before{
 /* ===== Panel (.pnl) ===== */
 .pnl{
   background:var(--pnl);
-  border:1px solid var(--bd2);
+  border:1px solid var(--bd);
   padding:16px;
   margin:0 0 10px;
   position:relative;
   clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
 }
-.pnl::after{
-  content:'';
-  position:absolute;
-  inset:-1px;
-  background:linear-gradient(135deg,rgba(180,74,255,0.2),transparent 25%,transparent 75%,rgba(255,46,203,0.12));
-  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
-  z-index:-1;
-  pointer-events:none;
-}
+.pnl::after{content:none}
 .pnl-t{
   font-family:'Orbitron';
   font-size:13px;
   font-weight:700;
   letter-spacing:2px;
   text-transform:uppercase;
+  color:var(--t1);
   margin:0 0 12px;
   display:flex;
   align-items:center;
   gap:6px;
 }
-.pnl-t i{color:var(--p);font-style:normal}
+.pnl-t i{color:var(--t3);font-style:normal}
 
 /* ===== Toggle (MODIFIER / SETTING) ===== */
 .tog{display:flex;margin:0 0 10px}
@@ -121,8 +150,8 @@ body::before{
   font-size:11px;
   font-weight:700;
   letter-spacing:1px;
-  background:rgba(18,12,45,0.5);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   cursor:pointer;
   color:var(--t3);
   transition:all .2s;
@@ -131,12 +160,11 @@ body::before{
 .tog-b:first-child{clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
 .tog-b:last-child{clip-path:polygon(4px 0,100% 0,100% 100%,0 100%)}
 .tog-b.on{
-  background:linear-gradient(135deg,rgba(180,74,255,0.22),rgba(255,46,203,0.1));
-  border-color:var(--bd);
-  color:#fff;
+  background:var(--pnl-2);
+  border-color:var(--bd3);
+  color:var(--t1);
 }
 
-/* v1.9 버전 배지 (tog-b 우측 상단) */
 .tog-b .v-badge{
   position:absolute;
   top:-6px;
@@ -145,11 +173,11 @@ body::before{
   font-size:8px;
   font-weight:900;
   letter-spacing:0;
-  color:var(--gd);
+  color:var(--v-slot);
   background:rgba(255,170,0,0.15);
   padding:1px 4px;
   border-radius:2px;
-  border:1px solid rgba(255,170,0,0.35);
+  border:1px solid var(--v-slot);
   line-height:1.2;
 }
 
@@ -158,8 +186,8 @@ body::before{
   font-size:12px;
   color:var(--t2);
   padding:6px 8px;
-  background:rgba(18,12,45,0.5);
-  border-left:2px solid var(--tl);
+  background:var(--pnl-3);
+  border-left:2px solid var(--bd);
   margin:0 0 10px;
   line-height:1.4;
 }
@@ -181,11 +209,11 @@ body::before{
   font-family:'Orbitron';
   font-size:8px;
   font-weight:900;
-  color:var(--gd);
+  color:var(--v-slot);
   background:rgba(255,170,0,0.12);
   padding:1px 5px;
   border-radius:2px;
-  border:1px solid rgba(255,170,0,0.3);
+  border:1px solid var(--v-slot);
   letter-spacing:0.5px;
   line-height:1.2;
 }
@@ -204,21 +232,20 @@ body::before{
 .mod-diamond{
   width:12px;
   height:12px;
-  background:rgba(35,25,60,0.6);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   transform:rotate(45deg);
   cursor:pointer;
   transition:all .15s;
   position:relative;
 }
 .mod-diamond:hover{
-  border-color:var(--p);
-  background:rgba(180,74,255,0.1);
+  border-color:var(--bd3);
+  background:var(--pnl-2);
 }
 .mod-diamond.active{
-  background:linear-gradient(135deg,var(--p),var(--pk));
-  border-color:var(--pk);
-  box-shadow:0 0 8px rgba(255,46,203,0.5);
+  background:var(--t1);
+  border-color:var(--t1);
 }
 
 .mod-label{
@@ -236,8 +263,8 @@ body::before{
   display:inline-flex;
   align-items:center;
   gap:2px;
-  background:rgba(18,12,45,0.6);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   padding:2px;
 }
 .mod-pm-btn{
@@ -246,7 +273,7 @@ body::before{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:rgba(35,25,60,0.6);
+  background:var(--pnl-2);
   color:var(--t2);
   cursor:pointer;
   font-family:'Orbitron';
@@ -254,7 +281,7 @@ body::before{
   font-weight:700;
   transition:all .12s;
 }
-.mod-pm-btn:hover{background:rgba(180,74,255,0.2);color:#fff}
+.mod-pm-btn:hover{background:var(--bd);color:var(--t1)}
 .mod-pm-val{
   min-width:30px;
   text-align:center;
@@ -268,8 +295,8 @@ body::before{
 .mod-bonus{
   margin:12px 0 0;
   padding:8px 10px;
-  background:linear-gradient(135deg,rgba(255,170,0,0.08),rgba(255,46,203,0.06));
-  border:1px solid rgba(255,170,0,0.25);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -281,12 +308,12 @@ body::before{
 }
 .mod-bonus b{
   font-size:16px;
-  color:var(--gd);
+  color:var(--t1);
   font-weight:900;
   letter-spacing:0;
 }
 
-/* Whole modifier block disabled state (v1.8 slot) */
+/* Whole modifier block disabled state */
 .mod-disabled{
   position:relative;
   opacity:0.55;
@@ -301,8 +328,8 @@ body::before{
       45deg,
       transparent 0,
       transparent 14px,
-      rgba(255,170,0,0.04) 14px,
-      rgba(255,170,0,0.04) 15px
+      rgba(255,255,255,0.04) 14px,
+      rgba(255,255,255,0.04) 15px
     );
   pointer-events:none;
   z-index:1;
@@ -313,13 +340,13 @@ body::before{
   right:8px;
   z-index:2;
   background:rgba(255,170,0,0.15);
-  border:1px solid rgba(255,170,0,0.4);
+  border:1px solid var(--v-slot);
   padding:3px 8px;
   font-family:'Orbitron';
   font-size:9px;
   font-weight:900;
   letter-spacing:1.5px;
-  color:var(--gd);
+  color:var(--v-slot);
 }
 
 /* ===== Setting items ===== */
@@ -329,18 +356,18 @@ body::before{
   gap:8px;
   padding:8px;
   margin:0 0 4px;
-  background:rgba(18,12,45,0.5);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
 }
-.set-item span{font-size:14px;font-weight:500;flex:1}
+.set-item span{font-size:14px;font-weight:500;flex:1;color:var(--t1)}
 .set-item em{
   font-family:'Share Tech Mono';
   font-size:13px;
-  color:var(--t2);
+  color:var(--t3);
   font-style:normal;
 }
 
-/* ===== Right tabs (HOME / STATS / BADGES / LEADERBOARD) ===== */
+/* ===== Right tabs ===== */
 .rtabs{display:flex;gap:2px;margin:0 0 12px}
 .rtab{
   flex:1;
@@ -350,8 +377,8 @@ body::before{
   font-size:10px;
   font-weight:700;
   letter-spacing:1px;
-  background:rgba(18,12,45,0.6);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   cursor:pointer;
   transition:all .2s;
   text-transform:uppercase;
@@ -359,11 +386,11 @@ body::before{
 }
 .rtab:first-child{clip-path:polygon(0 0,100% 0,calc(100% - 3px) 100%,0 100%)}
 .rtab:last-child{clip-path:polygon(3px 0,100% 0,100% 100%,0 100%)}
-.rtab:hover{border-color:var(--p)}
+.rtab:hover{border-color:var(--bd3);color:var(--t2)}
 .rtab.on{
-  background:linear-gradient(135deg,rgba(180,74,255,0.25),rgba(255,46,203,0.1));
-  border-color:var(--bd);
-  color:#fff;
+  background:var(--pnl-2);
+  border-color:var(--bd3);
+  color:var(--t1);
 }
 
 .rp{display:none;animation:su .3s ease-out}
@@ -373,14 +400,14 @@ body::before{
 
 /* ===== Mini card (.mc) ===== */
 .mc{
-  background:rgba(18,12,45,0.8);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   padding:10px;
   text-align:center;
   clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);
   transition:all .2s;
 }
-.mc:hover{border-color:var(--bd)}
+.mc:hover{border-color:var(--bd3)}
 .mc-l{
   font-size:13px;
   letter-spacing:1.5px;
@@ -392,7 +419,7 @@ body::before{
   font-family:'Orbitron';
   font-size:20px;
   font-weight:800;
-  color:#fff;
+  color:var(--t1);
 }
 .mc-s{font-size:12px;color:var(--t3);margin:2px 0 0}
 
@@ -403,7 +430,7 @@ body::before{
   font-weight:700;
   letter-spacing:2px;
   text-transform:uppercase;
-  color:var(--t3);
+  color:var(--t2);
   margin:14px 0 6px;
   display:flex;
   align-items:center;
@@ -413,7 +440,7 @@ body::before{
   content:'';
   flex:1;
   height:1px;
-  background:linear-gradient(to right,var(--bd2),transparent);
+  background:var(--bd2);
 }
 
 /* ===== Grid shortcuts ===== */
@@ -421,15 +448,16 @@ body::before{
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .g2{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
 
-/* ===== Progress bar ===== */
+/* ===== Progress bar — 데이터 시각화, 색상 유지 ===== */
 .prog{
   height:4px;
-  background:rgba(35,25,60,0.8);
+  background:var(--pnl-3);
+  border:1px solid var(--bd2);
   border-radius:2px;
   overflow:hidden;
   margin:4px 0;
 }
-.prog-f{height:100%;border-radius:2px}
+.prog-f{height:100%;border-radius:2px;background:var(--data-a)}
 
 /* ===== Difficulty tabs ===== */
 .dtabs{display:flex;gap:2px;margin:0 0 8px}
@@ -441,18 +469,18 @@ body::before{
   font-size:10px;
   font-weight:700;
   letter-spacing:1px;
-  background:rgba(18,12,45,0.6);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   cursor:pointer;
   transition:all .15s;
   clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);
   color:var(--t3);
 }
-.dtab:hover{border-color:var(--p)}
+.dtab:hover{border-color:var(--bd3);color:var(--t2)}
 .dtab.on{
-  background:linear-gradient(135deg,rgba(180,74,255,0.25),rgba(255,46,203,0.12));
-  border-color:var(--bd);
-  color:#fff;
+  background:var(--pnl-2);
+  border-color:var(--bd3);
+  color:var(--t1);
 }
 
 /* ===== Track row ===== */
@@ -461,24 +489,24 @@ body::before{
   align-items:center;
   gap:6px;
   padding:6px 8px;
-  border-bottom:1px solid rgba(180,74,255,0.05);
+  border-bottom:1px solid var(--bd2);
   cursor:pointer;
   transition:all .12s;
 }
-.trow:hover{background:rgba(180,74,255,0.06)}
-.trow.sel{background:rgba(180,74,255,0.12);border-left:2px solid var(--p)}
+.trow:hover{background:var(--pnl-2)}
+.trow.sel{background:var(--pnl-2);border-left:2px solid var(--bd3)}
 .tnum{
   font-family:'Orbitron';
   font-size:10px;
   color:var(--t3);
   width:16px;
 }
-.tname{flex:1;font-size:14px;font-weight:500}
+.tname{flex:1;font-size:14px;font-weight:500;color:var(--t1)}
 .tscore{
   font-family:'Orbitron';
   font-size:13px;
   font-weight:700;
-  color:var(--gn);
+  color:var(--t1);
 }
 .tgrade{
   font-family:'Orbitron';
@@ -487,20 +515,21 @@ body::before{
   padding:2px 6px;
   letter-spacing:.5px;
 }
+/* 등급: 질감(배경/테두리)으로 구분, 모두 흰색 글자 */
 .g-perf{
-  background:rgba(0,240,255,0.15);
-  color:var(--cy);
-  border:1px solid rgba(0,240,255,0.3);
+  background:var(--pnl-2);
+  color:var(--t1);
+  border:1px solid var(--bd3);
 }
 .g-good{
-  background:rgba(57,255,20,0.1);
-  color:var(--gn);
-  border:1px solid rgba(57,255,20,0.2);
+  background:var(--pnl-3);
+  color:var(--t2);
+  border:1px solid var(--bd);
 }
 .g-poor{
-  background:rgba(255,68,34,0.1);
-  color:var(--fi);
-  border:1px solid rgba(255,68,34,0.2);
+  background:transparent;
+  color:var(--t3);
+  border:1px dashed var(--bd2);
 }
 
 /* ===== Difficulty dot (E/N/H) ===== */
@@ -515,21 +544,21 @@ body::before{
   font-family:'Orbitron';
 }
 .dd.ok{
-  background:rgba(57,255,20,0.15);
-  color:var(--gn);
-  border:1px solid rgba(57,255,20,0.2);
+  background:var(--t1);
+  color:var(--bg);
+  border:1px solid var(--t1);
 }
 .dd.no{
-  background:rgba(35,25,60,0.5);
+  background:transparent;
   color:var(--t3);
   border:1px solid var(--bd2);
 }
 
-/* ===== Punch bars (Right/Left) ===== */
+/* ===== Punch bars — 데이터 시각화, 색상 유지 ===== */
 .fbar{display:flex;align-items:center;gap:6px;margin:0 0 5px}
 .fbar-l{
   font-size:10px;
-  color:var(--t2);
+  color:var(--t3);
   width:34px;
   text-align:right;
   font-weight:600;
@@ -537,15 +566,17 @@ body::before{
 .fbar-t{
   flex:1;
   height:8px;
-  background:rgba(35,25,60,0.8);
+  background:var(--pnl-3);
+  border:1px solid var(--bd2);
   border-radius:2px;
   overflow:hidden;
 }
-.fbar-f{height:100%;border-radius:2px}
+.fbar-f{height:100%;border-radius:2px;background:var(--data-a)}
 .fbar-v{
   font-family:'Orbitron';
   font-size:13px;
   font-weight:700;
+  color:var(--t1);
   width:40px;
 }
 
@@ -561,18 +592,18 @@ body::before{
   font-size:11px;
   font-weight:700;
   letter-spacing:.5px;
-  border:1px solid var(--bd2);
+  border:1px solid var(--bd);
   background:transparent;
   color:var(--t3);
   cursor:pointer;
   transition:all .12s;
   clip-path:polygon(2px 0,100% 0,calc(100% - 2px) 100%,0 100%);
 }
-.ctab:hover{border-color:var(--p)}
+.ctab:hover{border-color:var(--bd3);color:var(--t2)}
 .ctab.on{
-  border-color:var(--bd);
-  color:#fff;
-  background:rgba(180,74,255,0.15);
+  border-color:var(--bd3);
+  color:var(--t1);
+  background:var(--pnl-2);
 }
 
 /* ===== Stats sub-tabs ===== */
@@ -593,7 +624,7 @@ body::before{
 .stab2:hover{color:var(--t2)}
 .stab2.on{
   color:var(--t1);
-  border-bottom-color:var(--p);
+  border-bottom-color:var(--t1);
 }
 
 /* ===== Period buttons (Fitness) ===== */
@@ -602,19 +633,19 @@ body::before{
   padding:4px 12px;
   font-size:11px;
   font-weight:700;
-  background:rgba(18,12,45,0.5);
-  border:1px solid var(--bd2);
+  background:var(--pnl-3);
+  border:1px solid var(--bd);
   color:var(--t3);
   cursor:pointer;
   transition:all .12s;
 }
 .pbtn.on{
-  background:rgba(180,74,255,0.15);
-  border-color:var(--bd);
-  color:#fff;
+  background:var(--pnl-2);
+  border-color:var(--bd3);
+  color:var(--t1);
 }
 
-/* ===== Calorie chart ===== */
+/* ===== Calorie chart — 데이터 시각화, 색상 유지 ===== */
 .cchart{
   display:flex;
   align-items:flex-end;
@@ -622,7 +653,7 @@ body::before{
   height:60px;
   padding:6px 0;
 }
-.cbar{flex:1;border-radius:2px 2px 0 0}
+.cbar{flex:1;border-radius:2px 2px 0 0;background:var(--data-c)}
 .cbar-l{
   text-align:center;
   font-size:10px;
@@ -636,11 +667,11 @@ body::before{
   align-items:center;
   gap:6px;
   padding:6px 8px;
-  border-bottom:1px solid rgba(180,74,255,0.05);
+  border-bottom:1px solid var(--bd2);
 }
 .lb-row.me{
-  background:rgba(180,74,255,0.08);
-  border-left:2px solid var(--p);
+  background:var(--pnl-2);
+  border-left:2px solid var(--bd3);
 }
 .lb-rank{
   font-family:'Orbitron';
@@ -648,22 +679,70 @@ body::before{
   font-weight:700;
   width:24px;
   text-align:center;
+  color:var(--t1);
 }
-.lb-name{flex:1;font-size:14px;font-weight:500}
+.lb-name{flex:1;font-size:14px;font-weight:500;color:var(--t1)}
 .lb-score{
   font-family:'Orbitron';
   font-size:13px;
   font-weight:700;
-  color:var(--gn);
+  color:var(--t1);
 }
 
+/* ===== 설명 블록 (.note) — 반전: 흰 배경 + 다크그레이 글씨 ===== */
 .note{
-  font-size:10px;
-  color:var(--t3);
-  padding:5px 8px;
-  background:rgba(18,12,45,0.3);
-  border-left:2px solid var(--bd2);
+  font-size:11px;
+  color:var(--note-t);
+  padding:8px 12px;
+  background:var(--note-bg);
+  border:1px solid var(--note-bd);
+  border-left:3px solid var(--note-hl);
   margin:8px 0 0;
+  line-height:1.6;
+}
+.note b,.note strong{color:var(--note-hl);font-weight:800}
+.note em{color:var(--note-t2);font-style:normal}
+.note a{color:var(--note-hl);text-decoration:underline}
+
+/* 범용 설명 블록 */
+.info-block{
+  background:var(--note-bg);
+  color:var(--note-t);
+  border:1px solid var(--note-bd);
+  border-left:4px solid var(--note-hl);
+  padding:14px 18px;
+  margin:14px 0;
+  font-size:13px;
+  line-height:1.7;
+}
+.info-block h3,.info-block h4{
+  font-family:'Orbitron';
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:var(--note-hl);
+  margin:0 0 8px;
+  text-transform:uppercase;
+}
+.info-block h3:not(:first-child),.info-block h4:not(:first-child){margin-top:14px}
+.info-block strong,.info-block b{color:var(--note-hl);font-weight:800}
+.info-block em{color:var(--note-t2);font-style:normal;font-family:'Share Tech Mono'}
+.info-block ul{list-style:none;padding:0;margin:4px 0}
+.info-block li{padding:3px 0 3px 14px;position:relative;color:var(--note-t)}
+.info-block li::before{
+  content:'▸';
+  position:absolute;
+  left:0;
+  color:var(--note-hl);
+  font-weight:700;
+}
+.info-block code{
+  font-family:'Share Tech Mono';
+  background:#f0f0f0;
+  color:var(--note-hl);
+  padding:1px 5px;
+  border-radius:2px;
+  font-size:12px;
 }
 
 /* ===== Responsive ===== */
