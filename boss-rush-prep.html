@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Punch v2.0 — Boss Rush Prep (v0.10)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+/* ===== Page layout ===== */
+body{padding:14px;background:var(--bg);font-family:'Orbitron'}
+.container{max-width:1600px;margin:0 auto}
+.back-link{
+  display:inline-block;padding:6px 12px;font-family:'Orbitron';font-size:10px;font-weight:700;
+  letter-spacing:1.5px;color:var(--t2);border:1px solid var(--bd2);text-decoration:none;
+  margin:0 0 12px;transition:all .15s;
+}
+.back-link:hover{border-color:var(--bd3);color:var(--t1)}
+
+/* ===== Stage canvas (1600 x 980) ===== */
+.stage{
+  position:relative;width:100%;max-width:1600px;aspect-ratio:1600/980;
+  background:#1a0a3a;margin:0 auto;overflow:hidden;
+}
+
+/* ===== Boss carousel (top) ===== */
+.carousel{
+  position:absolute;left:50%;top:80px;transform:translateX(-50%);
+  display:flex;align-items:center;gap:50px;
+}
+.boss-tile{
+  width:60px;height:60px;background:#1a0a3a;border:1.5px solid #7a3fd8;
+  transform:rotate(45deg);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;
+}
+.boss-tile:hover{border-color:#a070e8}
+.boss-tile.current{
+  width:76px;height:76px;background:#3a1a6a;border:2.5px solid #0fffd4;
+}
+.boss-tile-label{
+  transform:rotate(-45deg);font-family:'Orbitron';font-size:11px;font-weight:700;
+  color:#a070e8;letter-spacing:0.5px;
+}
+.boss-tile.current .boss-tile-label{font-size:12px;color:#0fffd4}
+
+/* ===== Close X (top right) ===== */
+.close-x{
+  position:absolute;top:180px;right:50px;width:60px;height:60px;
+  background:#1a0a3a;border:1.5px solid #7a3fd8;transform:rotate(45deg);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all .15s;
+}
+.close-x:hover{border-color:#a070e8}
+.close-x-icon{
+  transform:rotate(-45deg);font-family:'Orbitron';font-size:22px;
+  color:#a070e8;font-weight:700;
+}
+
+/* ===== Carousel arrows ===== */
+.carousel-arrow{
+  position:absolute;top:490px;width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-family:'Orbitron';font-size:24px;color:#7a3fd8;font-weight:300;
+  transition:color .15s;transform:translateY(-50%);
+}
+.carousel-arrow:hover{color:#a070e8}
+.carousel-arrow.prev{left:20px}
+.carousel-arrow.next{right:20px}
+
+/* ===== Diamond container shared ===== */
+.diamond{
+  position:absolute;top:490px;width:460px;height:460px;
+  transform:translateY(-50%) rotate(45deg);
+  display:flex;align-items:center;justify-content:center;
+}
+.diamond-inner{
+  transform:rotate(-45deg);width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:0 70px;text-align:center;
+}
+
+/* ===== LEFT diamond — Boss image ===== */
+.diamond-left{
+  left:55px;
+  background:linear-gradient(135deg,#3a0a5a 0%,#7a3fd8 50%,#1a0a3a 100%);
+  border:2.5px solid #0fffd4;
+}
+.boss-name{
+  font-family:'Orbitron';font-size:42px;font-weight:900;letter-spacing:5px;
+  color:#fff;margin:0 0 8px;line-height:1;
+}
+.boss-sub{
+  font-family:'Orbitron';font-size:13px;font-weight:700;letter-spacing:3.5px;
+  color:#0fffd4;margin:0 0 22px;
+}
+.boss-fire{
+  font-family:'Orbitron';font-size:15px;color:#ffd84a;letter-spacing:5px;
+}
+
+/* ===== CENTER diamond — songs ===== */
+.diamond-center{
+  left:575px;background:#3a1a6a;border:1.5px solid #a070e8;opacity:0.95;
+}
+.diamond-center .diamond-inner{padding:0 50px}
+.center-title{
+  font-family:'Orbitron';font-size:14px;font-weight:700;letter-spacing:3px;
+  color:#fff;margin:0 0 12px;
+}
+.tracks{
+  width:260px;background:#5a2db8;
+}
+.track{
+  position:relative;padding:10px 12px;border-bottom:1px solid #3a1a6a;
+}
+.track:last-child{border-bottom:none}
+.track-std{background:rgba(255,255,255,0.18)}
+.track-boss{background:rgba(217,122,31,0.25);padding-bottom:14px;padding-top:14px}
+
+.track-label{
+  font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:0.5px;
+  margin:0 0 4px;
+}
+.track-std .track-label{color:#5cb0f5}
+.track-boss .track-label{color:#f4a623}
+
+.track-name{
+  font-family:'Orbitron';font-size:12px;font-weight:700;color:#fff;
+  margin:0 0 4px;text-align:left;letter-spacing:0.3px;
+}
+
+.diff-tag{
+  display:inline-block;padding:2px 8px;font-family:'Orbitron';font-size:9px;
+  font-weight:700;color:#fff;letter-spacing:0.5px;
+}
+.diff-easy{background:#5a2db8}
+.diff-normal{background:#7a3fd8}
+.diff-hard{background:#e63cb8}
+
+.track-meta{
+  position:absolute;top:10px;right:12px;display:flex;flex-direction:column;
+  align-items:flex-end;gap:4px;
+}
+.track-time{
+  font-family:'Orbitron';font-size:11px;font-weight:700;color:#0fffd4;
+}
+.track-fire{
+  font-family:'Orbitron';font-size:10px;color:#ffd84a;letter-spacing:0.5px;
+}
+
+/* ===== RIGHT diamond — info ===== */
+.diamond-right{
+  left:1095px;background:#1a0a3a;border:1.5px solid #7a3fd8;
+}
+.diamond-right .diamond-inner{padding:0 60px}
+
+.info-section{width:200px}
+.info-section + .info-section{margin-top:10px}
+
+.info-label-top{
+  font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:3px;
+  color:#0fffd4;text-align:center;margin:0 0 4px;
+}
+
+.play-time{
+  font-family:'Orbitron';font-size:48px;font-weight:900;letter-spacing:2px;
+  color:#0fffd4;line-height:1;text-align:center;margin:0 0 10px;
+}
+
+.kcal{
+  font-family:'Orbitron';font-size:20px;font-weight:700;letter-spacing:1px;
+  color:#aaa;text-align:center;margin:0 0 12px;
+}
+.kcal strong{color:#0fffd4;font-weight:700}
+
+.info-divider{
+  width:200px;height:1px;background:#3a1a6a;margin:0 0 12px;
+}
+
+.info-title{
+  font-family:'Orbitron';font-size:14px;font-weight:700;letter-spacing:2px;
+  color:#0fffd4;text-align:left;margin:0 0 8px;
+}
+
+.info-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-family:'Orbitron';font-size:11px;font-weight:700;color:#0fffd4;
+  letter-spacing:0.3px;margin:0 0 4px;
+}
+
+/* ===== Bottom START button ===== */
+.start-btn{
+  position:absolute;left:50%;top:870px;transform:translate(-50%,-50%) rotate(45deg);
+  width:100px;height:100px;
+  background:linear-gradient(135deg,#7a3fd8 0%,#e63cb8 100%);
+  border:1px solid #fff;cursor:pointer;text-decoration:none;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .15s, box-shadow .15s;
+}
+.start-btn:hover{
+  transform:translate(-50%,-50%) rotate(45deg) scale(1.05);
+  box-shadow:0 0 32px rgba(230,60,184,0.6);
+}
+.start-btn-icon{
+  transform:rotate(-45deg);font-family:'Orbitron';font-size:42px;
+  color:#fff;font-weight:700;
+}
+
+/* ===== Notes block ===== */
+.notes{
+  max-width:1200px;margin:24px auto 0;padding:14px 18px;
+  border:1px solid var(--bd2);background:var(--pnl-3);
+}
+.notes h4{
+  font-family:'Orbitron';font-size:11px;color:var(--t2);letter-spacing:2px;
+  margin:0 0 10px;
+}
+.notes ul{
+  font-family:'Share Tech Mono';font-size:11px;color:var(--t3);
+  letter-spacing:0.3px;line-height:1.6;list-style:none;padding:0;margin:0;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back-link">❮ BACK TO LIST</a>
+
+<div class="stage">
+
+<!-- ===== Boss carousel (top) ===== -->
+<div class="carousel">
+<div class="boss-tile"><span class="boss-tile-label">B1</span></div>
+<div class="boss-tile"><span class="boss-tile-label">B2</span></div>
+<div class="boss-tile"><span class="boss-tile-label">B3</span></div>
+<div class="boss-tile"><span class="boss-tile-label">B4</span></div>
+<div class="boss-tile current"><span class="boss-tile-label">B5</span></div>
+<div class="boss-tile"><span class="boss-tile-label">B6</span></div>
+<div class="boss-tile"><span class="boss-tile-label">B7</span></div>
+<div class="boss-tile"><span class="boss-tile-label">B8</span></div>
+</div>
+
+<!-- Close X -->
+<div class="close-x"><span class="close-x-icon">×</span></div>
+
+<!-- Carousel arrows -->
+<div class="carousel-arrow prev">❮</div>
+<div class="carousel-arrow next">❯</div>
+
+<!-- ===== LEFT: Boss image diamond ===== -->
+<div class="diamond diamond-left">
+<div class="diamond-inner">
+<div class="boss-name">REAPER</div>
+<div class="boss-sub">GAUNTLET</div>
+<div class="boss-fire">🔥 🔥 🔥</div>
+</div>
+</div>
+
+<!-- ===== CENTER: Songs diamond ===== -->
+<div class="diamond diamond-center">
+<div class="diamond-inner">
+<div class="center-title">BOSS RUSH 01</div>
+<div class="tracks">
+
+<div class="track track-std">
+<div class="track-label">STD 1</div>
+<div class="track-name">SOMETHING ABOUT US</div>
+<span class="diff-tag diff-normal">NORMAL</span>
+<div class="track-meta">
+<div class="track-time">2:55</div>
+<div class="track-fire">🔥🔥</div>
+</div>
+</div>
+
+<div class="track track-std">
+<div class="track-label">STD 2</div>
+<div class="track-name">ONE MORE TIME</div>
+<span class="diff-tag diff-easy">EASY</span>
+<div class="track-meta">
+<div class="track-time">2:55</div>
+<div class="track-fire">🔥</div>
+</div>
+</div>
+
+<div class="track track-boss">
+<div class="track-label">BOSS</div>
+<div class="track-name">REAPER GAUNTLET</div>
+<div class="track-meta">
+<div class="track-time">3:20</div>
+<div class="track-fire">🔥🔥🔥</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ===== RIGHT: Info diamond ===== -->
+<div class="diamond diamond-right">
+<div class="diamond-inner">
+
+<div class="info-section">
+<div class="info-label-top">◆ PLAY TIME</div>
+<div class="play-time">~9:00</div>
+</div>
+
+<div class="info-section">
+<div class="kcal">EST. <strong>~95 kcal</strong></div>
+</div>
+
+<div class="info-divider"></div>
+
+<div class="info-section">
+<div class="info-title">BEST RECORD</div>
+<div class="info-row"><span>HIGH SCORE</span><span>487,250</span></div>
+<div class="info-row"><span>MAX COMBO</span><span>312</span></div>
+</div>
+
+<div class="info-section">
+<div class="info-title">INFORMATION</div>
+<div class="info-row"><span>ENEMIES</span><span>486</span></div>
+<div class="info-row"><span>LASER</span><span>42</span></div>
+<div class="info-row"><span>BOMB</span><span>68</span></div>
+</div>
+
+</div>
+</div>
+
+<!-- Start button -->
+<a href="boss-rush-hub1.html" class="start-btn">
+<span class="start-btn-icon">▶</span>
+</a>
+
+</div>
+
+<!-- Notes -->
+<div class="notes">
+<h4>◆ BOSS RUSH PREP — V0.10</h4>
+<ul>
+<li>· 8-boss carousel (top), B5 selected (cyan), arrows L/R for browse</li>
+<li>· LEFT diamond: stage image placeholder (purple → cyan gradient)</li>
+<li>· CENTER diamond: 3 tracks pre-set (STD 1 / STD 2 / BOSS) with difficulty tags</li>
+<li>· RIGHT diamond: PLAY TIME hero · EST. CALORIES · BEST RECORD · INFORMATION</li>
+<li>· Bottom: single START diamond (▶ icon, pink gradient)</li>
+<li>· MODIFIER not shown here — set globally via left.html before entering this screen</li>
+</ul>
+</div>
+
+</div>
+</body>
+</html>
