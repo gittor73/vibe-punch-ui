@@ -3,1229 +3,867 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — Right Panel (v10.7.1 IA)</title>
+<title>Vibe Punch v1.8 — Right Panel (v10.7.2 IA)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="common.css">
 <style>
+/* ===== Page layout ===== */
 body{padding:14px;background:var(--bg)}
 .container{max-width:920px;margin:0 auto}
-
-/* ===== Test control ===== */
-.test-ctl{
-  background:var(--pnl-3);
-  border:1px dashed var(--bd2);
-  padding:10px 12px;
-  margin:0 0 12px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.test-ctl-label{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t3);
-}
-.test-ctl-btns{display:flex;gap:4px}
-.test-btn{
-  padding:6px 14px;
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:0.5px;
-  background:var(--pnl);
-  border:1px solid var(--bd);
-  color:var(--t3);
-  cursor:pointer;
-  transition:all .15s;
-  clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);
-}
-.test-btn:hover{border-color:var(--bd3);color:var(--t2)}
-.test-btn.on{
-  background:var(--pnl-2);
-  border-color:var(--bd3);
-  color:var(--t1);
-}
-.test-ctl-note{
-  margin-left:auto;
-  font-size:11px;
-  color:var(--t3);
-  font-family:'Share Tech Mono';
-}
-
-/* ===== Layout ===== */
-.right-panel{
-  max-width:520px;
-  margin:0 auto;
-}
-
-/* ===== HOME dashboard sections ===== */
-.home-sec{
-  background:var(--pnl-3);
-  border:1px solid var(--bd);
-  padding:12px 14px;
-  margin:0 0 10px;
-}
-.home-sec-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:baseline;
-  margin:0 0 8px;
-}
-.home-sec-title{
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t3);
-  text-transform:uppercase;
-}
-.home-sec-more{
-  font-size:11px;
-  color:var(--t2);
-  cursor:pointer;
-  font-family:'Share Tech Mono';
-}
-.home-sec-more:hover{color:var(--t1)}
-
-/* Streak */
-.streak-main{
-  display:flex;
-  align-items:baseline;
-  gap:8px;
-  margin:0 0 8px;
-}
-.streak-num{
-  font-family:'Orbitron';
-  font-size:32px;
-  font-weight:800;
-  color:var(--t1);
-  line-height:1;
-}
-.streak-unit{font-size:12px;color:var(--t2)}
-.streak-check{
-  margin-left:auto;
-  font-size:11px;
-  color:var(--data-b);
-  font-weight:700;
-}
-.streak-bar{
-  display:flex;
-  gap:3px;
-  height:6px;
-}
-.streak-dot{flex:1;background:var(--pnl);border-radius:2px}
-.streak-dot.done{background:var(--data-b)}
-
-/* FIST · Rank */
-.fist-rank-row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-.fist-icon{
-  width:44px;
-  height:44px;
-  background:linear-gradient(135deg,var(--fire-hi),var(--fire));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:800;
-  color:#000;
-  letter-spacing:0.5px;
-}
-.fist-rank-info{flex:1;min-width:0}
-.fist-rank-title{
-  font-size:14px;
-  font-weight:600;
-  color:var(--t1);
-  margin:0 0 2px;
-}
-.fist-rank-sub{
-  font-size:11px;
-  color:var(--t3);
-  font-family:'Share Tech Mono';
-}
-
-/* Weekly Activity */
-.activity-row{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
-}
-.activity-item{text-align:center}
-.activity-val{
-  font-family:'Orbitron';
-  font-size:18px;
-  font-weight:700;
-  color:var(--t1);
-  line-height:1.2;
-}
-.activity-label{
-  font-size:10px;
-  color:var(--t3);
-  margin:2px 0 0;
-  letter-spacing:0.5px;
-}
-
-/* Next Badges */
-.badge-mini-row{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-}
-.badge-mini{
-  background:var(--pnl);
-  border:1px solid var(--bd2);
-  padding:8px 6px;
-  text-align:center;
-  cursor:pointer;
-  transition:all .15s;
-}
-.badge-mini:hover{border-color:var(--bd3)}
-.badge-mini-art{
-  width:100%;
-  aspect-ratio:3/4;
-  background:var(--pnl-2);
-  border:1px solid var(--bd2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Orbitron';
-  font-size:8px;
-  color:var(--t3);
-  letter-spacing:0.5px;
-  margin:0 0 4px;
-  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
-}
-.badge-mini-name{
-  font-size:10px;
-  color:var(--t2);
-  margin:0 0 2px;
-  font-weight:600;
-}
-.badge-mini-prog{
-  font-size:10px;
-  color:var(--data-a);
-  font-family:'Share Tech Mono';
-  font-weight:700;
-}
-
-/* ===== MY SCORE & LEADERBOARD shared board style ===== */
-.score-board{
-  background:var(--pnl);
-  border:2px solid var(--bd);
-  padding:20px 24px;
-  clip-path:polygon(24px 0,calc(100% - 24px) 0,100% 24px,100% calc(100% - 24px),calc(100% - 24px) 100%,24px 100%,0 calc(100% - 24px),0 24px);
-}
-.score-board-head{
-  text-align:center;
-  margin:0 0 16px;
-}
-.score-icon{
-  display:inline-block;
-  font-family:'Orbitron';
-  font-size:14px;
-  color:var(--t3);
-  margin:0 0 4px;
-}
-.score-title{
-  font-family:'Orbitron';
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:2px;
-  color:var(--t1);
-  margin:0 0 4px;
-}
-.score-sub{
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:3px;
-  color:var(--t3);
-}
-
-/* Table */
-.sb-table{width:100%;border-collapse:collapse}
-.sb-table thead tr{border-bottom:1px solid var(--bd2)}
-.sb-table th{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--t2);
-  padding:8px 4px;
-  text-align:left;
-}
-.sb-table th.num{width:48px}
-.sb-table th.score{width:110px;text-align:right}
-.sb-table td{
-  padding:10px 4px;
-  border-bottom:1px solid var(--bd2);
-}
-.sb-table td.num{
-  font-family:'Orbitron';
-  font-size:13px;
-  font-weight:700;
-  color:var(--t3);
-}
-.sb-table td.title{
-  font-family:'Orbitron';
-  font-size:12px;
-  font-weight:600;
-  color:var(--t1);
-  letter-spacing:0.5px;
-}
-.sb-table td.score{
-  font-family:'Share Tech Mono';
-  font-size:14px;
-  font-weight:700;
-  color:var(--data-b);
-  text-align:right;
-  letter-spacing:0.5px;
-}
-.sb-table tr.me td{
-  background:var(--pnl-2);
-}
-.sb-table tr.me td.num{color:var(--t1)}
-.sb-table tr.me td.title{color:var(--t1)}
-
-/* Difficulty tabs (reuse .dtabs from common.css but override spacing) */
-.sb-dtabs{
-  display:flex;
-  gap:0;
-  margin:0 0 12px;
-  border:1px solid var(--bd);
-}
-.sb-dtab{
-  flex:1;
-  padding:10px;
-  text-align:center;
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:2px;
-  background:transparent;
-  border:none;
-  cursor:pointer;
-  transition:all .15s;
-  color:var(--t3);
-}
-.sb-dtab:not(:last-child){border-right:1px solid var(--bd)}
-.sb-dtab:hover{color:var(--t2)}
-.sb-dtab.on{
-  background:var(--pnl-2);
-  color:var(--t1);
-}
-
-/* ===== Drill-down view ===== */
-.drill-view{display:none}
-.drill-view.on{display:block;animation:su .3s ease-out}
-.drill-head{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:0 0 14px;
-  padding:0 0 10px;
-  border-bottom:1px solid var(--bd2);
-}
-.back-btn{
-  padding:6px 12px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  background:var(--pnl-3);
-  border:1px solid var(--bd);
-  color:var(--t2);
-  cursor:pointer;
-  transition:all .15s;
-}
-.back-btn:hover{border-color:var(--bd3);color:var(--t1)}
-.drill-title{
-  font-family:'Orbitron';
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--t1);
-}
-
-/* ===== Drill: FIST Journey ===== */
-.fist-main{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  padding:12px;
-  background:var(--pnl-3);
-  border:1px solid var(--bd);
-  margin:0 0 12px;
-}
-.fist-main-icon{
-  width:64px;
-  height:64px;
-  background:linear-gradient(135deg,var(--fire-hi),var(--fire));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:900;
-  color:#000;
-  letter-spacing:1px;
-}
-.fist-main-info{flex:1;min-width:0}
-.fist-main-name{
-  font-family:'Orbitron';
-  font-size:16px;
-  font-weight:800;
-  color:var(--t1);
-  margin:0 0 2px;
-  letter-spacing:1px;
-}
-.fist-main-eff{
-  font-size:12px;
-  color:var(--fire-hi);
-  margin:0 0 4px;
-  font-weight:600;
-}
-.fist-main-stage{
-  font-size:11px;
-  color:var(--t3);
-  font-family:'Share Tech Mono';
-}
-
-.fist-list{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:6px;
-  margin:0 0 14px;
-}
-.fist-card{
-  background:var(--pnl-3);
-  border:1px solid var(--bd2);
-  padding:10px;
-  text-align:center;
-  cursor:pointer;
-  transition:all .15s;
-}
-.fist-card:hover{border-color:var(--bd3)}
-.fist-card.on{border-color:var(--fire-hi);background:var(--pnl-2)}
-.fist-card-icon{
-  width:40px;
-  height:40px;
-  margin:0 auto 6px;
-  background:var(--pnl);
-  border:1px solid var(--bd2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:800;
-  color:var(--t2);
-}
-.fist-card.on .fist-card-icon{
-  background:linear-gradient(135deg,var(--fire-hi),var(--fire));
-  color:#000;
-}
-.fist-card-name{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1px;
-  color:var(--t1);
-  margin:0 0 2px;
-}
-.fist-card-meta{font-size:9px;color:var(--t3)}
-
-/* Effect stages */
-.eff-list{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:4px;
-  margin:0 0 14px;
-}
-.eff-item{
-  aspect-ratio:1;
-  background:var(--pnl-3);
-  border:1px solid var(--bd2);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:4px;
-}
-.eff-item.earned{border-color:var(--fire-hi);background:var(--pnl-2)}
-.eff-item.current{border-color:var(--fire-hi);background:var(--fire-lo)}
-.eff-stage{
-  font-family:'Orbitron';
-  font-size:14px;
-  font-weight:900;
-  color:var(--t3);
-  line-height:1;
-}
-.eff-item.earned .eff-stage,.eff-item.current .eff-stage{color:var(--fire-hi)}
-.eff-name{
-  font-size:7px;
-  color:var(--t3);
-  text-align:center;
-  margin:3px 0 0;
-  font-family:'Orbitron';
-  letter-spacing:0.5px;
-}
-.eff-item.earned .eff-name,.eff-item.current .eff-name{color:var(--t2)}
-
-/* Rank */
-.rank-box{
-  padding:14px;
-  background:var(--pnl-3);
-  border:1px solid var(--bd);
-  margin:0 0 10px;
-}
-.rank-current{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:0 0 10px;
-}
-.rank-circle{
-  width:50px;
-  height:50px;
-  border:2px solid var(--fire-hi);
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Orbitron';
-  font-size:20px;
-  font-weight:900;
-  color:var(--fire-hi);
-}
-.rank-info{flex:1}
-.rank-name{
-  font-family:'Orbitron';
-  font-size:14px;
-  font-weight:800;
-  letter-spacing:1px;
-  color:var(--t1);
-}
-.rank-stars{font-size:12px;color:var(--fire-hi);margin:2px 0}
-.rank-xp{
-  font-size:11px;
-  color:var(--t3);
-  font-family:'Share Tech Mono';
-}
-
-.rank-ladder{
-  display:flex;
-  gap:2px;
-  height:16px;
-  margin:0 0 6px;
-}
-.rank-step{flex:1;background:var(--pnl);border:1px solid var(--bd2)}
-.rank-step.done{background:var(--pnl-2);border-color:var(--bd)}
-.rank-step.current{background:var(--fire-hi);border-color:var(--fire-hi)}
-
-/* ===== Drill: Fitness ===== */
-.fit-period{display:flex;gap:4px;margin:0 0 12px}
-.fit-period-btn{
-  flex:1;
-  padding:6px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1px;
-  background:var(--pnl-3);
-  border:1px solid var(--bd);
-  color:var(--t3);
-  cursor:pointer;
-}
-.fit-period-btn.on{background:var(--pnl-2);border-color:var(--bd3);color:var(--t1)}
-
-.fit-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 12px}
-.fit-chart-box{
-  background:var(--pnl-3);
-  border:1px solid var(--bd);
-  padding:10px;
-  margin:0 0 10px;
-}
-.fit-chart-title{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t2);
-  margin:0 0 8px;
-}
-.fit-chart{
-  display:flex;
-  align-items:flex-end;
-  gap:4px;
-  height:80px;
-}
-.fit-bar{
-  flex:1;
-  background:var(--data-c);
-  border-radius:2px 2px 0 0;
-  min-height:4px;
-  position:relative;
-}
-.fit-bar-label{
-  position:absolute;
-  bottom:-16px;
-  left:0;
-  right:0;
-  text-align:center;
-  font-size:9px;
-  color:var(--t3);
-}
-.fit-chart-row{
-  display:flex;
-  gap:4px;
-  align-items:flex-end;
-  padding:0 0 20px;
-}
-
-/* Punch */
-.punch-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin:0 0 6px;
-}
-.punch-lbl{
-  font-size:11px;
-  color:var(--t3);
-  width:54px;
-  text-align:right;
-  font-weight:600;
-}
-.punch-bar-track{
-  flex:1;
-  height:10px;
-  background:var(--pnl);
-  border:1px solid var(--bd2);
-  border-radius:2px;
-  overflow:hidden;
-}
-.punch-bar-fill{height:100%;background:var(--data-a)}
-.punch-val{
-  font-family:'Orbitron';
-  font-size:12px;
-  font-weight:700;
-  color:var(--t1);
-  width:44px;
-  text-align:right;
-}
-
-/* ===== Drill: BADGES ===== */
-.bdg-cats{display:flex;gap:3px;margin:0 0 12px;flex-wrap:wrap}
-.bdg-cat{
-  padding:5px 10px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1px;
-  background:transparent;
-  border:1px solid var(--bd);
-  color:var(--t3);
-  cursor:pointer;
-}
-.bdg-cat.on{background:var(--pnl-2);border-color:var(--bd3);color:var(--t1)}
-
-.bdg-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-}
-.bdg{
-  background:var(--pnl-3);
-  border:1px solid var(--bd2);
-  padding:10px 6px;
-  text-align:center;
-}
-.bdg.earned{border-color:var(--bd3)}
-.bdg.locked{opacity:0.45}
-.bdg-art{
-  width:56px;
-  height:72px;
-  margin:0 auto 6px;
-  background:var(--pnl-2);
-  border:1px solid var(--bd2);
-  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:'Orbitron';
-  font-size:8px;
-  color:var(--t3);
-  letter-spacing:0.5px;
-}
-.bdg.earned .bdg-art{
-  background:linear-gradient(135deg,var(--fire-lo),var(--fire-hi));
-  color:#000;
-}
-.bdg-name{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  color:var(--t1);
-  letter-spacing:0.5px;
-  margin:0 0 2px;
-}
-.bdg-meta{font-size:9px;color:var(--t3)}
-
-/* ===== Drill: S1 summary link ===== */
-.s1-link{
-  display:block;
-  padding:16px;
-  text-align:center;
-  background:var(--pnl-3);
-  border:1px dashed var(--bd);
-  color:var(--t2);
-  text-decoration:none;
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  transition:all .15s;
-}
-.s1-link:hover{border-color:var(--bd3);color:var(--t1)}
-
-/* ===== Hidden default ===== */
-.hidden{display:none !important}
-
-/* Back to list */
 .back-link{
-  display:inline-block;
-  padding:6px 12px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t2);
-  border:1px solid var(--bd2);
-  text-decoration:none;
-  margin:0 0 12px;
-  transition:all .15s;
+  display:inline-block;padding:6px 12px;font-family:'Orbitron';font-size:10px;font-weight:700;
+  letter-spacing:1.5px;color:var(--t2);border:1px solid var(--bd2);text-decoration:none;
+  margin:0 0 12px;transition:all .15s;
 }
 .back-link:hover{border-color:var(--bd3);color:var(--t1)}
 
+/* ===== Test control (Screen A/B/C mode switcher) ===== */
+.test-ctl{
+  background:var(--pnl-3);border:1px dashed var(--bd2);padding:10px 12px;margin:0 0 16px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.test-ctl-label{font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--t3)}
+.test-ctl-btns{display:flex;gap:4px}
+.test-btn{
+  padding:6px 14px;font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:0.5px;
+  background:var(--pnl);border:1px solid var(--bd);color:var(--t3);cursor:pointer;transition:all .15s;
+  clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);
+}
+.test-btn:hover{border-color:var(--bd3);color:var(--t2)}
+.test-btn.on{background:var(--pnl-2);border-color:var(--bd3);color:var(--t1)}
+.test-ctl-note{margin-left:auto;font-size:11px;color:var(--t3);font-family:'Share Tech Mono'}
+
+/* ===== Right panel wrapper (2:1 rectangle = 800x400 ratio) ===== */
+.right-panel-wrap{max-width:800px;margin:0 auto}
+
+/* Tab bar — centered above panel */
+.rtabs-wrap{display:flex;justify-content:center;gap:4px;margin:0 0 8px;flex-wrap:wrap}
+.rtab{
+  padding:9px 28px;font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:2px;
+  background:var(--pnl);border:1px solid var(--bd);color:var(--t3);cursor:pointer;transition:all .15s;
+  min-width:120px;text-align:center;
+}
+.rtab:hover{color:var(--t2);border-color:var(--bd3)}
+.rtab.on{background:var(--pnl-2);color:var(--t1);border-color:var(--bd3)}
+
+/* Panel body — 2:1 rectangle */
+.panel{
+  background:var(--pnl);border:1.5px solid var(--bd3);padding:18px 20px;
+  aspect-ratio:2/1;min-height:420px;position:relative;overflow:hidden;
+}
+
+/* ===== Common drill header ===== */
+.drill-head{
+  display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:0 0 10px;
+  border-bottom:1px solid var(--bd2);
+}
+.back-btn{
+  padding:6px 12px;font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1.5px;
+  background:var(--pnl-3);border:1px solid var(--bd);color:var(--t2);cursor:pointer;transition:all .15s;
+}
+.back-btn:hover{border-color:var(--bd3);color:var(--t1)}
+.drill-title{font-family:'Orbitron';font-size:13px;font-weight:700;letter-spacing:2px;color:var(--t1)}
+.drill-meta{margin-left:auto;font-size:10px;color:var(--t3);font-family:'Share Tech Mono';letter-spacing:1px}
+.drill-meta strong{color:var(--t1)}
+.drill-meta .fire{color:var(--fire-hi)}
+
+/* ===== HOME 2x2 grid ===== */
+.dash-grid{
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+  gap:12px;height:calc(100% - 0px);
+}
+.dash-cell{
+  background:var(--pnl-3);border:1px solid var(--bd);padding:14px 16px;display:flex;flex-direction:column;
+  position:relative;
+}
+.dash-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 10px}
+.dash-title{font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:2px;color:var(--t3);text-transform:uppercase}
+.dash-link{font-size:10px;color:var(--t2);font-family:'Share Tech Mono';letter-spacing:1px;cursor:pointer;transition:color .15s}
+.dash-link:hover{color:var(--t1)}
+
+/* Section 1: Weekly Streak */
+.streak-main{display:flex;align-items:baseline;gap:10px;margin:0 0 14px}
+.streak-num{font-family:'Orbitron';font-size:36px;font-weight:800;color:var(--t1);line-height:1}
+.streak-unit{font-size:11px;color:var(--t2);letter-spacing:1px}
+.streak-check{
+  margin-left:auto;font-size:9px;color:var(--data-b);font-weight:700;letter-spacing:1px;
+  padding:4px 10px;background:rgba(58,122,184,0.12);border:1px solid var(--data-b);
+}
+.streak-bar{display:flex;gap:3px;height:6px;margin:0 0 8px}
+.streak-dot{flex:1;background:var(--pnl);border-radius:1px}
+.streak-dot.done{background:var(--data-b)}
+.streak-days{font-size:9px;color:var(--t3);letter-spacing:0.5px;font-family:'Share Tech Mono';margin:0 0 4px}
+.streak-next{font-size:9px;color:var(--t3);letter-spacing:0.5px;font-family:'Share Tech Mono';margin-top:auto}
+
+/* Section 2: This Week (3 stats) */
+.activity-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;align-items:center;flex:1}
+.activity-item{text-align:center;padding:0 6px;border-right:1px solid var(--bd2)}
+.activity-item:last-child{border-right:none}
+.activity-val{font-family:'Orbitron';font-size:28px;font-weight:800;color:var(--t1);line-height:1.1}
+.activity-label{font-size:9px;color:var(--t3);margin:6px 0 2px;letter-spacing:1.5px;font-weight:700}
+.activity-sub{font-size:9px;color:var(--t3);font-family:'Share Tech Mono'}
+
+/* Section 3: FIST · Rank */
+.fist-rank-row{display:flex;gap:12px;align-items:center;margin:0 0 12px}
+.fist-icon{
+  width:54px;height:54px;
+  background:linear-gradient(135deg,var(--fire-hi),var(--fire));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Orbitron';font-size:9px;font-weight:800;color:#000;letter-spacing:0.5px;
+  flex-shrink:0;
+}
+.fist-rank-info{flex:1;min-width:0}
+.fist-name{font-size:13px;color:var(--fire-hi);font-weight:700;font-family:'Orbitron';letter-spacing:1px;margin:0 0 4px}
+.rank-name-line{font-size:14px;color:var(--t1);font-weight:700;font-family:'Orbitron';letter-spacing:1px}
+.xp-line{font-size:9px;color:var(--t3);font-family:'Share Tech Mono';margin:8px 0 4px;letter-spacing:0.5px}
+.xp-bar{height:6px;background:var(--pnl);border:1px solid var(--bd2);overflow:hidden}
+.xp-fill{height:100%;background:var(--t2)}
+.rank-next{font-size:9px;color:var(--t3);font-family:'Share Tech Mono';margin-top:6px;letter-spacing:0.5px}
+
+/* Section 4: Next Badges (3 mini cards) */
+.bdg-mini-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;flex:1}
+.bdg-mini{
+  background:var(--pnl);border:1px solid var(--bd2);padding:8px 4px;text-align:center;
+  cursor:pointer;transition:border-color .15s;display:flex;flex-direction:column;justify-content:center;
+}
+.bdg-mini:hover{border-color:var(--bd3)}
+.bdg-mini-art{
+  width:40px;height:46px;margin:0 auto 6px;
+  background:var(--pnl-2);border:1px solid var(--bd2);
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron';font-size:7px;color:var(--t3);letter-spacing:0.5px;font-weight:700;
+}
+.bdg-mini.in-progress .bdg-mini-art{
+  background:linear-gradient(135deg,var(--fire-lo),var(--fire));border-color:var(--fire-hi);color:#000;
+}
+.bdg-mini-name{font-size:9px;color:var(--t1);margin:0 0 3px;font-weight:700;font-family:'Orbitron';letter-spacing:0.3px}
+.bdg-mini-prog{font-size:9px;color:var(--fire-hi);font-family:'Share Tech Mono';font-weight:700}
+
+/* ===== Drill: STREAK 24 milestones (8x3 grid) ===== */
+.ms-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.ms-cell{
+  aspect-ratio:1/1.05;background:var(--pnl-3);border:1px solid var(--bd2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px;
+}
+.ms-cell.eff{border-color:var(--fire-hi);background:rgba(217,122,31,0.08)}
+.ms-cell.eff.earned{background:rgba(217,122,31,0.2)}
+.ms-cell.eff.current{border-width:2px;background:rgba(244,166,35,0.25)}
+.ms-cell.eff.locked{border-color:rgba(122,80,32,0.6);border-style:dashed;background:rgba(20,12,8,0.5)}
+.ms-cell.bdg{border-style:dashed;border-color:var(--bd2)}
+.ms-week{font-family:'Orbitron';font-size:8px;font-weight:700;color:var(--t3);letter-spacing:0.3px;margin:0 0 2px}
+.ms-cell.eff.current .ms-week{color:var(--t1)}
+.ms-num{font-family:'Orbitron';font-size:18px;font-weight:900;color:var(--fire-hi);line-height:1;margin:1px 0}
+.ms-cell.eff.locked .ms-num{color:rgba(122,80,32,0.8)}
+.ms-name{font-family:'Orbitron';font-size:7px;font-weight:700;color:var(--fire-hi);letter-spacing:0.3px;text-align:center;margin:2px 0 0}
+.ms-cell.eff.locked .ms-name{color:rgba(122,80,32,0.8)}
+.ms-cell.bdg .ms-name{color:var(--t2)}
+.ms-bdgicon{
+  width:24px;height:30px;margin:2px 0 1px;
+  background:var(--pnl-2);border:1px solid var(--bd2);
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+}
+.ms-state{font-family:'Orbitron';font-size:6.5px;color:var(--t3);letter-spacing:0.3px;margin:1px 0 0}
+.ms-cell.eff.current .ms-state{color:var(--fire-hi);font-weight:700}
+
+/* ===== Drill: RANK 23 cells (8x3 grid, last empty) ===== */
+.rank-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.rank-cell{
+  aspect-ratio:1/1.05;background:var(--pnl-2);border:1px solid var(--t3);
+  display:flex;flex-direction:column;padding:6px;position:relative;
+}
+.rank-cell.future{background:var(--pnl-3);border-color:var(--bd2);border-style:dashed}
+.rank-cell.current{background:rgba(217,122,31,0.2);border-color:var(--fire-hi);border-width:2px}
+.rank-cell.special{
+  background:rgba(217,122,31,0.1);border-color:var(--fire-hi);border-style:dashed;border-width:1.2px;
+}
+.rank-cell.empty{background:transparent;border:0.5px dashed rgba(80,80,80,0.4)}
+.rank-num{font-family:'Orbitron';font-size:13px;font-weight:800;color:var(--t3);letter-spacing:0.3px}
+.rank-cell.current .rank-num{color:var(--fire-hi)}
+.rank-cell.future .rank-num{color:var(--t3);opacity:0.6}
+.rank-cell.special .rank-num{font-size:15px;color:var(--fire-hi)}
+.rank-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.rank-title-c{font-family:'Orbitron';font-size:10px;font-weight:700;color:var(--t1);letter-spacing:0.4px;margin:0 0 2px}
+.rank-cell.future .rank-title-c{color:var(--t3)}
+.rank-cell.special .rank-title-c{color:var(--fire-hi);letter-spacing:1px}
+.rank-stars{font-size:11px;color:var(--t1);margin:0 0 4px;line-height:1}
+.rank-cell.current .rank-stars{color:var(--fire-hi);font-weight:700}
+.rank-cell.future .rank-stars{color:var(--t3)}
+.rank-xp-c{font-family:'Share Tech Mono';font-size:9px;color:var(--t3);font-weight:700}
+.rank-cell.current .rank-xp-c{color:var(--fire-hi);font-weight:700}
+.rank-cell.special .rank-xp-c{color:var(--fire-hi)}
+.rank-cell.future .rank-xp-c{opacity:0.6}
+.rank-current-tag{font-family:'Orbitron';font-size:7px;color:var(--fire-hi);letter-spacing:0.5px;font-weight:700;margin-top:2px}
+
+/* COMMANDER text fix (long word) */
+.rank-title-c.sm{font-size:8.5px}
+
+/* ===== Drill: FITNESS ===== */
+.fit-period-bar{display:flex;gap:4px;margin-left:auto}
+.fit-period{
+  padding:6px 18px;font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1px;
+  background:var(--pnl);border:1px solid var(--bd);color:var(--t3);cursor:pointer;transition:all .15s;
+}
+.fit-period:hover{color:var(--t2);border-color:var(--bd3)}
+.fit-period.on{background:var(--pnl-2);border-color:var(--bd3);color:var(--t1)}
+
+.fit-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:0 0 12px}
+.fit-stat-card{background:var(--pnl-3);border:1px solid var(--bd);padding:10px 14px}
+.fit-stat-label{font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:2px;color:var(--t3);margin:0 0 6px}
+.fit-stat-val{font-family:'Orbitron';font-size:24px;font-weight:800;color:var(--t1);line-height:1}
+.fit-stat-unit{font-size:10px;color:var(--t3);margin-left:4px}
+.fit-stat-sub{font-size:9px;color:var(--t3);font-family:'Share Tech Mono';margin-top:4px;letter-spacing:0.3px}
+
+.fit-row-2{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+
+/* Calorie chart */
+.fit-chart-box{background:var(--pnl-3);border:1px solid var(--bd);padding:10px 14px}
+.fit-chart-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 8px}
+.fit-chart-title{font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--t3)}
+.fit-chart-peak{font-size:9px;color:var(--t3);font-family:'Share Tech Mono'}
+.fit-chart-trend{font-size:9px;color:var(--data-b);font-family:'Share Tech Mono';font-weight:700}
+.fit-bars-row{display:flex;align-items:flex-end;gap:6px;height:108px;border-bottom:1px solid var(--bd2)}
+.fit-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;position:relative}
+.fit-bar{width:100%;background:#5a5a5a;min-height:2px;position:relative}
+.fit-bar.peak{background:#bbbbbb}
+.fit-bar.high{background:#7a7a7a}
+.fit-bar.mid{background:#6a6a6a}
+.fit-bar-val{position:absolute;top:-14px;left:0;right:0;text-align:center;font-family:'Share Tech Mono';font-size:8px;color:var(--t3)}
+.fit-bar.peak .fit-bar-val{color:var(--t1);font-weight:700}
+.fit-bar-x{font-family:'Share Tech Mono';font-size:9px;color:var(--t3);margin-top:6px;letter-spacing:0.3px}
+.fit-bar-col.peak .fit-bar-x{color:var(--t1);font-weight:700}
+
+/* Punch balance */
+.punch-row{display:flex;align-items:center;gap:8px;margin:0 0 8px}
+.punch-lbl{font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:0.5px;color:var(--t3);width:60px;text-align:left}
+.punch-lbl.power{color:var(--fire-hi)}
+.punch-track{flex:1;height:8px;background:var(--pnl);border:1px solid var(--bd2);overflow:hidden}
+.punch-fill{height:100%;background:#7a7a7a}
+.punch-fill.power{background:var(--fire)}
+.punch-val{font-family:'Orbitron';font-size:11px;font-weight:700;color:var(--t1);width:36px;text-align:right}
+.punch-val.power{color:var(--fire-hi)}
+.combat-line{
+  margin-top:10px;padding-top:8px;border-top:1px solid var(--bd2);
+  font-size:9px;color:var(--t3);font-family:'Share Tech Mono';letter-spacing:0.5px;
+}
+.combat-line strong{color:var(--t1)}
+.punch-meta{font-size:8px;color:var(--t3);font-family:'Share Tech Mono';margin-left:auto}
+
+/* ===== Drill: BADGES (50, 6 cols, scrollable) ===== */
+.bdg-cats{display:flex;gap:4px;margin:0 0 12px;flex-wrap:wrap}
+.bdg-cat{
+  padding:6px 14px;font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1px;
+  background:var(--pnl);border:1px solid var(--bd);color:var(--t3);cursor:pointer;transition:all .15s;
+}
+.bdg-cat:hover{color:var(--t2);border-color:var(--bd3)}
+.bdg-cat.on{background:var(--pnl-2);border-color:var(--bd3);color:var(--t1)}
+
+.bdg-scroll{
+  max-height:300px;overflow-y:auto;padding-right:4px;
+  scrollbar-width:thin;scrollbar-color:var(--bd3) var(--pnl);
+}
+.bdg-scroll::-webkit-scrollbar{width:6px}
+.bdg-scroll::-webkit-scrollbar-track{background:var(--pnl)}
+.bdg-scroll::-webkit-scrollbar-thumb{background:var(--bd3);border-radius:3px}
+
+.bdg-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.bdg-card{
+  background:var(--pnl-3);border:1px solid var(--bd2);padding:10px 4px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  cursor:pointer;transition:border-color .15s;
+}
+.bdg-card.earned{background:rgba(217,122,31,0.15);border-color:var(--fire-hi)}
+.bdg-card.in-progress{border-color:var(--bd3)}
+.bdg-card.locked{border-style:dashed;opacity:0.7}
+.bdg-card:hover{border-color:var(--bd3)}
+.bdg-card-art{
+  width:54px;height:60px;margin:0 0 8px;
+  background:var(--pnl-2);border:1px solid var(--bd2);
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron';font-size:8px;color:var(--t3);font-weight:700;letter-spacing:0.3px;
+}
+.bdg-card.earned .bdg-card-art{
+  background:linear-gradient(135deg,var(--fire-lo),var(--fire));border-color:var(--fire-hi);color:#000;
+}
+.bdg-card-name{font-family:'Orbitron';font-size:9px;font-weight:700;color:var(--t1);letter-spacing:0.3px;margin:0 0 4px}
+.bdg-card.locked .bdg-card-name{color:var(--t2)}
+.bdg-card-status{font-family:'Share Tech Mono';font-size:9px;color:var(--t3);letter-spacing:0.3px;font-weight:700}
+.bdg-card.earned .bdg-card-status{color:var(--fire-hi)}
+
+/* ===== Boss MY SCORE (Scoreboard-Album style, purple frame) ===== */
+.bms-board{
+  background:#0a0220;border:1.5px solid #5a2db8;padding:24px 30px;
+  clip-path:polygon(40px 0,calc(100% - 40px) 0,100% 50%,calc(100% - 40px) 100%,40px 100%,0 50%);
+  min-height:380px;
+}
+.bms-head{text-align:center;margin:0 0 18px}
+.bms-icon{display:inline-flex;gap:2px;align-items:flex-end;height:14px;margin:0 0 6px}
+.bms-icon i{display:block;width:3px;background:#7a3fd8}
+.bms-icon i:nth-child(1){height:10px}
+.bms-icon i:nth-child(2){height:14px}
+.bms-icon i:nth-child(3){height:8px}
+.bms-icon i:nth-child(4){height:12px}
+.bms-title{font-family:'Orbitron';font-size:22px;font-weight:900;letter-spacing:3px;color:#7a3fd8;margin:4px 0}
+.bms-sub{font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:4px;color:#a070e8}
+.bms-table{width:100%;border-collapse:collapse;margin:18px 0 0}
+.bms-table th{
+  font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:2px;color:#a070e8;
+  padding:8px 12px;text-align:left;
+}
+.bms-table th.score{text-align:right}
+.bms-table td{padding:14px 12px;font-family:'Orbitron';font-weight:700;letter-spacing:0.5px}
+.bms-table tr:nth-child(even) td{background:rgba(26,10,58,0.5)}
+.bms-table tr:nth-child(odd) td{background:rgba(26,10,58,0.25)}
+.bms-table td.num{font-size:13px;color:#fff;width:80px}
+.bms-table td.title{font-size:13px;color:#fff;letter-spacing:1px}
+.bms-table td.score{font-family:'Share Tech Mono';font-size:14px;color:#0fffd4;text-align:right;font-weight:700}
+.bms-footer{text-align:center;font-size:10px;color:#5a3da0;font-style:italic;letter-spacing:1px;margin:14px 0 0}
+
+/* ===== Tab content visibility ===== */
+.tab-content{display:none}
+.tab-content.on{display:block;animation:fadeIn .25s ease-out}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Drill view visibility */
+.drill-view{display:none}
+.drill-view.on{display:block;animation:fadeIn .25s ease-out}
+.dash-main.hidden{display:none}
+
+/* ===== Hide default ===== */
+.hidden{display:none !important}
 </style>
 </head>
 <body>
-
 <div class="container">
 <a href="index.html" class="back-link">❮ BACK TO LIST</a>
 
-<!-- Test controls -->
+<!-- ===== Test controls (Screen A/B/C mode switcher) ===== -->
 <div class="test-ctl">
-  <span class="test-ctl-label">◆ SCREEN MODE</span>
-  <div class="test-ctl-btns">
-    <button class="test-btn on" data-mode="A">A · 앨범 선택</button>
-    <button class="test-btn" data-mode="B">B · 곡 선택</button>
-    <button class="test-btn" data-mode="C">C · 보스모드</button>
-  </div>
-  <span class="test-ctl-note" id="modeNote">스탠다드 · 앨범 선택 화면</span>
+<span class="test-ctl-label">◆ SCREEN MODE</span>
+<div class="test-ctl-btns">
+<button class="test-btn on" data-mode="A">A · STD ALBUM</button>
+<button class="test-btn" data-mode="B">B · STD SONG</button>
+<button class="test-btn" data-mode="C">C · BOSS MODE</button>
+</div>
+<span class="test-ctl-note" id="modeNote">Standard · album select · default HOME</span>
 </div>
 
-<div class="right-panel">
+<div class="right-panel-wrap">
 
-  <!-- ===== Tabs (dynamic) ===== -->
-  <div class="rtabs" id="tabs"></div>
+<!-- ===== Tab bar (centered above panel, dynamic) ===== -->
+<div class="rtabs-wrap" id="tabs">
+<!-- Filled by JS based on screen mode -->
+</div>
 
-  <!-- ===== HOME tab ===== -->
-  <div class="rp" id="pHome">
+<!-- ===== Panel body ===== -->
+<div class="panel">
 
-    <!-- Main dashboard -->
-    <div class="dash-main" id="dashMain">
+<!-- =================== TAB: HOME =================== -->
+<div class="tab-content on" data-tab="HOME">
 
-      <!-- Weekly Streak -->
-      <div class="home-sec">
-        <div class="home-sec-head">
-          <span class="home-sec-title">WEEKLY STREAK</span>
-          <span class="home-sec-more" data-drill="s1">보기 ›</span>
-        </div>
-        <div class="streak-main">
-          <span class="streak-num">7</span>
-          <span class="streak-unit">주차</span>
-          <span class="streak-check">이번 주 ✓</span>
-        </div>
-        <div class="streak-bar">
-          <div class="streak-dot done"></div>
-          <div class="streak-dot done"></div>
-          <div class="streak-dot done"></div>
-          <div class="streak-dot"></div>
-          <div class="streak-dot"></div>
-          <div class="streak-dot"></div>
-          <div class="streak-dot"></div>
-        </div>
-      </div>
+<!-- HOME main dashboard (2x2) -->
+<div class="dash-main" id="dashMain">
+<div class="dash-grid">
 
-      <!-- FIST · Rank -->
-      <div class="home-sec">
-        <div class="home-sec-head">
-          <span class="home-sec-title">FIST · RANK</span>
-          <span class="home-sec-more" data-drill="fist">보기 ›</span>
-        </div>
-        <div class="fist-rank-row">
-          <div class="fist-icon">EMBER</div>
-          <div class="fist-rank-info">
-            <div class="fist-rank-title">COMMANDER ★★</div>
-            <div class="fist-rank-sub">28,450 / 35,000 XP (81%)</div>
-          </div>
-        </div>
-      </div>
+<!-- Cell 1: Weekly Streak -->
+<div class="dash-cell">
+<div class="dash-head">
+<span class="dash-title">Weekly Streak</span>
+<span class="dash-link" data-drill="streak">VIEW ›</span>
+</div>
+<div class="streak-main">
+<span class="streak-num">7</span>
+<span class="streak-unit">WEEKS</span>
+<span class="streak-check">THIS WEEK ✓</span>
+</div>
+<div class="streak-bar">
+<div class="streak-dot done"></div>
+<div class="streak-dot done"></div>
+<div class="streak-dot done"></div>
+<div class="streak-dot"></div>
+<div class="streak-dot"></div>
+<div class="streak-dot"></div>
+<div class="streak-dot"></div>
+</div>
+<div class="streak-days">M  T  W  T  F  S  S</div>
+<div class="streak-next">Next: WEEK 10 — INFERNO #4</div>
+</div>
 
-      <!-- Weekly Activity -->
-      <div class="home-sec">
-        <div class="home-sec-head">
-          <span class="home-sec-title">이번 주 활동</span>
-          <span class="home-sec-more" data-drill="fit">상세 ›</span>
-        </div>
-        <div class="activity-row">
-          <div class="activity-item">
-            <div class="activity-val">38<span style="font-size:11px">분</span></div>
-            <div class="activity-label">플레이</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-val">312</div>
-            <div class="activity-label">kcal</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-val">5</div>
-            <div class="activity-label">세션</div>
-          </div>
-        </div>
-      </div>
+<!-- Cell 2: This Week (3 stats) -->
+<div class="dash-cell">
+<div class="dash-head">
+<span class="dash-title">This Week</span>
+<span class="dash-link" data-drill="fit">DETAILS ›</span>
+</div>
+<div class="activity-row">
+<div class="activity-item">
+<div class="activity-val">312</div>
+<div class="activity-label">CALORIES</div>
+<div class="activity-sub">kcal</div>
+</div>
+<div class="activity-item">
+<div class="activity-val">5</div>
+<div class="activity-label">SESSIONS</div>
+<div class="activity-sub">this week</div>
+</div>
+<div class="activity-item">
+<div class="activity-val">38</div>
+<div class="activity-label">ACTIVE</div>
+<div class="activity-sub">min</div>
+</div>
+</div>
+</div>
 
-      <!-- Next Badges -->
-      <div class="home-sec">
-        <div class="home-sec-head">
-          <span class="home-sec-title">다음 뱃지</span>
-          <span class="home-sec-more" data-drill="bdg">전체 ›</span>
-        </div>
-        <div class="badge-mini-row">
-          <div class="badge-mini">
-            <div class="badge-mini-art">PERFECT<br>ART</div>
-            <div class="badge-mini-name">PERFECT 5</div>
-            <div class="badge-mini-prog">4/5</div>
-          </div>
-          <div class="badge-mini">
-            <div class="badge-mini-art">PUNCH<br>ART</div>
-            <div class="badge-mini-name">PUNCH 1K</div>
-            <div class="badge-mini-prog">847/1K</div>
-          </div>
-          <div class="badge-mini">
-            <div class="badge-mini-art">COMBO<br>ART</div>
-            <div class="badge-mini-name">COMBO 200</div>
-            <div class="badge-mini-prog">156/200</div>
-          </div>
-        </div>
-      </div>
+<!-- Cell 3: FIST · Rank -->
+<div class="dash-cell">
+<div class="dash-head">
+<span class="dash-title">FIST · Rank</span>
+<span class="dash-link" data-drill="rank">VIEW ›</span>
+</div>
+<div class="fist-rank-row">
+<div class="fist-icon">FIST<br>#3</div>
+<div class="fist-rank-info">
+<div class="fist-name">🔥 BLAZE  (#3)</div>
+<div class="rank-name-line">COMMANDER ★★</div>
+</div>
+</div>
+<div class="xp-line">XP  19,450,000 / 25,000,000  (78%)</div>
+<div class="xp-bar"><div class="xp-fill" style="width:78%"></div></div>
+<div class="rank-next">Next: COMMANDER ★★★ (Tier 16/22)</div>
+</div>
 
-    </div>
-
-    <!-- ===== Drill-downs ===== -->
-
-    <!-- Drill: S1 (Weekly Streak) -->
-    <div class="drill-view" id="drillS1">
-      <div class="drill-head">
-        <button class="back-btn" data-back>← 뒤로</button>
-        <span class="drill-title">WEEKLY STREAK · 24 MILESTONES</span>
-      </div>
-      <a href="s1.html" class="s1-link" target="_blank">◆ OPEN FULL S1 HOLOGRAM PAGE · s1.html ◆</a>
-      <div class="home-sec" style="margin-top:12px">
-        <div class="home-sec-title" style="margin:0 0 8px">현재 상태</div>
-        <div style="font-size:12px;color:var(--t2);line-height:1.7">
-          Streak: <strong style="color:var(--t1)">7 / 24 주차</strong><br>
-          최고 이펙트 단계: <strong style="color:var(--fire-hi)">#3 BLAZE</strong><br>
-          다음 마일스톤: <strong style="color:var(--t1)">Week 10 — INFERNO (#4)</strong>
-        </div>
-      </div>
-    </div>
-
-    <!-- Drill: FIST Journey -->
-    <div class="drill-view" id="drillFist">
-      <div class="drill-head">
-        <button class="back-btn" data-back>← 뒤로</button>
-        <span class="drill-title">FIST JOURNEY · RANK</span>
-      </div>
-
-      <!-- Currently equipped -->
-      <div class="fist-main">
-        <div class="fist-main-icon">FIST<br>#2</div>
-        <div class="fist-main-info">
-          <div class="fist-main-name">CRIMSON</div>
-          <div class="fist-main-eff">🔥 BLAZE (#3)</div>
-          <div class="fist-main-stage">이펙트 3/10 획득 · 최고 자동 장착</div>
-        </div>
-      </div>
-
-      <!-- FIST 4 types -->
-      <div class="sec" style="margin:14px 0 6px">FIST COLLECTION (4)</div>
-      <div class="fist-list">
-        <div class="fist-card"><div class="fist-card-icon">F1</div><div class="fist-card-name">BASIC</div><div class="fist-card-meta">기본</div></div>
-        <div class="fist-card on"><div class="fist-card-icon">F2</div><div class="fist-card-name">CRIMSON</div><div class="fist-card-meta">장착 중</div></div>
-        <div class="fist-card"><div class="fist-card-icon">F3</div><div class="fist-card-name">AZURE</div><div class="fist-card-meta">보유</div></div>
-        <div class="fist-card"><div class="fist-card-icon">F4</div><div class="fist-card-name">VOID</div><div class="fist-card-meta">DLC</div></div>
-      </div>
-
-      <!-- Effect stages 10 -->
-      <div class="sec" style="margin:14px 0 6px">EFFECT STAGES (3/10)</div>
-      <div class="eff-list">
-        <div class="eff-item earned"><div class="eff-stage">1</div><div class="eff-name">SPARK</div></div>
-        <div class="eff-item earned"><div class="eff-stage">2</div><div class="eff-name">FLAME</div></div>
-        <div class="eff-item current"><div class="eff-stage">3</div><div class="eff-name">BLAZE</div></div>
-        <div class="eff-item"><div class="eff-stage">4</div><div class="eff-name">INFERNO</div></div>
-        <div class="eff-item"><div class="eff-stage">5</div><div class="eff-name">FIRESTORM</div></div>
-        <div class="eff-item"><div class="eff-stage">6</div><div class="eff-name">SOLAR</div></div>
-        <div class="eff-item"><div class="eff-stage">7</div><div class="eff-name">PHOENIX</div></div>
-        <div class="eff-item"><div class="eff-stage">8</div><div class="eff-name">SUPER</div></div>
-        <div class="eff-item"><div class="eff-stage">9</div><div class="eff-name">STAR</div></div>
-        <div class="eff-item"><div class="eff-stage">10</div><div class="eff-name">ETERNAL</div></div>
-      </div>
-
-      <!-- Rank 22 stages -->
-      <div class="sec" style="margin:14px 0 6px">RANK · 22 STAGES</div>
-      <div class="rank-box">
-        <div class="rank-current">
-          <div class="rank-circle">C</div>
-          <div class="rank-info">
-            <div class="rank-name">COMMANDER</div>
-            <div class="rank-stars">★★ (Stage 15 / 22)</div>
-            <div class="rank-xp">28,450 / 35,000 XP · 다음: COMMANDER ★★★</div>
-          </div>
-        </div>
-        <div class="rank-ladder" title="22단계 중 현재 15단계">
-          <div class="rank-step done"></div><div class="rank-step done"></div><div class="rank-step done"></div>
-          <div class="rank-step done"></div><div class="rank-step done"></div><div class="rank-step done"></div>
-          <div class="rank-step done"></div><div class="rank-step done"></div><div class="rank-step done"></div>
-          <div class="rank-step done"></div><div class="rank-step done"></div><div class="rank-step done"></div>
-          <div class="rank-step done"></div><div class="rank-step done"></div><div class="rank-step current"></div>
-          <div class="rank-step"></div><div class="rank-step"></div><div class="rank-step"></div>
-          <div class="rank-step"></div><div class="rank-step"></div><div class="rank-step"></div>
-          <div class="rank-step"></div>
-        </div>
-        <div style="font-size:10px;color:var(--t3);font-family:'Share Tech Mono'">RECRUIT → FIGHTER → SOLDIER → WARRIOR → CAPTAIN → <strong style="color:var(--t1)">COMMANDER</strong> → GENERAL → LEGEND → CHAMPION</div>
-      </div>
-    </div>
-
-    <!-- Drill: Fitness -->
-    <div class="drill-view" id="drillFit">
-      <div class="drill-head">
-        <button class="back-btn" data-back>← 뒤로</button>
-        <span class="drill-title">FITNESS · DETAILED</span>
-      </div>
-
-      <!-- Period -->
-      <div class="fit-period">
-        <button class="fit-period-btn on">WEEK</button>
-        <button class="fit-period-btn">MONTH</button>
-        <button class="fit-period-btn">ALL</button>
-      </div>
-
-      <!-- 3 stats -->
-      <div class="fit-stats">
-        <div class="mc"><div class="mc-l">CALORIES</div><div class="mc-v">312</div><div class="mc-s">kcal / 주</div></div>
-        <div class="mc"><div class="mc-l">ACTIVE</div><div class="mc-v">38</div><div class="mc-s">분 / 주</div></div>
-        <div class="mc"><div class="mc-l">AVG</div><div class="mc-v">62</div><div class="mc-s">BPM</div></div>
-      </div>
-
-      <!-- Calorie chart -->
-      <div class="fit-chart-box">
-        <div class="fit-chart-title">DAILY CALORIES · THIS WEEK</div>
-        <div class="fit-chart-row">
-          <div class="fit-bar" style="height:40%"><span class="fit-bar-label">월</span></div>
-          <div class="fit-bar" style="height:72%"><span class="fit-bar-label">화</span></div>
-          <div class="fit-bar" style="height:0%"><span class="fit-bar-label">수</span></div>
-          <div class="fit-bar" style="height:58%"><span class="fit-bar-label">목</span></div>
-          <div class="fit-bar" style="height:88%"><span class="fit-bar-label">금</span></div>
-          <div class="fit-bar" style="height:95%"><span class="fit-bar-label">토</span></div>
-          <div class="fit-bar" style="height:30%"><span class="fit-bar-label">일</span></div>
-        </div>
-      </div>
-
-      <!-- Punch balance -->
-      <div class="fit-chart-box">
-        <div class="fit-chart-title">PUNCH BALANCE</div>
-        <div class="punch-row">
-          <div class="punch-lbl">LEFT</div>
-          <div class="punch-bar-track"><div class="punch-bar-fill" style="width:52%"></div></div>
-          <div class="punch-val">52%</div>
-        </div>
-        <div class="punch-row">
-          <div class="punch-lbl">RIGHT</div>
-          <div class="punch-bar-track"><div class="punch-bar-fill" style="width:48%"></div></div>
-          <div class="punch-val">48%</div>
-        </div>
-        <div class="punch-row">
-          <div class="punch-lbl">POWER</div>
-          <div class="punch-bar-track"><div class="punch-bar-fill" style="width:34%;background:var(--fire-hi)"></div></div>
-          <div class="punch-val">34%</div>
-        </div>
-      </div>
-
-      <!-- Other stats -->
-      <div class="fit-chart-box">
-        <div class="fit-chart-title">COMBAT</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t2)">도지 <strong style="color:var(--t1)">124</strong></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t2)">가드 <strong style="color:var(--t1)">87</strong></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t2)">평균 세션 <strong style="color:var(--t1)">8분</strong></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--t2)">강도 <strong style="color:var(--t1)">MID</strong></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Drill: BADGES -->
-    <div class="drill-view" id="drillBdg">
-      <div class="drill-head">
-        <button class="back-btn" data-back>← 뒤로</button>
-        <span class="drill-title">BADGES · 50 TOTAL</span>
-      </div>
-
-      <!-- Categories -->
-      <div class="bdg-cats">
-        <button class="bdg-cat on">ALL · 12/50</button>
-        <button class="bdg-cat">RHYTHM · 4/12</button>
-        <button class="bdg-cat">COMBO · 3/10</button>
-        <button class="bdg-cat">EXPLORER · 2/4</button>
-        <button class="bdg-cat">STREAK · 3/24</button>
-      </div>
-
-      <!-- Grid -->
-      <div class="bdg-grid">
-        <div class="bdg earned"><div class="bdg-art">PERFECT<br>1</div><div class="bdg-name">PERFECT 1</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg earned"><div class="bdg-art">PERFECT<br>3</div><div class="bdg-name">PERFECT 3</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg"><div class="bdg-art">PERFECT<br>5</div><div class="bdg-name">PERFECT 5</div><div class="bdg-meta">4/5</div></div>
-        <div class="bdg locked"><div class="bdg-art">LOCKED</div><div class="bdg-name">PERFECT 10</div><div class="bdg-meta">0/10</div></div>
-
-        <div class="bdg earned"><div class="bdg-art">COMBO<br>50</div><div class="bdg-name">COMBO 50</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg earned"><div class="bdg-art">COMBO<br>100</div><div class="bdg-name">COMBO 100</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg"><div class="bdg-art">COMBO<br>200</div><div class="bdg-name">COMBO 200</div><div class="bdg-meta">156/200</div></div>
-        <div class="bdg locked"><div class="bdg-art">LOCKED</div><div class="bdg-name">COMBO 500</div><div class="bdg-meta">0/500</div></div>
-
-        <div class="bdg earned"><div class="bdg-art">PUNCH<br>100</div><div class="bdg-name">PUNCH 100</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg earned"><div class="bdg-art">PUNCH<br>500</div><div class="bdg-name">PUNCH 500</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg"><div class="bdg-art">PUNCH<br>1K</div><div class="bdg-name">PUNCH 1K</div><div class="bdg-meta">847/1K</div></div>
-        <div class="bdg locked"><div class="bdg-art">LOCKED</div><div class="bdg-name">PUNCH 10K</div><div class="bdg-meta">0/10K</div></div>
-
-        <div class="bdg earned"><div class="bdg-art">STREAK<br>W1</div><div class="bdg-name">WEEK 1</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg earned"><div class="bdg-art">STREAK<br>W3</div><div class="bdg-name">WEEK 3</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg earned"><div class="bdg-art">STREAK<br>W6</div><div class="bdg-name">WEEK 6</div><div class="bdg-meta">획득</div></div>
-        <div class="bdg"><div class="bdg-art">STREAK<br>W10</div><div class="bdg-name">WEEK 10</div><div class="bdg-meta">7/10</div></div>
-      </div>
-
-      <div style="margin:12px 0 0;padding:10px;background:var(--pnl-3);border:1px dashed var(--bd2);font-size:11px;color:var(--t3);text-align:center;line-height:1.6">
-        전체 50개 중 12개 표시 · v1.8 릴리즈 시 50개 전체 노출<br>
-        v1.9에서 Fitness 9 + SB Master 13 + Explorer 4 = <strong style="color:var(--t2)">+26 추가</strong>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ===== MY SCORE tab ===== -->
-  <div class="rp" id="pMyScore">
-
-    <!-- Standard MY SCORE -->
-    <div id="myScoreStd">
-      <div class="score-board">
-        <div class="score-board-head">
-          <div class="score-icon">▮▮▮</div>
-          <div class="score-title">MY BEST SCORE</div>
-          <div class="score-sub">VIBE PUNCH VOL.01</div>
-        </div>
-
-        <div class="sb-dtabs">
-          <button class="sb-dtab">EASY</button>
-          <button class="sb-dtab on">NORMAL</button>
-          <button class="sb-dtab">HARD</button>
-        </div>
-
-        <table class="sb-table">
-          <thead>
-            <tr><th class="num">TRACK</th><th>TITLE</th><th class="score">SCORE</th></tr>
-          </thead>
-          <tbody>
-            <tr><td class="num">1</td><td class="title">SOMETHING ABOUT US</td><td class="score">2,356,985</td></tr>
-            <tr><td class="num">2</td><td class="title">ONE MORE TIME</td><td class="score">1,656,878</td></tr>
-            <tr><td class="num">3</td><td class="title">GIVE LIFE BACK TO MUSIC</td><td class="score">565,815</td></tr>
-            <tr><td class="num">4</td><td class="title">LOSE YOURSELF TO DANCE</td><td class="score">252,200</td></tr>
-            <tr><td class="num">5</td><td class="title">HARDER BETTER FASTER STRONGER</td><td class="score">125,020</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Boss MY SCORE -->
-    <div id="myScoreBoss" class="hidden">
-      <div class="score-board">
-        <div class="score-board-head">
-          <div class="score-icon">▮▮▮</div>
-          <div class="score-title">MY BEST SCORE</div>
-          <div class="score-sub">BOSS MODE</div>
-        </div>
-
-        <table class="sb-table">
-          <thead>
-            <tr><th class="num">BOSS</th><th>TITLE</th><th class="score">SCORE</th></tr>
-          </thead>
-          <tbody>
-            <tr><td class="num">05</td><td class="title">WRAITH</td><td class="score">78,100</td></tr>
-            <tr><td class="num">04</td><td class="title">PHANTOM</td><td class="score">148,200</td></tr>
-            <tr><td class="num">02</td><td class="title">TYRANT</td><td class="score">112,800</td></tr>
-            <tr><td class="num">01</td><td class="title">OVERLORD</td><td class="score">98,450</td></tr>
-          </tbody>
-        </table>
-
-        <div style="margin:12px 0 0;padding:8px;text-align:center;font-size:10px;color:var(--t3);font-family:'Share Tech Mono'">
-          클리어한 4 / 10 BOSSES · 정렬: 최근 플레이 순
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== LEADERBOARD tab ===== -->
-  <div class="rp" id="pLb">
-    <div class="score-board">
-      <div class="score-board-head">
-        <div class="score-icon">▮▮▮</div>
-        <div class="score-title">LEADER BOARD</div>
-        <div class="score-sub" id="lbSongName">SOMETHING ABOUT US</div>
-      </div>
-
-      <div class="sb-dtabs">
-        <button class="sb-dtab">EASY</button>
-        <button class="sb-dtab on">NORMAL</button>
-        <button class="sb-dtab">HARD</button>
-      </div>
-
-      <table class="sb-table">
-        <thead>
-          <tr><th class="num">RANK</th><th>NAME</th><th class="score">SCORE</th></tr>
-        </thead>
-        <tbody>
-          <tr><td class="num">1</td><td class="title">VKIMONE</td><td class="score">2,356,985</td></tr>
-          <tr><td class="num">2</td><td class="title">KYLEKATURN</td><td class="score">1,656,878</td></tr>
-          <tr><td class="num">3</td><td class="title">JUN</td><td class="score">565,815</td></tr>
-          <tr><td class="num">4</td><td class="title">KIM JUNG EUN</td><td class="score">252,200</td></tr>
-          <tr class="me"><td class="num">5</td><td class="title">JM CHOE (ME)</td><td class="score">125,020</td></tr>
-          <tr><td class="num">6</td><td class="title">SEGA SAMMY</td><td class="score">75,600</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<!-- Cell 4: Next Badges (3 mini cards) -->
+<div class="dash-cell">
+<div class="dash-head">
+<span class="dash-title">Next Badges</span>
+<span class="dash-link" data-drill="bdg">ALL ›</span>
+</div>
+<div class="bdg-mini-row">
+<div class="bdg-mini in-progress">
+<div class="bdg-mini-art">P5</div>
+<div class="bdg-mini-name">PERFECT 5</div>
+<div class="bdg-mini-prog">4 / 5</div>
+</div>
+<div class="bdg-mini in-progress">
+<div class="bdg-mini-art">C200</div>
+<div class="bdg-mini-name">COMBO 200</div>
+<div class="bdg-mini-prog">156 / 200</div>
+</div>
+<div class="bdg-mini in-progress">
+<div class="bdg-mini-art">S500K</div>
+<div class="bdg-mini-name">SCORE 500K</div>
+<div class="bdg-mini-prog">320K / 500K</div>
+</div>
+</div>
+</div>
 
 </div>
 </div>
+
+<!-- Drill: Streak 24 milestones -->
+<div class="drill-view" id="drillStreak">
+<div class="drill-head">
+<button class="back-btn" data-back>← BACK</button>
+<span class="drill-title">WEEKLY STREAK · 24 MILESTONES</span>
+<span class="drill-meta">Current: <strong>7 / 24</strong>  ·  Top effect: <span class="fire">#3 BLAZE</span></span>
+</div>
+<div class="ms-grid">
+<!-- Row 1 -->
+<div class="ms-cell eff earned"><div class="ms-week">WEEK 1</div><div class="ms-num">#1</div><div class="ms-name">SPARK</div><div class="ms-state">✓ EARNED</div></div>
+<div class="ms-cell eff earned"><div class="ms-week">WEEK 2</div><div class="ms-num">#2</div><div class="ms-name">FLAME</div><div class="ms-state">✓ EARNED</div></div>
+<div class="ms-cell eff current"><div class="ms-week">WEEK 3</div><div class="ms-num">#3</div><div class="ms-name">BLAZE</div><div class="ms-state">★ CURRENT</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 4</div><div class="ms-bdgicon"></div><div class="ms-name">KINDLE</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 5</div><div class="ms-bdgicon"></div><div class="ms-name">EMBER</div></div>
+<div class="ms-cell eff locked"><div class="ms-week">WEEK 6</div><div class="ms-num">#4</div><div class="ms-name">INFERNO</div><div class="ms-state">LOCKED</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 7</div><div class="ms-bdgicon"></div><div class="ms-name">GLOW</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 8</div><div class="ms-bdgicon"></div><div class="ms-name">BURN</div></div>
+<!-- Row 2 -->
+<div class="ms-cell bdg"><div class="ms-week">WEEK 9</div><div class="ms-bdgicon"></div><div class="ms-name">CINDER</div></div>
+<div class="ms-cell eff locked"><div class="ms-week">WEEK 10</div><div class="ms-num">#5</div><div class="ms-name">FIRESTORM</div><div class="ms-state">LOCKED</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 12</div><div class="ms-bdgicon"></div><div class="ms-name">RADIANT</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 14</div><div class="ms-bdgicon"></div><div class="ms-name">CORONA</div></div>
+<div class="ms-cell eff locked"><div class="ms-week">WEEK 16</div><div class="ms-num">#6</div><div class="ms-name">SOLAR FLARE</div><div class="ms-state">LOCKED</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 20</div><div class="ms-bdgicon"></div><div class="ms-name">PRISM</div></div>
+<div class="ms-cell eff locked"><div class="ms-week">WEEK 24</div><div class="ms-num">#7</div><div class="ms-name">PHOENIX</div><div class="ms-state">LOCKED</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 28</div><div class="ms-bdgicon"></div><div class="ms-name">ANNUS</div></div>
+<!-- Row 3 -->
+<div class="ms-cell eff locked"><div class="ms-week">WEEK 32</div><div class="ms-num">#8</div><div class="ms-name">SUPERNOVA</div><div class="ms-state">LOCKED</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 40</div><div class="ms-bdgicon"></div><div class="ms-name">PULSAR</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 44</div><div class="ms-bdgicon"></div><div class="ms-name">NEBULA</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 52</div><div class="ms-bdgicon"></div><div class="ms-name">MERIDIAN</div></div>
+<div class="ms-cell eff locked"><div class="ms-week">WEEK 60</div><div class="ms-num">#9</div><div class="ms-name">STARBURST</div><div class="ms-state">LOCKED</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 70</div><div class="ms-bdgicon"></div><div class="ms-name">GALAXY</div></div>
+<div class="ms-cell eff locked"><div class="ms-week">WEEK 80</div><div class="ms-num">#10</div><div class="ms-name">ETERNAL</div><div class="ms-state">★ ULTIMATE</div></div>
+<div class="ms-cell bdg"><div class="ms-week">WEEK 100</div><div class="ms-bdgicon"></div><div class="ms-name">INFINITY</div></div>
+</div>
+</div>
+
+<!-- Drill: Rank 22 tiers + CHAMPION (8x3, last empty) -->
+<div class="drill-view" id="drillRank">
+<div class="drill-head">
+<button class="back-btn" data-back>← BACK</button>
+<span class="drill-title">RANK · 22 TIERS + CHAMPION</span>
+<span class="drill-meta">Current: <strong>COMMANDER ★★</strong>  ·  <strong>15 / 22</strong></span>
+</div>
+<div class="rank-grid">
+<!-- Row 1: 01-08 -->
+<div class="rank-cell"><div class="rank-num">01</div><div class="rank-body"><div class="rank-title-c">RECRUIT</div><div class="rank-stars">—</div><div class="rank-xp-c">0 XP</div></div></div>
+<div class="rank-cell"><div class="rank-num">02</div><div class="rank-body"><div class="rank-title-c">FIGHTER</div><div class="rank-stars">★</div><div class="rank-xp-c">50K</div></div></div>
+<div class="rank-cell"><div class="rank-num">03</div><div class="rank-body"><div class="rank-title-c">FIGHTER</div><div class="rank-stars">★★</div><div class="rank-xp-c">150K</div></div></div>
+<div class="rank-cell"><div class="rank-num">04</div><div class="rank-body"><div class="rank-title-c">FIGHTER</div><div class="rank-stars">★★★</div><div class="rank-xp-c">300K</div></div></div>
+<div class="rank-cell"><div class="rank-num">05</div><div class="rank-body"><div class="rank-title-c">SOLDIER</div><div class="rank-stars">★</div><div class="rank-xp-c">500K</div></div></div>
+<div class="rank-cell"><div class="rank-num">06</div><div class="rank-body"><div class="rank-title-c">SOLDIER</div><div class="rank-stars">★★</div><div class="rank-xp-c">800K</div></div></div>
+<div class="rank-cell"><div class="rank-num">07</div><div class="rank-body"><div class="rank-title-c">SOLDIER</div><div class="rank-stars">★★★</div><div class="rank-xp-c">1.2M</div></div></div>
+<div class="rank-cell"><div class="rank-num">08</div><div class="rank-body"><div class="rank-title-c">WARRIOR</div><div class="rank-stars">★</div><div class="rank-xp-c">1.8M</div></div></div>
+<!-- Row 2: 09-16 -->
+<div class="rank-cell"><div class="rank-num">09</div><div class="rank-body"><div class="rank-title-c">WARRIOR</div><div class="rank-stars">★★</div><div class="rank-xp-c">2.5M</div></div></div>
+<div class="rank-cell"><div class="rank-num">10</div><div class="rank-body"><div class="rank-title-c">WARRIOR</div><div class="rank-stars">★★★</div><div class="rank-xp-c">3.5M</div></div></div>
+<div class="rank-cell"><div class="rank-num">11</div><div class="rank-body"><div class="rank-title-c">CAPTAIN</div><div class="rank-stars">★</div><div class="rank-xp-c">5M</div></div></div>
+<div class="rank-cell"><div class="rank-num">12</div><div class="rank-body"><div class="rank-title-c">CAPTAIN</div><div class="rank-stars">★★</div><div class="rank-xp-c">7M</div></div></div>
+<div class="rank-cell"><div class="rank-num">13</div><div class="rank-body"><div class="rank-title-c">CAPTAIN</div><div class="rank-stars">★★★</div><div class="rank-xp-c">10M</div></div></div>
+<div class="rank-cell"><div class="rank-num">14</div><div class="rank-body"><div class="rank-title-c sm">COMMANDER</div><div class="rank-stars">★</div><div class="rank-xp-c">14M</div></div></div>
+<div class="rank-cell current"><div class="rank-num">15</div><div class="rank-body"><div class="rank-title-c sm">COMMANDER</div><div class="rank-stars">★★</div><div class="rank-current-tag">★ CURRENT</div></div></div>
+<div class="rank-cell future"><div class="rank-num">16</div><div class="rank-body"><div class="rank-title-c sm">COMMANDER</div><div class="rank-stars">★★★</div><div class="rank-xp-c">25M</div></div></div>
+<!-- Row 3: 17-22 + CHAMPION + empty -->
+<div class="rank-cell future"><div class="rank-num">17</div><div class="rank-body"><div class="rank-title-c">GENERAL</div><div class="rank-stars">★</div><div class="rank-xp-c">33M</div></div></div>
+<div class="rank-cell future"><div class="rank-num">18</div><div class="rank-body"><div class="rank-title-c">GENERAL</div><div class="rank-stars">★★</div><div class="rank-xp-c">43M</div></div></div>
+<div class="rank-cell future"><div class="rank-num">19</div><div class="rank-body"><div class="rank-title-c">GENERAL</div><div class="rank-stars">★★★</div><div class="rank-xp-c">55M</div></div></div>
+<div class="rank-cell future"><div class="rank-num">20</div><div class="rank-body"><div class="rank-title-c">LEGEND</div><div class="rank-stars">★</div><div class="rank-xp-c">70M</div></div></div>
+<div class="rank-cell future"><div class="rank-num">21</div><div class="rank-body"><div class="rank-title-c">LEGEND</div><div class="rank-stars">★★</div><div class="rank-xp-c">90M</div></div></div>
+<div class="rank-cell future"><div class="rank-num">22</div><div class="rank-body"><div class="rank-title-c">LEGEND</div><div class="rank-stars">★★★</div><div class="rank-xp-c">115M</div></div></div>
+<div class="rank-cell special"><div class="rank-num">★</div><div class="rank-body"><div class="rank-title-c">CHAMPION</div><div class="rank-stars">—</div><div class="rank-xp-c">150M</div></div></div>
+<div class="rank-cell empty"></div>
+</div>
+</div>
+
+<!-- Drill: Fitness -->
+<div class="drill-view" id="drillFit">
+<div class="drill-head">
+<button class="back-btn" data-back>← BACK</button>
+<span class="drill-title">FITNESS · DETAILED</span>
+<div class="fit-period-bar">
+<button class="fit-period on" data-period="WEEK">WEEK</button>
+<button class="fit-period" data-period="MONTH">MONTH</button>
+<button class="fit-period" data-period="ALL">ALL</button>
+</div>
+</div>
+
+<!-- WEEK content -->
+<div class="fit-period-content on" data-period-content="WEEK">
+<div class="fit-stats-row">
+<div class="fit-stat-card"><div class="fit-stat-label">CALORIES</div><div><span class="fit-stat-val">312</span><span class="fit-stat-unit">kcal</span></div><div class="fit-stat-sub">vs last week +18%</div></div>
+<div class="fit-stat-card"><div class="fit-stat-label">SESSIONS</div><div><span class="fit-stat-val">5</span><span class="fit-stat-unit">plays</span></div><div class="fit-stat-sub">avg 8 min / session</div></div>
+<div class="fit-stat-card"><div class="fit-stat-label">ACTIVE TIME</div><div><span class="fit-stat-val">38</span><span class="fit-stat-unit">min</span></div><div class="fit-stat-sub">intensity: MID</div></div>
+</div>
+<div class="fit-row-2">
+<div class="fit-chart-box">
+<div class="fit-chart-head"><span class="fit-chart-title">DAILY CALORIES · THIS WEEK</span><span class="fit-chart-peak">peak SAT 95 kcal</span></div>
+<div class="fit-bars-row">
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:44%"><div class="fit-bar-val">42</div></div><div class="fit-bar-x">MON</div></div>
+<div class="fit-bar-col"><div class="fit-bar high" style="height:78%"><div class="fit-bar-val">74</div></div><div class="fit-bar-x">TUE</div></div>
+<div class="fit-bar-col"><div class="fit-bar" style="height:0%"><div class="fit-bar-val">0</div></div><div class="fit-bar-x">WED</div></div>
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:61%"><div class="fit-bar-val">58</div></div><div class="fit-bar-x">THU</div></div>
+<div class="fit-bar-col"><div class="fit-bar high" style="height:88%"><div class="fit-bar-val">84</div></div><div class="fit-bar-x">FRI</div></div>
+<div class="fit-bar-col peak"><div class="fit-bar peak" style="height:100%"><div class="fit-bar-val">95</div></div><div class="fit-bar-x">SAT</div></div>
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:32%"><div class="fit-bar-val">30</div></div><div class="fit-bar-x">SUN</div></div>
+</div>
+</div>
+<div class="fit-chart-box">
+<div class="fit-chart-head"><span class="fit-chart-title">PUNCH BALANCE</span></div>
+<div class="punch-row"><span class="punch-lbl">LEFT</span><div class="punch-track"><div class="punch-fill" style="width:52%"></div></div><span class="punch-val">52%</span></div>
+<div class="punch-row"><span class="punch-lbl">RIGHT</span><div class="punch-track"><div class="punch-fill" style="width:48%"></div></div><span class="punch-val">48%</span></div>
+<div class="punch-row"><span class="punch-lbl power">POWER</span><div class="punch-track"><div class="punch-fill power" style="width:34%"></div></div><span class="punch-val power">34%</span></div>
+<div class="combat-line">DODGE <strong>124</strong>     GUARD <strong>87</strong></div>
+</div>
+</div>
+</div>
+
+<!-- MONTH content -->
+<div class="fit-period-content" data-period-content="MONTH" style="display:none">
+<div class="fit-stats-row">
+<div class="fit-stat-card"><div class="fit-stat-label">CALORIES</div><div><span class="fit-stat-val">1,284</span><span class="fit-stat-unit">kcal</span></div><div class="fit-stat-sub">avg 321 kcal / week</div></div>
+<div class="fit-stat-card"><div class="fit-stat-label">SESSIONS</div><div><span class="fit-stat-val">22</span><span class="fit-stat-unit">plays</span></div><div class="fit-stat-sub">avg 5.5 / week</div></div>
+<div class="fit-stat-card"><div class="fit-stat-label">ACTIVE TIME</div><div><span class="fit-stat-val">2h 42m</span></div><div class="fit-stat-sub">avg intensity: MID</div></div>
+</div>
+<div class="fit-row-2">
+<div class="fit-chart-box">
+<div class="fit-chart-head"><span class="fit-chart-title">WEEKLY CALORIES · LAST 4 WEEKS</span><span class="fit-chart-trend">↗ +14% MoM</span></div>
+<div class="fit-bars-row">
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:62%"><div class="fit-bar-val">220</div></div><div class="fit-bar-x">W1</div></div>
+<div class="fit-bar-col"><div class="fit-bar high" style="height:87%"><div class="fit-bar-val">307</div></div><div class="fit-bar-x">W2</div></div>
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:78%"><div class="fit-bar-val">274</div></div><div class="fit-bar-x">W3</div></div>
+<div class="fit-bar-col peak"><div class="fit-bar peak" style="height:100%"><div class="fit-bar-val">350</div></div><div class="fit-bar-x">W4</div></div>
+</div>
+</div>
+<div class="fit-chart-box">
+<div class="fit-chart-head"><span class="fit-chart-title">PUNCH BALANCE</span><span class="punch-meta">monthly avg</span></div>
+<div class="punch-row"><span class="punch-lbl">LEFT</span><div class="punch-track"><div class="punch-fill" style="width:51%"></div></div><span class="punch-val">51%</span></div>
+<div class="punch-row"><span class="punch-lbl">RIGHT</span><div class="punch-track"><div class="punch-fill" style="width:49%"></div></div><span class="punch-val">49%</span></div>
+<div class="punch-row"><span class="punch-lbl power">POWER</span><div class="punch-track"><div class="punch-fill power" style="width:38%"></div></div><span class="punch-val power">38%</span></div>
+<div class="combat-line">DODGE <strong>487</strong>     GUARD <strong>352</strong></div>
+</div>
+</div>
+</div>
+
+<!-- ALL content -->
+<div class="fit-period-content" data-period-content="ALL" style="display:none">
+<div class="fit-stats-row">
+<div class="fit-stat-card"><div class="fit-stat-label">CALORIES</div><div><span class="fit-stat-val">8,742</span><span class="fit-stat-unit">kcal</span></div><div class="fit-stat-sub">since join · 187 days</div></div>
+<div class="fit-stat-card"><div class="fit-stat-label">SESSIONS</div><div><span class="fit-stat-val">156</span><span class="fit-stat-unit">plays</span></div><div class="fit-stat-sub">across 28 weeks active</div></div>
+<div class="fit-stat-card"><div class="fit-stat-label">ACTIVE TIME</div><div><span class="fit-stat-val">19h 24m</span></div><div class="fit-stat-sub">avg 7.5 min / session</div></div>
+</div>
+<div class="fit-row-2">
+<div class="fit-chart-box">
+<div class="fit-chart-head"><span class="fit-chart-title">MONTHLY CALORIES · LAST 6 MONTHS</span><span class="fit-chart-trend">↗ +59% YoY</span></div>
+<div class="fit-bars-row">
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:62%"><div class="fit-bar-val">980</div></div><div class="fit-bar-x">NOV</div></div>
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:75%"><div class="fit-bar-val">1.18K</div></div><div class="fit-bar-x">DEC</div></div>
+<div class="fit-bar-col"><div class="fit-bar high" style="height:84%"><div class="fit-bar-val">1.32K</div></div><div class="fit-bar-x">JAN</div></div>
+<div class="fit-bar-col"><div class="fit-bar mid" style="height:68%"><div class="fit-bar-val">1.08K</div></div><div class="fit-bar-x">FEB</div></div>
+<div class="fit-bar-col"><div class="fit-bar high" style="height:92%"><div class="fit-bar-val">1.45K</div></div><div class="fit-bar-x">MAR</div></div>
+<div class="fit-bar-col peak"><div class="fit-bar peak" style="height:100%"><div class="fit-bar-val">1.56K</div></div><div class="fit-bar-x">APR</div></div>
+</div>
+</div>
+<div class="fit-chart-box">
+<div class="fit-chart-head"><span class="fit-chart-title">PUNCH BALANCE</span><span class="punch-meta">lifetime avg</span></div>
+<div class="punch-row"><span class="punch-lbl">LEFT</span><div class="punch-track"><div class="punch-fill" style="width:51%"></div></div><span class="punch-val">51%</span></div>
+<div class="punch-row"><span class="punch-lbl">RIGHT</span><div class="punch-track"><div class="punch-fill" style="width:49%"></div></div><span class="punch-val">49%</span></div>
+<div class="punch-row"><span class="punch-lbl power">POWER</span><div class="punch-track"><div class="punch-fill power" style="width:31%"></div></div><span class="punch-val power">31%</span></div>
+<div class="combat-line">DODGE <strong>3,247</strong>     GUARD <strong>2,108</strong></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Drill: BADGES (50, 6 cols, scrollable) -->
+<div class="drill-view" id="drillBdg">
+<div class="drill-head">
+<button class="back-btn" data-back>← BACK</button>
+<span class="drill-title">BADGES · 50 TOTAL</span>
+<span class="drill-meta">Earned: <span class="fire">12 / 50</span>  ·  <strong>24%</strong></span>
+</div>
+<div class="bdg-cats">
+<button class="bdg-cat on" data-cat="ALL">ALL · 12/50</button>
+<button class="bdg-cat" data-cat="RHYTHM">RHYTHM · 4/12</button>
+<button class="bdg-cat" data-cat="COMBO">COMBO · 3/10</button>
+<button class="bdg-cat" data-cat="EXPLORER">EXPLORER · 2/4</button>
+<button class="bdg-cat" data-cat="STREAK">STREAK · 3/24</button>
+</div>
+<div class="bdg-scroll">
+<div class="bdg-grid">
+<!-- RHYTHM 12 -->
+<div class="bdg-card earned"><div class="bdg-card-art">P1</div><div class="bdg-card-name">PERFECT 1</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">P5</div><div class="bdg-card-name">PERFECT 5</div><div class="bdg-card-status">4 / 5</div></div>
+<div class="bdg-card in-progress"><div class="bdg-card-art">P20</div><div class="bdg-card-name">PERFECT 20</div><div class="bdg-card-status">14 / 20</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">C10</div><div class="bdg-card-name">CLEAR 10</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">C50</div><div class="bdg-card-name">CLEAR 50</div><div class="bdg-card-status">28 / 50</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">C100</div><div class="bdg-card-name">CLEAR 100</div><div class="bdg-card-status">28 / 100</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">C250</div><div class="bdg-card-name">CLEAR 250</div><div class="bdg-card-status">28 / 250</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">S100K</div><div class="bdg-card-name">SCORE 100K</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">S500K</div><div class="bdg-card-name">SCORE 500K</div><div class="bdg-card-status">320K / 500K</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">S1M</div><div class="bdg-card-name">SCORE 1M</div><div class="bdg-card-status">320K / 1M</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">PR</div><div class="bdg-card-name">PERFECT RUN</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">AC</div><div class="bdg-card-name">ALL CLEAR</div><div class="bdg-card-status">LOCKED</div></div>
+<!-- COMBO 10 -->
+<div class="bdg-card earned"><div class="bdg-card-art">CB50</div><div class="bdg-card-name">COMBO 50</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">CB100</div><div class="bdg-card-name">COMBO 100</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card in-progress"><div class="bdg-card-art">CB200</div><div class="bdg-card-name">COMBO 200</div><div class="bdg-card-status">156 / 200</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">CB300</div><div class="bdg-card-name">COMBO 300</div><div class="bdg-card-status">156 / 300</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">CB500</div><div class="bdg-card-name">COMBO 500</div><div class="bdg-card-status">156 / 500</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">CB1K</div><div class="bdg-card-name">COMBO 1K</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">NM</div><div class="bdg-card-name">NO MISS</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">RA</div><div class="bdg-card-name">RHYTHM ACE</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">EC</div><div class="bdg-card-name">ENDLESS</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">CM</div><div class="bdg-card-name">CB MASTER</div><div class="bdg-card-status">LOCKED</div></div>
+<!-- EXPLORER 4 -->
+<div class="bdg-card earned"><div class="bdg-card-art">E5</div><div class="bdg-card-name">5 ALBUMS</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">E10</div><div class="bdg-card-name">10 SONGS</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">E·A</div><div class="bdg-card-name">ALL ALBUMS</div><div class="bdg-card-status">5 / 8</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">E40</div><div class="bdg-card-name">40 SONGS</div><div class="bdg-card-status">10 / 40</div></div>
+<!-- STREAK 24 -->
+<div class="bdg-card earned"><div class="bdg-card-art">W1</div><div class="bdg-card-name">SPARK</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">W2</div><div class="bdg-card-name">FLAME</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card earned"><div class="bdg-card-art">W3</div><div class="bdg-card-name">BLAZE</div><div class="bdg-card-status">✓ EARNED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W4</div><div class="bdg-card-name">KINDLE</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W5</div><div class="bdg-card-name">EMBER</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W6</div><div class="bdg-card-name">INFERNO</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W7</div><div class="bdg-card-name">GLOW</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W8</div><div class="bdg-card-name">BURN</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W9</div><div class="bdg-card-name">CINDER</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W10</div><div class="bdg-card-name">FIRESTORM</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W12</div><div class="bdg-card-name">RADIANT</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W14</div><div class="bdg-card-name">CORONA</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W16</div><div class="bdg-card-name">SOLAR</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W20</div><div class="bdg-card-name">PRISM</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W24</div><div class="bdg-card-name">PHOENIX</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W28</div><div class="bdg-card-name">ANNUS</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W32</div><div class="bdg-card-name">SUPERNOVA</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W40</div><div class="bdg-card-name">PULSAR</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W44</div><div class="bdg-card-name">NEBULA</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W52</div><div class="bdg-card-name">MERIDIAN</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W60</div><div class="bdg-card-name">STARBURST</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W70</div><div class="bdg-card-name">GALAXY</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W80</div><div class="bdg-card-name">ETERNAL</div><div class="bdg-card-status">LOCKED</div></div>
+<div class="bdg-card locked"><div class="bdg-card-art">W100</div><div class="bdg-card-name">INFINITY</div><div class="bdg-card-status">LOCKED</div></div>
+</div>
+</div>
+</div>
+
+</div><!-- /tab HOME -->
+
+<!-- =================== TAB: MY SCORE =================== -->
+<div class="tab-content" data-tab="MY SCORE">
+<!-- For Screen A: shows standard MY BEST SCORE (Scoreboard-Album.png style) -->
+<!-- For Screen C: shows boss MY BEST SCORE (NEW v1.8 ★) -->
+
+<!-- Standard MY SCORE placeholder note -->
+<div class="bms-board" id="msStandard" style="display:none">
+<div class="bms-head">
+<div class="bms-icon"><i></i><i></i><i></i><i></i></div>
+<div class="bms-title">MY BEST SCORE</div>
+<div class="bms-sub">VIBE PUNCH VOL.01</div>
+</div>
+<div style="text-align:center;padding:40px 0;color:#a070e8;font-family:'Orbitron';font-size:11px;letter-spacing:2px">
+EXISTING UI · Scoreboard-Album.png style<br>
+<span style="font-size:9px;color:#5a3da0;font-style:italic">EASY / NORMAL / HARD tabs · TRACK / TITLE / SCORE · 5 rows fixed</span>
+</div>
+</div>
+
+<!-- Boss MY SCORE — NEW v1.8 ★ -->
+<div class="bms-board" id="msBoss">
+<div class="bms-head">
+<div class="bms-icon"><i></i><i></i><i></i><i></i></div>
+<div class="bms-title">MY BEST SCORE</div>
+<div class="bms-sub">BOSS MODE</div>
+</div>
+<table class="bms-table">
+<thead>
+<tr><th style="width:80px">BOSS</th><th>TITLE</th><th class="score">SCORE</th></tr>
+</thead>
+<tbody>
+<tr><td class="num">05</td><td class="title">REAPER</td><td class="score">487,250</td></tr>
+<tr><td class="num">03</td><td class="title">TYRANT</td><td class="score">352,840</td></tr>
+<tr><td class="num">02</td><td class="title">OVERLORD</td><td class="score">298,150</td></tr>
+<tr><td class="num">01</td><td class="title">WARDEN</td><td class="score">186,420</td></tr>
+</tbody>
+</table>
+<div class="bms-footer">4 / 10 BOSSES CLEARED · KEEP CHALLENGING</div>
+</div>
+
+</div><!-- /tab MY SCORE -->
+
+<!-- =================== TAB: LEADERBOARD =================== -->
+<div class="tab-content" data-tab="LEADERBOARD">
+<div class="bms-board">
+<div class="bms-head">
+<div class="bms-icon"><i></i><i></i><i></i><i></i></div>
+<div class="bms-title" style="font-size:24px">LEADER BOARD</div>
+<div class="bms-sub" id="lbSongName">SOMETHING ABOUT US</div>
+</div>
+<div style="text-align:center;padding:40px 0;color:#a070e8;font-family:'Orbitron';font-size:11px;letter-spacing:2px">
+EXISTING UI · Scoreboard-Song.png style<br>
+<span style="font-size:9px;color:#5a3da0;font-style:italic">EASY / NORMAL / HARD tabs · RANK / NAME / SCORE · my rank highlighted</span><br>
+<span style="font-size:9px;color:#5a3da0;font-style:italic">v1.9 adds: MODIFIER FILTER</span>
+</div>
+</div>
+</div><!-- /tab LEADERBOARD -->
+
+</div><!-- /panel -->
+</div><!-- /right-panel-wrap -->
+
+</div><!-- /container -->
 
 <script>
-// ===== State =====
-let screenMode = 'A';          // A / B / C
-let activeTab = null;          // current tab id
-let currentDrill = null;       // s1 / fist / fit / bdg
-
-// Tab config per screen mode
-const TAB_CONFIG = {
-  A: { tabs: ['HOME', 'MY SCORE'],          default: 'HOME', modeLabel: '스탠다드 · 앨범 선택 화면', scoreView: 'std' },
-  B: { tabs: ['HOME', 'LEADERBOARD'],        default: 'LEADERBOARD', modeLabel: '스탠다드 · 곡 선택 화면', scoreView: 'std' },
-  C: { tabs: ['HOME', 'MY SCORE', 'LEADERBOARD'], default: 'LEADERBOARD', modeLabel: '보스 모드 화면', scoreView: 'boss' },
+// ===== Mode switcher (A/B/C) =====
+const TAB_RULES = {
+  A: { tabs: ['HOME','MY SCORE'], default: 'HOME', note: 'Standard · album select · default HOME' },
+  B: { tabs: ['HOME','LEADERBOARD'], default: 'LEADERBOARD', note: 'Standard · song select · default LEADERBOARD' },
+  C: { tabs: ['HOME','MY SCORE','LEADERBOARD'], default: 'LEADERBOARD', note: 'Boss mode · default LEADERBOARD' }
 };
 
-// Tab id mapping
-const TAB_TO_PANEL = {
-  'HOME': 'pHome',
-  'MY SCORE': 'pMyScore',
-  'LEADERBOARD': 'pLb',
-};
+let currentMode = 'A';
 
-// ===== Render tabs =====
 function renderTabs() {
-  const cfg = TAB_CONFIG[screenMode];
-  const tabsEl = document.getElementById('tabs');
-  tabsEl.innerHTML = '';
-
-  cfg.tabs.forEach((tabName, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'rtab';
-    btn.textContent = tabName;
-    btn.dataset.tab = tabName;
-    btn.addEventListener('click', () => switchTab(tabName));
-    tabsEl.appendChild(btn);
+  const rule = TAB_RULES[currentMode];
+  const wrap = document.getElementById('tabs');
+  wrap.innerHTML = '';
+  rule.tabs.forEach(name => {
+    const b = document.createElement('button');
+    b.className = 'rtab' + (name === rule.default ? ' on' : '');
+    b.textContent = name;
+    b.dataset.tab = name;
+    b.onclick = () => activateTab(name);
+    wrap.appendChild(b);
   });
-
-  // Default active tab
-  switchTab(cfg.default);
-
-  // Score view (std or boss)
-  document.getElementById('myScoreStd').classList.toggle('hidden', cfg.scoreView !== 'std');
-  document.getElementById('myScoreBoss').classList.toggle('hidden', cfg.scoreView !== 'boss');
-
-  // Mode label
-  document.getElementById('modeNote').textContent = cfg.modeLabel;
+  // Mode note
+  document.getElementById('modeNote').textContent = rule.note;
+  // Default tab
+  activateTab(rule.default);
+  // Toggle MY SCORE content (standard vs boss)
+  const isBoss = currentMode === 'C';
+  document.getElementById('msStandard').style.display = isBoss ? 'none' : 'block';
+  document.getElementById('msBoss').style.display = isBoss ? 'block' : 'none';
 }
 
-// ===== Switch tab =====
-function switchTab(tabName) {
-  activeTab = tabName;
-
-  // Update tab buttons
-  document.querySelectorAll('.rtab').forEach(t => {
-    t.classList.toggle('on', t.dataset.tab === tabName);
-  });
-
-  // Update panels
-  document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
-  const panelId = TAB_TO_PANEL[tabName];
-  if (panelId) document.getElementById(panelId).classList.add('on');
-
-  // Reset drill when tab changes
-  closeDrill();
+function activateTab(name) {
+  document.querySelectorAll('.rtab').forEach(t => t.classList.toggle('on', t.dataset.tab === name));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('on', c.dataset.tab === name));
+  // Reset HOME drill view to main when switching back
+  if (name === 'HOME') backToHomeDash();
 }
 
-// ===== Mode toggle =====
 document.querySelectorAll('.test-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    screenMode = btn.dataset.mode;
+  btn.onclick = () => {
     document.querySelectorAll('.test-btn').forEach(b => b.classList.toggle('on', b === btn));
+    currentMode = btn.dataset.mode;
     renderTabs();
-  });
+  };
 });
 
-// ===== Drill-down =====
+// ===== HOME drill-down =====
+function showDrill(name) {
+  document.getElementById('dashMain').classList.add('hidden');
+  document.querySelectorAll('.drill-view').forEach(v => v.classList.remove('on'));
+  const map = {streak:'drillStreak', rank:'drillRank', fit:'drillFit', bdg:'drillBdg'};
+  document.getElementById(map[name]).classList.add('on');
+}
+
+function backToHomeDash() {
+  document.getElementById('dashMain').classList.remove('hidden');
+  document.querySelectorAll('.drill-view').forEach(v => v.classList.remove('on'));
+}
+
 document.querySelectorAll('[data-drill]').forEach(el => {
-  el.addEventListener('click', () => openDrill(el.dataset.drill));
+  el.onclick = () => showDrill(el.dataset.drill);
 });
 
 document.querySelectorAll('[data-back]').forEach(el => {
-  el.addEventListener('click', closeDrill);
+  el.onclick = backToHomeDash;
 });
 
-function openDrill(key) {
-  currentDrill = key;
-  const drillId = { s1: 'drillS1', fist: 'drillFist', fit: 'drillFit', bdg: 'drillBdg' }[key];
-  if (!drillId) return;
+// ===== Fitness period selector =====
+document.querySelectorAll('.fit-period').forEach(btn => {
+  btn.onclick = () => {
+    const period = btn.dataset.period;
+    document.querySelectorAll('.fit-period').forEach(b => b.classList.toggle('on', b.dataset.period === period));
+    document.querySelectorAll('.fit-period-content').forEach(c => {
+      c.style.display = c.dataset.periodContent === period ? 'block' : 'none';
+    });
+  };
+});
 
-  // Hide main dashboard, show drill
-  document.getElementById('dashMain').style.display = 'none';
-  document.querySelectorAll('.drill-view').forEach(d => d.classList.remove('on'));
-  document.getElementById(drillId).classList.add('on');
-}
-
-function closeDrill() {
-  currentDrill = null;
-  document.getElementById('dashMain').style.display = '';
-  document.querySelectorAll('.drill-view').forEach(d => d.classList.remove('on'));
-}
+// ===== Badge category filter =====
+document.querySelectorAll('.bdg-cat').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.bdg-cat').forEach(b => b.classList.toggle('on', b === btn));
+    // (Filter logic would hide non-matching cards — keep visual only for wireframe)
+  };
+});
 
 // ===== Init =====
 renderTabs();
 </script>
-
 </body>
 </html>
