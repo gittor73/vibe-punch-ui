@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Punch v2.0 — Boss Rush Hub 2 (v0.10)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<style>
+body{padding:14px;background:var(--bg);font-family:'Orbitron'}
+.container{max-width:1000px;margin:0 auto}
+.back-link{
+  display:inline-block;padding:6px 12px;font-family:'Orbitron';font-size:10px;font-weight:700;
+  letter-spacing:1.5px;color:var(--t2);border:1px solid var(--bd2);text-decoration:none;
+  margin:0 0 12px;transition:all .15s;
+}
+.back-link:hover{border-color:var(--bd3);color:var(--t1)}
+
+/* Hex frame */
+.hub-wrap{max-width:920px;margin:0 auto;position:relative}
+.hub-frame{
+  background:#1a0a3a;
+  border:3px solid #0fffd4;
+  clip-path:polygon(80px 0, calc(100% - 80px) 0, 100% 50%, calc(100% - 80px) 100%, 80px 100%, 0 50%);
+  padding:32px 60px;
+  min-height:680px;
+  position:relative;
+}
+
+.hub-head{
+  text-align:center;font-family:'Orbitron';font-size:11px;font-weight:700;
+  letter-spacing:3px;color:#0fffd4;margin:0 0 16px;
+}
+
+/* Top split */
+.top-split{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  border-bottom:1px solid #3a1a6a;padding:0 0 16px;margin:0 0 16px;
+}
+.split-cell{position:relative;padding:0 8px}
+.split-cell + .split-cell{border-left:1px solid #3a1a6a;padding-left:32px}
+.split-label{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:3px;
+  color:#a070e8;text-align:center;margin:0 0 12px;
+}
+.split-big{
+  font-family:'Orbitron';font-size:42px;font-weight:800;color:#0fffd4;
+  text-align:center;letter-spacing:1px;line-height:1;margin:0 0 8px;
+}
+.split-big .small-unit{font-size:18px;color:#aaa;letter-spacing:0}
+
+.r-bar{
+  height:6px;background:#1a1a1a;border:1px solid #3a3a3a;position:relative;margin:6px 0 6px;
+}
+.r-bar .fill{height:100%;background:#5cb0f5}
+.r-bar .fill-fit{height:100%;background:#0fffd4;opacity:0.95}
+.r-bar-summary{
+  font-family:'Orbitron';font-size:9px;color:#fff;font-weight:700;
+  text-align:center;margin:6px 0 0;
+}
+
+/* Mid row: LIFE + PERFORMANCE */
+.mid-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  border-bottom:1px solid #3a1a6a;padding:0 0 16px;margin:0 0 16px;
+}
+.mid-cell + .mid-cell{border-left:1px solid #3a1a6a;padding-left:32px}
+
+.section-label{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:2px;
+  color:#a070e8;margin:0 0 10px;
+}
+.section-label-c{text-align:center}
+
+/* LIFE */
+.life-row{display:flex;justify-content:center;gap:8px;margin:14px 0 0}
+.life-slot{
+  width:36px;height:36px;
+  transform:rotate(45deg);
+  background:#0fffd4;border:1px solid #0fffd4;
+}
+.life-slot.lost{
+  background:none;border:1px dashed #3a1a6a;
+  display:flex;align-items:center;justify-content:center;
+}
+.life-slot.lost::after{
+  content:'×';transform:rotate(-45deg);
+  font-family:'Orbitron';font-size:13px;color:#3a1a6a;font-weight:bold;
+}
+.life-count{
+  font-family:'Orbitron';font-size:22px;color:#0fffd4;font-weight:700;
+  text-align:center;margin:18px 0 0;
+}
+
+/* Stats */
+.stats-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;
+}
+.stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0}
+.stat-label{
+  font-family:'Orbitron';font-size:10px;color:#a070e8;letter-spacing:0.5px;
+}
+.stat-val{
+  font-family:'Orbitron';font-size:11px;color:#0fffd4;font-weight:700;
+}
+.grade-tag{
+  display:inline-block;padding:4px 10px;font-family:'Orbitron';font-size:10px;
+  font-weight:700;color:#000;background:#0fffd4;letter-spacing:2px;margin:8px 0 0;
+}
+
+/* 3 tracks */
+.tracks-label{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:3px;
+  color:#a070e8;text-align:center;margin:0 0 12px;
+}
+.tracks-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+.track-card{
+  background:rgba(255,255,255,0.04);border:1px solid #3a1a6a;padding:8px;
+  display:grid;grid-template-columns:80px 1fr;gap:10px;min-height:96px;
+}
+.track-card.cleared{background:rgba(15,255,212,0.10);border:1.5px solid #0fffd4}
+.track-card.next{background:rgba(122,63,216,0.20);border:2px solid #a070e8;position:relative}
+.track-card.boss{background:rgba(217,122,31,0.08);border:1px dashed #f4a623}
+
+.track-card.next::before{
+  content:'▶ UP NEXT';
+  position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+  font-family:'Orbitron';font-size:9px;font-weight:700;color:#a070e8;letter-spacing:2px;
+}
+
+.album-art{
+  width:80px;height:80px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  font-family:'Orbitron';font-weight:700;color:rgba(255,255,255,0.7);
+  letter-spacing:2px;font-size:9px;
+}
+.album-art.a1{background:linear-gradient(135deg,#e63cb8,#7a3fd8)}
+.album-art.a2{background:linear-gradient(135deg,#5cb0f5,#3a4fa8)}
+.album-art.a3{background:linear-gradient(135deg,#3a0a5a,#7a3fd8 50%,#1a0a3a);border:0.5px solid #f4a623}
+.album-vol{font-size:6px;color:rgba(255,255,255,0.5);letter-spacing:1;margin-top:2px}
+.album-art.a3 .b-name{font-family:'Orbitron';font-size:9px;font-weight:bold;color:#f4a623;letter-spacing:1}
+.album-art.a3 .b-sub{font-size:7px;color:#0fffd4;letter-spacing:1.5;margin-top:2px}
+.album-art.a3 .b-fire{font-size:9px;letter-spacing:1;margin-top:2px}
+
+.track-info{font-family:'Orbitron'}
+.track-no{
+  font-size:8px;font-weight:700;letter-spacing:1.5px;color:#0fffd4;margin:0 0 2px;
+  display:flex;justify-content:space-between;
+}
+.track-no.boss{color:#f4a623}
+.track-no.next{color:#a070e8}
+.track-name{font-size:10px;font-weight:700;color:#fff;line-height:1.2;margin:0 0 4px}
+.diff-tag{
+  display:inline-block;padding:2px 6px;font-family:'Orbitron';font-size:8px;
+  font-weight:700;color:#fff;letter-spacing:0.5px;margin:0 0 2px;
+}
+.diff-easy{background:#5a2db8}
+.diff-normal{background:#7a3fd8}
+.diff-hard{background:#e63cb8}
+.track-xp{font-family:'Orbitron';font-size:13px;font-weight:700;color:#0fffd4;margin:6px 0 0}
+
+/* Buttons */
+.btn-row{
+  display:flex;justify-content:center;gap:14px;border-top:1px solid #3a1a6a;
+  padding:16px 0 0;
+}
+.btn{
+  position:relative;font-family:'Orbitron';font-size:13px;font-weight:700;letter-spacing:3px;
+  padding:12px 0;border:1px solid #7a3fd8;background:#2a1a4a;color:#fff;
+  text-align:center;cursor:pointer;transition:all .15s;min-width:160px;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#ff5c93}
+.btn:hover{background:#3a2a5a}
+
+.btn-primary{
+  background:#0fffd4;color:#000;border-color:#0fffd4;font-weight:800;
+  display:flex;flex-direction:column;line-height:1;padding:8px 0;min-width:240px;
+}
+.btn-primary::after{background:#0fffd4}
+.btn-primary:hover{background:#3affe0}
+.btn-primary .btn-cap{font-size:9px;letter-spacing:2px;color:rgba(0,40,30,0.85);font-weight:700;margin-bottom:4px}
+.btn-primary .btn-count{font-family:'Orbitron';font-size:24px;font-weight:900;letter-spacing:0.5px}
+
+.pause-icon{display:inline-flex;gap:3px;align-items:center}
+.pause-icon span{display:inline-block;width:4px;height:14px;background:#fff}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="boss-rush-hub1.html" class="back-link">❮ BACK TO HUB 1</a>
+
+<div class="hub-wrap">
+<div class="hub-frame">
+
+<div class="hub-head">✓ TRACK 2 / 3 COMPLETE  ·  NEXT IS BOSS</div>
+
+<!-- TOP SPLIT -->
+<div class="top-split">
+<div class="split-cell">
+<div class="split-label">TRACK 2 XP</div>
+<div class="split-big"><span class="anim-num" data-target="86200">0</span></div>
+<div class="r-bar"><div class="fill" style="width:62%"></div></div>
+<div class="r-bar-summary">+8K vs your best</div>
+</div>
+
+<div class="split-cell">
+<div class="split-label">TOTAL CALORIES</div>
+<div class="split-big">+<span class="anim-num" data-target="68">0</span> <span class="small-unit">kcal</span></div>
+<div class="r-bar"><div class="fill-fit" style="width:72%"></div></div>
+<div class="r-bar-summary">68 of ~95 kcal</div>
+</div>
+</div>
+
+<!-- MID: LIFE + PERFORMANCE -->
+<div class="mid-row">
+<div class="mid-cell">
+<div class="section-label section-label-c">REMAINING LIFE</div>
+<div class="life-row">
+<div class="life-slot"></div>
+<div class="life-slot"></div>
+<div class="life-slot lost"></div>
+<div class="life-slot lost"></div>
+<div class="life-slot lost"></div>
+</div>
+<div class="life-count"><span class="anim-num" data-target="2">0</span> / 5</div>
+</div>
+
+<div class="mid-cell">
+<div class="section-label">PERFORMANCE</div>
+<div class="stats-grid">
+<div class="stat-row"><span class="stat-label">SHELL HITS</span><span class="stat-val"><span class="anim-num" data-target="76">0</span> / 180</span></div>
+<div class="stat-row"><span class="stat-label">LASER</span><span class="stat-val"><span class="anim-num" data-target="3">0</span> / 4</span></div>
+<div class="stat-row"><span class="stat-label">ENEMIES</span><span class="stat-val"><span class="anim-num" data-target="142">0</span> / 142</span></div>
+<div class="stat-row"><span class="stat-label">BOMB</span><span class="stat-val"><span class="anim-num" data-target="12">0</span> / 14</span></div>
+<div class="stat-row"><span class="stat-label">MAX COMBO</span><span class="stat-val"><span class="anim-num" data-target="186">0</span></span></div>
+<div class="stat-row"><span class="stat-label">POWER SHOTS</span><span class="stat-val"><span class="anim-num" data-target="12">0</span></span></div>
+</div>
+<span class="grade-tag">GOOD</span>
+</div>
+</div>
+
+<!-- 3 TRACKS -->
+<div class="tracks-label">3 TRACKS</div>
+<div class="tracks-row">
+
+<div class="track-card cleared">
+<div class="album-art a1">
+<div>VIBE</div><div>PUNCH</div><div class="album-vol">VOL.01</div>
+</div>
+<div class="track-info">
+<div class="track-no"><span>◆ TRACK 1</span><span style="color:#0fffd4">✓</span></div>
+<div class="track-name">SOMETHING<br>ABOUT US</div>
+<span class="diff-tag diff-normal">NORMAL</span>
+<div class="track-xp"><span class="anim-num" data-target="98420">0</span> XP</div>
+</div>
+</div>
+
+<div class="track-card cleared">
+<div class="album-art a2">
+<div>VIBE</div><div>PUNCH</div><div class="album-vol">VOL.03</div>
+</div>
+<div class="track-info">
+<div class="track-no"><span>◆ TRACK 2</span><span style="color:#0fffd4">✓</span></div>
+<div class="track-name">ONE MORE<br>TIME</div>
+<span class="diff-tag diff-easy">EASY</span>
+<div class="track-xp"><span class="anim-num" data-target="86200">0</span> XP</div>
+</div>
+</div>
+
+<div class="track-card next" style="margin-top:22px">
+<div class="album-art a3">
+<div class="b-name">REAPER</div>
+<div class="b-sub">GAUNTLET</div>
+<div class="b-fire">🔥🔥🔥</div>
+</div>
+<div class="track-info">
+<div class="track-no next" style="color:#f4a623"><span>◆ TRACK 3 · BOSS</span><span>3/3</span></div>
+<div class="track-name" style="color:#f4a623">REAPER<br>GAUNTLET</div>
+<span style="font-size:10px;color:#ffd84a">🔥🔥🔥</span>
+</div>
+</div>
+
+</div>
+
+<!-- Buttons -->
+<div class="btn-row">
+<a href="boss-rush-hub1.html" class="btn"><span class="pause-icon"><span></span><span></span></span>PAUSE</a>
+<a href="boss-rush-result.html" class="btn btn-primary">
+<span class="btn-cap">NEXT IN</span>
+<span class="btn-count" id="countdown">7s</span>
+</a>
+<a href="index.html" class="btn">CANCEL</a>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+// ============ Count-up animation (sequential top-to-bottom) ============
+function countUp(el, target, duration){
+  const start = performance.now();
+  const fmt = new Intl.NumberFormat('en-US');
+  function tick(now){
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const value = Math.floor(target * eased);
+    el.textContent = fmt.format(value);
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = fmt.format(target);
+  }
+  requestAnimationFrame(tick);
+}
+
+const animNums = document.querySelectorAll('.anim-num');
+const stagger = 100;
+animNums.forEach((el, i) => {
+  setTimeout(() => {
+    const target = parseInt(el.dataset.target, 10);
+    countUp(el, target, 700);
+  }, 200 + i * stagger);
+});
+
+// ============ Countdown to result ============
+let secs = 7;
+const el = document.getElementById('countdown');
+const interval = setInterval(() => {
+  secs--;
+  if (secs <= 0){
+    clearInterval(interval);
+    window.location.href = 'boss-rush-result.html';
+    return;
+  }
+  el.textContent = secs + 's';
+}, 1000);
+</script>
+</body>
+</html>

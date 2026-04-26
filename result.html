@@ -245,6 +245,8 @@ body{padding:14px;background:var(--bg);font-family:'Orbitron'}
 <span class="test-ctl-note" id="gradeNote">currently showing GOOD · 87%</span>
 </div>
 
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999"></canvas>
+
 <div class="result-wrap">
 <div class="result-frame r-good" id="frame">
 
@@ -257,8 +259,8 @@ body{padding:14px;background:var(--bg);font-family:'Orbitron'}
 <!-- XP -->
 <div class="split-cell">
 <div class="split-label">XP EARNED</div>
-<div class="split-big">18,347</div>
-<div class="split-equation">SCORE = <strong>18,347</strong> XP</div>
+<div class="split-big"><span class="anim-num" data-target="18347">0</span></div>
+<div class="split-equation">SCORE = <strong><span class="anim-num" data-target="18347">0</span></strong> XP</div>
 <div class="split-sub">+12,210 vs your best</div>
 <div class="r-bar">
 <div class="fill" style="width:74%"></div>
@@ -271,7 +273,7 @@ body{padding:14px;background:var(--bg);font-family:'Orbitron'}
 <!-- FITNESS -->
 <div class="split-cell">
 <div class="split-label">FITNESS · THIS WEEK</div>
-<div class="split-big">+42 <span style="font-size:18px;color:#aaa;letter-spacing:0">kcal</span></div>
+<div class="split-big">+<span class="anim-num" data-target="42">0</span> <span style="font-size:18px;color:#aaa;letter-spacing:0">kcal</span></div>
 <div class="split-equation" style="visibility:hidden">spacer</div>
 <div class="split-sub">earned this session</div>
 <div class="r-bar">
@@ -317,12 +319,12 @@ body{padding:14px;background:var(--bg);font-family:'Orbitron'}
 <div class="mid-cell">
 <div class="stats-label">PERFORMANCE</div>
 <div class="stats-grid">
-<div class="stat-row"><span class="stat-label">SHELL HITS</span><span class="stat-val">87 / 200</span></div>
-<div class="stat-row"><span class="stat-label">LASER BLOCKED</span><span class="stat-val">2</span></div>
-<div class="stat-row"><span class="stat-label">ENEMY DEFEATS</span><span class="stat-val">99 / 100</span></div>
-<div class="stat-row"><span class="stat-label">BREAKABLES</span><span class="stat-val">75</span></div>
-<div class="stat-row"><span class="stat-label">MAX COMBO</span><span class="stat-val">226</span></div>
-<div class="stat-row"><span class="stat-label">POWER SHOTS</span><span class="stat-val">14</span></div>
+<div class="stat-row"><span class="stat-label">SHELL HITS</span><span class="stat-val"><span class="anim-num" data-target="87">0</span> / 200</span></div>
+<div class="stat-row"><span class="stat-label">LASER BLOCKED</span><span class="stat-val"><span class="anim-num" data-target="2">0</span></span></div>
+<div class="stat-row"><span class="stat-label">ENEMY DEFEATS</span><span class="stat-val"><span class="anim-num" data-target="99">0</span> / 100</span></div>
+<div class="stat-row"><span class="stat-label">BREAKABLES</span><span class="stat-val"><span class="anim-num" data-target="75">0</span></span></div>
+<div class="stat-row"><span class="stat-label">MAX COMBO</span><span class="stat-val"><span class="anim-num" data-target="226">0</span></span></div>
+<div class="stat-row"><span class="stat-label">POWER SHOTS</span><span class="stat-val"><span class="anim-num" data-target="14">0</span></span></div>
 </div>
 </div>
 
@@ -335,14 +337,14 @@ body{padding:14px;background:var(--bg);font-family:'Orbitron'}
 <div class="reward-slot">
 <div class="reward-art">CB200</div>
 <div class="reward-name">COMBO 200</div>
-<div class="reward-prog">156 → 182</div>
+<div class="reward-prog">156 → <span class="anim-num" data-target="182" data-start="156">156</span></div>
 <div class="reward-togo">18 to go</div>
 </div>
 <!-- Slot 2: PERFECT 5 -->
 <div class="reward-slot">
 <div class="reward-art">P5</div>
 <div class="reward-name">PERFECT 5</div>
-<div class="reward-prog">3 → 4</div>
+<div class="reward-prog">3 → <span class="anim-num" data-target="4" data-start="3">3</span></div>
 <div class="reward-togo">1 to go</div>
 </div>
 <!-- Slot 3: empty -->
@@ -387,6 +389,90 @@ body{padding:14px;background:var(--bg);font-family:'Orbitron'}
 </div>
 
 <script>
+// ============ Count-up animation (sequential) ============
+function countUp(el, start, target, duration){
+  const startTime = performance.now();
+  const fmt = new Intl.NumberFormat('en-US');
+  function tick(now){
+    const t = Math.min(1, (now - startTime) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const value = Math.floor(start + (target - start) * eased);
+    el.textContent = fmt.format(value);
+    if (t < 1) requestAnimationFrame(tick);
+    else el.textContent = fmt.format(target);
+  }
+  requestAnimationFrame(tick);
+}
+
+const animNums = document.querySelectorAll('.anim-num');
+animNums.forEach((el, i) => {
+  setTimeout(() => {
+    const start = parseInt(el.dataset.start || '0', 10);
+    const target = parseInt(el.dataset.target, 10);
+    countUp(el, start, target, 800);
+  }, 200 + i * 100);
+});
+
+// Trigger confetti when XP starts (first anim-num animation begins)
+setTimeout(() => startConfetti(), 200);
+
+// ============ Confetti (4-sec burst) ============
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let lastSpawn = 0;
+let spawnUntil = 0;
+
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const colors = ['#0fffd4', '#7a3fd8', '#e63cb8', '#ffd84a', '#5cb0f5', '#a070e8'];
+
+function spawnParticle(){
+  particles.push({
+    x: Math.random() * canvas.width, y: -10,
+    w: 6 + Math.random() * 6, h: 10 + Math.random() * 8,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vy: 1 + Math.random() * 1.5, vx: (Math.random() - 0.5) * 0.6,
+    rot: Math.random() * Math.PI * 2, vrot: (Math.random() - 0.5) * 0.05,
+    swing: Math.random() * Math.PI * 2,
+  });
+}
+
+function startConfetti(){
+  spawnUntil = performance.now() + 4000;
+  requestAnimationFrame(animateConfetti);
+}
+
+function animateConfetti(now){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (now < spawnUntil && now - lastSpawn > 80){
+    for (let i = 0; i < 5; i++) spawnParticle();
+    lastSpawn = now;
+  }
+  for (let i = particles.length - 1; i >= 0; i--){
+    const p = particles[i];
+    p.swing += 0.04;
+    p.x += p.vx + Math.sin(p.swing) * 0.4;
+    p.y += p.vy;
+    p.rot += p.vrot;
+    if (p.y > canvas.height + 20){ particles.splice(i, 1); continue; }
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.fillStyle = p.color;
+    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    ctx.restore();
+  }
+  if (now >= spawnUntil && particles.length === 0) return;
+  requestAnimationFrame(animateConfetti);
+}
+
+// ============ Existing grade switcher ============
 const motivateMap = {
   pass: { current: 'PASS', pct: 'your grade · 67%', motivate: '+13% to GOOD' },
   good: { current: 'GOOD', pct: 'your grade · 87%', motivate: '+8% to PERFECT' },
