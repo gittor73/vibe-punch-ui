@@ -3,245 +3,441 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — Track Result (v0.6)</title>
+<title>Vibe Punch v1.8 — Track Result (v0.10, XP unified, A-2+ layout)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="common.css">
 <style>
-body{padding:14px;background:var(--bg)}
-.container{max-width:560px;margin:0 auto}
-.hdr{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--t3);
-  text-align:center;
-  margin:0 0 12px;
-  padding:8px;
-  border:1px dashed var(--bd2);
-}
+/* ===== Page layout ===== */
+body{padding:14px;background:var(--bg);font-family:'Orbitron'}
+.container{max-width:920px;margin:0 auto}
 .back-link{
-  display:inline-block;
-  padding:6px 12px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t2);
-  border:1px solid var(--bd2);
-  text-decoration:none;
-  margin:0 0 12px;
-  transition:all .15s;
+  display:inline-block;padding:6px 12px;font-family:'Orbitron';font-size:10px;font-weight:700;
+  letter-spacing:1.5px;color:var(--t2);border:1px solid var(--bd2);text-decoration:none;
+  margin:0 0 12px;transition:all .15s;
 }
-.back-link:hover{border-color:var(--p);color:var(--t1)}
+.back-link:hover{border-color:var(--bd3);color:var(--t1)}
 
-/* ===== Track Result panel ===== */
-.tr-panel{
-  background:rgba(12,8,35,0.92);
-  border:1px solid var(--bd2);
-  padding:24px;
-  margin:0 0 14px;
-  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+/* ===== Test grade switcher ===== */
+.test-ctl{
+  background:var(--pnl-3);border:1px dashed var(--bd2);padding:10px 12px;margin:0 0 16px;
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+}
+.test-ctl-label{font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--t3)}
+.test-btn{
+  padding:6px 14px;font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:0.5px;
+  background:var(--pnl);border:1px solid var(--bd);color:var(--t3);cursor:pointer;transition:all .15s;
+}
+.test-btn:hover{border-color:var(--bd3);color:var(--t2)}
+.test-btn.on{background:var(--pnl-2);border-color:var(--bd3);color:var(--t1)}
+.test-ctl-note{margin-left:auto;font-size:11px;color:var(--t3);font-family:'Share Tech Mono'}
+
+/* ===== Result wrapper ===== */
+.result-wrap{max-width:760px;margin:0 auto;position:relative}
+
+/* ===== Hex frame (background image style) ===== */
+.result-frame{
+  background:#1a0a3a;
+  border:3px solid #0fffd4;
+  clip-path:polygon(80px 0, calc(100% - 80px) 0, 100% 50%, calc(100% - 80px) 100%, 80px 100%, 0 50%);
+  padding:32px 60px;
+  min-height:660px;
+  position:relative;
 }
 
-.tr-head{
-  text-align:center;
-  margin:0 0 18px;
+/* ===== Top header ===== */
+.r-head{
+  text-align:center;font-family:'Orbitron';font-size:11px;font-weight:700;
+  letter-spacing:3px;color:#0fffd4;margin:0 0 18px;
 }
-.tr-label{
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:4px;
-  color:var(--cy);
-  margin:0 0 8px;
+
+/* ===== TOP SPLIT: XP (left) + FITNESS (right) ===== */
+.top-split{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  border-bottom:1px solid #3a1a6a;padding:0 0 18px;margin:0 0 18px;
 }
-.tr-grade{
-  font-family:'Orbitron';
-  font-size:48px;
-  font-weight:900;
-  letter-spacing:8px;
-  color:var(--cy);
-  text-shadow:0 0 20px rgba(0,240,255,0.4);
+.split-cell{position:relative;padding:0 8px}
+.split-cell + .split-cell{border-left:1px solid #3a1a6a;padding-left:32px}
+
+.split-label{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:3px;
+  color:#a070e8;text-align:center;margin:0 0 14px;
+}
+.split-big{
+  font-family:'Orbitron';font-size:48px;font-weight:800;color:#0fffd4;
+  text-align:center;letter-spacing:1px;line-height:1;margin:0 0 8px;
+}
+.split-equation{
+  font-family:'Orbitron';font-size:9px;color:#aaa;letter-spacing:0.5px;
+  text-align:center;margin:0 0 4px;
+}
+.split-equation strong{color:#0fffd4;font-weight:700}
+.split-sub{
+  font-family:'Share Tech Mono';font-size:9px;color:#666;
+  text-align:center;font-style:italic;margin:0 0 12px;
+}
+
+/* Progress bar shared */
+.r-bar{
+  height:6px;background:#1a1a1a;border:1px solid #3a3a3a;position:relative;margin:6px 0 6px;
+}
+.r-bar .fill{height:100%;background:#5cb0f5}
+.r-bar .fill-fit{background:#0fffd4;opacity:0.4}
+.r-bar .fill-fit-new{background:#0fffd4;opacity:0.95;position:absolute;top:0;left:0;height:100%}
+.r-bar .marker{position:absolute;width:2px;height:10px;background:#ffd84a;top:-2px}
+.r-bar-meta{display:flex;justify-content:space-between;font-family:'Share Tech Mono';font-size:8px;color:#aaa;letter-spacing:0.3px}
+.r-bar-summary{
+  font-family:'Orbitron';font-size:9px;color:#fff;font-weight:700;
+  text-align:center;margin:8px 0 0;
+}
+.r-bar-summary.fit-meta{color:#888;font-style:italic;font-weight:400;font-family:'Share Tech Mono';font-size:9px}
+
+/* ===== MIDDLE: grades + 6 stats ===== */
+.mid-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;
+  border-bottom:1px solid #3a1a6a;padding:0 0 18px;margin:0 0 18px;
+}
+.mid-cell + .mid-cell{border-left:1px solid #3a1a6a;padding-left:32px}
+
+/* Grades */
+.grades-row{display:flex;justify-content:space-around;align-items:flex-end;height:90px;margin:8px 0 0}
+.grade{
+  display:flex;flex-direction:column;align-items:center;text-align:center;transition:opacity .15s;
+}
+.grade.dim{opacity:0.42}
+.grade-medal{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid #5a3da0;background:transparent;margin:0 0 6px;
+}
+.grade.current .grade-medal{
+  width:60px;height:60px;border:2.5px solid #0fffd4;
+}
+.grade-medal svg{width:60%;height:60%}
+.grade.dim .grade-medal svg path{fill:#3a3a3a}
+.grade.current .grade-medal svg path{fill:#0fffd4}
+.grade.dim.perfect .grade-medal{border-color:#7a3fd8}
+.grade.dim.perfect .grade-medal svg path{fill:#5a3da0}
+
+.grade-name{
+  font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:1.5px;
+  color:#888;
+}
+.grade.current .grade-name{font-size:14px;color:#0fffd4;letter-spacing:2px}
+.grade.dim.perfect .grade-name{color:#a070e8}
+.grade-pct{
+  font-family:'Share Tech Mono';font-size:8px;color:#aaa;font-style:italic;margin:2px 0 0;
+}
+.grade.current .grade-pct{font-size:9px}
+.grade-motivate{
+  font-family:'Orbitron';font-size:8px;color:#ffd84a;font-weight:700;margin:2px 0 0;
+}
+
+/* Stats */
+.stats-label{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:2px;
+  color:#a070e8;margin:0 0 10px;
+}
+.stats-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;
+}
+.stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:3px 0}
+.stat-label{
+  font-family:'Orbitron';font-size:10px;color:#a070e8;letter-spacing:0.5px;
+}
+.stat-val{
+  font-family:'Orbitron';font-size:11px;color:#0fffd4;font-weight:700;letter-spacing:0.3px;
+}
+
+/* ===== REWARDS: 3 slots ===== */
+.rewards-label{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:3px;
+  color:#a070e8;text-align:center;margin:0 0 14px;
+}
+.rewards-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 18px;
+}
+.reward-slot{
+  background:rgba(217,122,31,0.15);border:1px solid #f4a623;padding:14px 8px 12px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;min-height:128px;
+}
+.reward-slot.empty{
+  background:#0a0220;border:1px dashed #3a1a6a;
+}
+.reward-art{
+  width:56px;height:64px;background:linear-gradient(135deg,#d97a1f,#f4a623);
+  border:0.5px solid #f4a623;
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron';font-size:10px;color:#000;font-weight:800;letter-spacing:0.3px;
   margin:0 0 10px;
 }
-.tr-grade.good{color:var(--gn);text-shadow:0 0 20px rgba(57,255,20,0.4)}
-.tr-grade.poor{color:var(--fi);text-shadow:0 0 20px rgba(255,68,34,0.4)}
-.tr-song{
-  font-family:'Orbitron';
-  font-size:16px;
-  font-weight:900;
-  letter-spacing:2px;
-  color:#fff;
-  margin:8px 0 2px;
+.reward-slot.empty .reward-art{
+  background:none;border:0.8px dashed #3a1a6a;color:#3a1a6a;
 }
-.tr-meta{
-  font-size:12px;
-  color:var(--t2);
+.reward-name{
+  font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:0.5px;
+  color:#f4a623;margin:0 0 4px;
 }
+.reward-prog{font-family:'Orbitron';font-size:11px;color:#fff;font-weight:700;margin:0 0 2px}
+.reward-togo{font-family:'Orbitron';font-size:8px;color:#ffd84a;font-weight:700;letter-spacing:0.3px}
+.reward-slot.empty .reward-name,
+.reward-slot.empty .reward-prog,
+.reward-slot.empty .reward-togo{
+  color:#3a1a6a;font-style:italic;font-weight:400;
+}
+.reward-slot.empty .reward-name{font-size:10px;letter-spacing:0.5px}
 
-/* ===== XP reward ===== */
-.xp-box{
-  background:rgba(255,170,0,0.04);
-  border:1px solid rgba(255,170,0,0.25);
-  padding:14px 16px;
+/* ===== BUTTONS ===== */
+.btn-row{
+  display:flex;justify-content:center;gap:10px;border-top:1px solid #3a1a6a;
+  padding:18px 0 0;
 }
-.xp-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:12px;
-  color:var(--t2);
-  padding:4px 0;
+.btn{
+  position:relative;font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:2px;
+  padding:10px 0;border:1px solid #7a3fd8;background:#2a1a4a;color:#fff;
+  text-align:center;cursor:pointer;transition:all .15s;min-width:120px;
 }
-.xp-row .val{
-  color:#fff;
-  font-family:'Orbitron';
-  font-weight:700;
-  font-size:13px;
+.btn::after{
+  content:'';position:absolute;left:0;right:0;bottom:-2px;height:2px;background:#ff5c93;
 }
-.xp-row.slot{
-  color:var(--t3);
-  border:1px dashed rgba(180,74,255,0.3);
-  padding:6px 10px;
-  margin:2px 0;
-  opacity:0.7;
+.btn:hover{background:#3a2a5a}
+.btn-primary{
+  background:#0fffd4;color:#000;border-color:#0fffd4;font-weight:800;
+  display:flex;flex-direction:column;justify-content:center;line-height:1.1;padding:6px 0;
+  min-width:200px;
 }
-.xp-row.slot .val{
-  color:var(--t3);
-  font-weight:800;
-}
-.xp-total{
-  border-top:1px solid rgba(255,170,0,0.3);
-  margin:10px 0 0;
-  padding:10px 0 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.xp-total-label{
-  font-family:'Orbitron';
-  font-weight:900;
-  letter-spacing:2px;
-  color:var(--gd);
-  font-size:14px;
-}
-.xp-total-val{
-  font-family:'Orbitron';
-  font-weight:900;
-  color:var(--gd);
-  font-size:22px;
-}
+.btn-primary::after{background:#0fffd4}
+.btn-primary:hover{background:#3affe0}
+.btn-primary .btn-cap{font-size:9px;letter-spacing:1px;color:rgba(0,40,30,0.8);font-weight:700}
+.btn-primary .btn-track{font-size:11px;font-weight:800;letter-spacing:0.5px;margin-top:2px}
 
-/* ===== Action buttons ===== */
-.tr-actions{
-  display:flex;
-  gap:8px;
-  margin:16px 0 0;
-}
-.tr-btn{
-  flex:1;
-  padding:10px 16px;
-  font-family:'Orbitron';
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:2px;
-  border:none;
-  cursor:pointer;
-  transition:all .15s;
-  text-align:center;
-}
-.tr-btn.sec{
-  background:rgba(18,12,45,0.7);
-  border:1px solid var(--bd2);
-  color:var(--t2);
-}
-.tr-btn.sec:hover{border-color:var(--p);color:#fff}
-.tr-btn.pri{
-  background:rgba(0,240,255,0.15);
-  border:1px solid var(--cy);
-  color:var(--cy);
-}
-.tr-btn.pri:hover{background:rgba(0,240,255,0.25);box-shadow:0 0 20px rgba(0,240,255,0.4)}
+/* ===== Grade variants (CSS class on .result-frame to switch demo) ===== */
+.result-frame.r-pass .grade.pass{opacity:1}
+.result-frame.r-pass .grade.pass .grade-medal{width:60px;height:60px;border:2.5px solid #0fffd4}
+.result-frame.r-pass .grade.pass .grade-medal svg path{fill:#0fffd4}
+.result-frame.r-pass .grade.pass .grade-name{font-size:14px;color:#0fffd4;letter-spacing:2px}
+.result-frame.r-pass .grade.good,
+.result-frame.r-pass .grade.perfect{opacity:0.42}
+.result-frame.r-pass .grade.good .grade-medal{width:44px;height:44px;border:1.5px solid #5a3da0}
+.result-frame.r-pass .grade.good .grade-medal svg path{fill:#3a3a3a}
+.result-frame.r-pass .grade.good .grade-name{font-size:10px;color:#888;letter-spacing:1.5px}
 
-.pop-notes{
-  margin:20px 0 0;
-  padding:10px 14px;
-  background:rgba(18,12,45,0.4);
-  border:1px dashed var(--bd2);
-  font-size:11px;
-  color:var(--t3);
-  line-height:1.6;
-}
-.pop-notes b{color:var(--t2);font-family:Orbitron;letter-spacing:1.5px;font-size:10px}
+.result-frame.r-perfect .grade.perfect{opacity:1}
+.result-frame.r-perfect .grade.perfect .grade-medal{width:60px;height:60px;border:2.5px solid #0fffd4}
+.result-frame.r-perfect .grade.perfect .grade-medal svg path{fill:#0fffd4}
+.result-frame.r-perfect .grade.perfect .grade-name{font-size:14px;color:#0fffd4;letter-spacing:2px}
+.result-frame.r-perfect .grade.good{opacity:0.42}
+.result-frame.r-perfect .grade.good .grade-medal{width:44px;height:44px;border:1.5px solid #5a3da0}
+.result-frame.r-perfect .grade.good .grade-medal svg path{fill:#3a3a3a}
+.result-frame.r-perfect .grade.good .grade-name{font-size:10px;color:#888;letter-spacing:1.5px}
 </style>
 </head>
 <body>
 <div class="container">
 <a href="index.html" class="back-link">❮ BACK TO LIST</a>
-<div class="hdr">◆ TRACK RESULT SCREEN · v0.6 · popups P6에서 분리</div>
 
-<!-- Result panel -->
-<div class="tr-panel">
-
-<div class="tr-head">
-  <div class="tr-label">◆ TRACK COMPLETE</div>
-  <div class="tr-grade">PERFECT</div>
-  <div class="tr-song">GOOD DAY</div>
-  <div class="tr-meta">VOL.01 · HARD</div>
+<!-- Test grade switcher -->
+<div class="test-ctl">
+<span class="test-ctl-label">◆ GRADE PREVIEW</span>
+<button class="test-btn" data-grade="pass">PASS</button>
+<button class="test-btn on" data-grade="good">GOOD</button>
+<button class="test-btn" data-grade="perfect">PERFECT</button>
+<span class="test-ctl-note" id="gradeNote">currently showing GOOD · 87%</span>
 </div>
 
-<div class="sec">PERFORMANCE</div>
-<div class="g4">
-  <div class="mc"><div class="mc-l">SCORE</div><div class="mc-v" style="color:var(--gn)">98,450</div><div class="mc-s">+12,210 best</div></div>
-  <div class="mc"><div class="mc-l">MAX COMBO</div><div class="mc-v" style="color:var(--cy)">612</div><div class="mc-s">all hit</div></div>
-  <div class="mc"><div class="mc-l">HIT RATE</div><div class="mc-v" style="color:var(--gn)">98%</div><div class="mc-s">599 / 612</div></div>
-  <div class="mc"><div class="mc-l">CALORIES</div><div class="mc-v" style="color:var(--fi)">42</div><div class="mc-s">kcal</div></div>
+<div class="result-wrap">
+<div class="result-frame r-good" id="frame">
+
+<!-- Header -->
+<div class="r-head">✓ TRACK COMPLETE</div>
+
+<!-- ====== TOP: XP (left) + FITNESS (right) ====== -->
+<div class="top-split">
+
+<!-- XP -->
+<div class="split-cell">
+<div class="split-label">XP EARNED</div>
+<div class="split-big">18,347</div>
+<div class="split-equation">SCORE = <strong>18,347</strong> XP</div>
+<div class="split-sub">+12,210 vs your best</div>
+<div class="r-bar">
+<div class="fill" style="width:74%"></div>
+<div class="marker" style="left:74%"></div>
+</div>
+<div class="r-bar-meta"><span>CMD ★★</span><span>★★★</span></div>
+<div class="r-bar-summary">+1.95M XP to next rank</div>
 </div>
 
-<div class="sec">XP REWARD</div>
-<div class="xp-box">
-  <div class="xp-row">
-    <span>BASE SCORE XP</span><span class="val">+600</span>
-  </div>
-  <div class="xp-row">
-    <span>PERFECT GRADE BONUS</span><span class="val">+300</span>
-  </div>
-  <div class="xp-row">
-    <span>HARD DIFFICULTY BONUS</span><span class="val">+200</span>
-  </div>
-  <div class="xp-row slot">
-    <span>◆ MODIFIER BONUS <em style="font-family:monospace;font-style:normal">(v1.9)</em></span><span class="val">SLOT</span>
-  </div>
-  <div class="xp-total">
-    <span class="xp-total-label">TOTAL EARNED</span>
-    <span class="xp-total-val">+1,100</span>
-  </div>
+<!-- FITNESS -->
+<div class="split-cell">
+<div class="split-label">FITNESS · THIS WEEK</div>
+<div class="split-big">+42 <span style="font-size:18px;color:#aaa;letter-spacing:0">kcal</span></div>
+<div class="split-equation" style="visibility:hidden">spacer</div>
+<div class="split-sub">earned this session</div>
+<div class="r-bar">
+<div class="fill-fit" style="width:71%"></div>
+<div class="fill-fit-new" style="width:8%;left:63%"></div>
 </div>
-
-<div class="tr-actions">
-  <button class="tr-btn sec">↻ RETRY</button>
-  <button class="tr-btn sec">❮ HOME</button>
-  <button class="tr-btn pri">NEXT ❯</button>
-</div>
-
-</div>
-
-<!-- Variant reference -->
-<div class="pop-notes">
-<b>◆ GRADE VARIANTS</b><br>
-• <span style="color:var(--cy);font-family:Orbitron;font-weight:900">PERFECT</span> (98%+) — 시안, 상단 예시<br>
-• <span style="color:var(--gn);font-family:Orbitron;font-weight:900">GOOD</span> (80~97%) — 초록<br>
-• <span style="color:var(--fi);font-family:Orbitron;font-weight:900">POOR</span> (&lt;80%) — 빨강<br>
-<br>
-<b>◆ v0.6 CHANGES</b><br>
-• popups.html P6 블록을 독립 페이지로 분리<br>
-• 전체 폭 확대 (560px), 폰트 계층별 확대 적용<br>
-• MODIFIER SLOT 시각 강조 (v1.9 활성화 대기)<br>
-• 버튼 3개 구조 유지 (RETRY / HOME / NEXT)<br>
-• 다이아몬드 프레임 대신 전통 패널 형식 (데이터 밀도)
+<div class="r-bar-meta"><span>312 start</span><span>354 / 500</span></div>
+<div class="r-bar-summary fit-meta">5 sessions · weekly streak ✓</div>
 </div>
 
 </div>
+
+<!-- ====== MIDDLE: grades + 6 stats ====== -->
+<div class="mid-row">
+
+<!-- 3 Grades -->
+<div class="mid-cell">
+<div class="stats-label" style="text-align:center">GRADE</div>
+<div class="grades-row">
+
+<div class="grade pass dim">
+<div class="grade-medal"><svg viewBox="0 0 24 24"><path d="M12 2 L14.4 9.4 L22 9.4 L15.8 14 L18.2 21.4 L12 16.8 L5.8 21.4 L8.2 14 L2 9.4 L9.6 9.4 Z"/></svg></div>
+<div class="grade-name">PASS</div>
+<div class="grade-pct" style="visibility:hidden">spacer</div>
+</div>
+
+<div class="grade good current">
+<div class="grade-medal"><svg viewBox="0 0 24 24"><path d="M12 2 L14.4 9.4 L22 9.4 L15.8 14 L18.2 21.4 L12 16.8 L5.8 21.4 L8.2 14 L2 9.4 L9.6 9.4 Z"/></svg></div>
+<div class="grade-name">GOOD</div>
+<div class="grade-pct">your grade · 87%</div>
+</div>
+
+<div class="grade perfect dim">
+<div class="grade-medal"><svg viewBox="0 0 24 24"><path d="M12 2 L14.4 9.4 L22 9.4 L15.8 14 L18.2 21.4 L12 16.8 L5.8 21.4 L8.2 14 L2 9.4 L9.6 9.4 Z"/></svg></div>
+<div class="grade-name">PERFECT</div>
+<div class="grade-motivate" id="motivateText">+8% to reach</div>
+</div>
+
+</div>
+</div>
+
+<!-- 6 stats -->
+<div class="mid-cell">
+<div class="stats-label">PERFORMANCE</div>
+<div class="stats-grid">
+<div class="stat-row"><span class="stat-label">SHELL HITS</span><span class="stat-val">87 / 200</span></div>
+<div class="stat-row"><span class="stat-label">LASER BLOCKED</span><span class="stat-val">2</span></div>
+<div class="stat-row"><span class="stat-label">ENEMY DEFEATS</span><span class="stat-val">99 / 100</span></div>
+<div class="stat-row"><span class="stat-label">BREAKABLES</span><span class="stat-val">75</span></div>
+<div class="stat-row"><span class="stat-label">MAX COMBO</span><span class="stat-val">226</span></div>
+<div class="stat-row"><span class="stat-label">POWER SHOTS</span><span class="stat-val">14</span></div>
+</div>
+</div>
+
+</div>
+
+<!-- ====== REWARDS: 3 slots ====== -->
+<div class="rewards-label">REWARDS · 3 SLOTS</div>
+<div class="rewards-row">
+<!-- Slot 1: COMBO 200 -->
+<div class="reward-slot">
+<div class="reward-art">CB200</div>
+<div class="reward-name">COMBO 200</div>
+<div class="reward-prog">156 → 182</div>
+<div class="reward-togo">18 to go</div>
+</div>
+<!-- Slot 2: PERFECT 5 -->
+<div class="reward-slot">
+<div class="reward-art">P5</div>
+<div class="reward-name">PERFECT 5</div>
+<div class="reward-prog">3 → 4</div>
+<div class="reward-togo">1 to go</div>
+</div>
+<!-- Slot 3: empty -->
+<div class="reward-slot empty">
+<div class="reward-art">—</div>
+<div class="reward-name">empty slot</div>
+<div class="reward-prog" style="visibility:hidden">spacer</div>
+<div class="reward-togo">no badge this run</div>
+</div>
+</div>
+
+<!-- ====== BUTTONS ====== -->
+<div class="btn-row">
+<button class="btn">↻ RESTART</button>
+<button class="btn btn-primary">
+<span class="btn-cap">NEXT ❯</span>
+<span class="btn-track">ONE MORE TIME</span>
+</button>
+<button class="btn">OK</button>
+</div>
+
+</div>
+</div>
+
+<!-- ====== Notes outside frame ====== -->
+<div class="info-block" style="max-width:760px;margin:24px auto 0;padding:14px 18px;border:1px solid var(--bd2);background:var(--pnl-3)">
+<h4 style="font-family:'Orbitron';font-size:11px;color:var(--t2);letter-spacing:2px;margin:0 0 10px">◆ v0.10 CHANGES</h4>
+<ul style="font-family:'Share Tech Mono';font-size:11px;color:var(--t3);letter-spacing:0.3px;line-height:1.6;list-style:none;padding:0;margin:0">
+<li>· Hex frame restored (cyan 3px border, dark purple fill — matches in-game design)</li>
+<li>· Top split: XP earned (left) + FITNESS this week (right) · two hero KPIs side-by-side</li>
+<li>· "SCORE = X XP" notation under XP big number · unified metric communication</li>
+<li>· 3 grade tiers stacked (PASS / GOOD / PERFECT) · current emphasized, others dimmed</li>
+<li>· 6 performance stats including POWER SHOTS</li>
+<li>· 3 reward slots fixed-rendering (filled with badge/rank or empty placeholder)</li>
+<li>· FITNESS shows weekly progress 312 → 354 of 500 goal</li>
+<li>· NEXT button shows next track name "ONE MORE TIME" · session continuation cue</li>
+<li>· XP REWARD breakdown section removed (Score = XP single metric, no separate XP)</li>
+<li>· MODIFIER BONUS slot removed (will reactivate via XP value when MODIFIER active in v1.9)</li>
+</ul>
+</div>
+
+</div>
+
+<script>
+const motivateMap = {
+  pass: { current: 'PASS', pct: 'your grade · 67%', motivate: '+13% to GOOD' },
+  good: { current: 'GOOD', pct: 'your grade · 87%', motivate: '+8% to PERFECT' },
+  perfect: { current: 'PERFECT', pct: 'your grade · 96%', motivate: 'TOP TIER!' }
+};
+
+const frame = document.getElementById('frame');
+const note = document.getElementById('gradeNote');
+const motivate = document.getElementById('motivateText');
+
+document.querySelectorAll('.test-btn').forEach(btn => {
+  btn.onclick = () => {
+    const g = btn.dataset.grade;
+    document.querySelectorAll('.test-btn').forEach(b => b.classList.toggle('on', b === btn));
+    frame.classList.remove('r-pass','r-good','r-perfect');
+    frame.classList.add('r-' + g);
+    const m = motivateMap[g];
+    note.textContent = `currently showing ${m.current} · ${m.pct.split('· ')[1]}`;
+
+    // update inline texts
+    document.querySelectorAll('.grade-pct').forEach(el => el.style.visibility = 'hidden');
+    document.querySelectorAll('.grade-motivate').forEach(el => el.style.visibility = 'hidden');
+
+    if (g === 'pass') {
+      const passPct = document.querySelector('.grade.pass .grade-pct');
+      passPct.textContent = m.pct;
+      passPct.style.visibility = 'visible';
+      const goodMot = document.querySelector('.grade.good .grade-pct');
+      // Reuse: replace good's pct with motivation from PASS context
+      goodMot.textContent = m.motivate;
+      goodMot.style.visibility = 'visible';
+      goodMot.style.color = '#ffd84a';
+      goodMot.style.fontWeight = '700';
+    } else if (g === 'good') {
+      const goodPct = document.querySelector('.grade.good .grade-pct');
+      goodPct.textContent = m.pct;
+      goodPct.style.visibility = 'visible';
+      goodPct.style.color = '';
+      goodPct.style.fontWeight = '';
+      const perfMot = document.querySelector('.grade.perfect .grade-motivate');
+      perfMot.textContent = m.motivate;
+      perfMot.style.visibility = 'visible';
+    } else {
+      const perfPct = document.querySelector('.grade.perfect .grade-pct');
+      // perfect doesn't have its own pct slot in HTML; use motivate area
+      const perfMot = document.querySelector('.grade.perfect .grade-motivate');
+      perfMot.textContent = m.pct + '  ★ ' + m.motivate;
+      perfMot.style.visibility = 'visible';
+    }
+  };
+});
+</script>
 </body>
 </html>
