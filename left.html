@@ -3,171 +3,526 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — Left Panel (v0.5)</title>
+<title>Vibe Punch v1.8 — Left Panel (v10.7.2 IA, MODIFIER active for v1.9/v2.0)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="common.css">
 <style>
+/* ===== Page layout ===== */
 body{padding:14px;background:var(--bg)}
-.container{max-width:320px;margin:0 auto}
-.hdr{
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--t3);
-  text-align:center;
-  margin:0 0 12px;
-  padding:8px;
-  border:1px dashed var(--bd2);
-}
+.container{max-width:920px;margin:0 auto}
 .back-link{
-  display:inline-block;
-  padding:6px 12px;
-  font-family:'Orbitron';
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1.5px;
-  color:var(--t2);
-  border:1px solid var(--bd2);
-  text-decoration:none;
-  margin:0 0 12px;
-  transition:all .15s;
+  display:inline-block;padding:6px 12px;font-family:'Orbitron';font-size:10px;font-weight:700;
+  letter-spacing:1.5px;color:var(--t2);border:1px solid var(--bd2);text-decoration:none;
+  margin:0 0 12px;transition:all .15s;
 }
-.back-link:hover{border-color:var(--p);color:var(--t1)}
+.back-link:hover{border-color:var(--bd3);color:var(--t1)}
+
+/* ===== Left panel wrapper (2:1 like right.html) ===== */
+.left-panel-wrap{max-width:800px;margin:0 auto}
+
+/* Tab bar — centered above panel */
+.ltabs-wrap{display:flex;justify-content:center;gap:4px;margin:0 0 8px;flex-wrap:wrap}
+.ltab{
+  padding:9px 28px;font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:2px;
+  background:var(--pnl);border:1px solid var(--bd);color:var(--t3);cursor:pointer;transition:all .15s;
+  min-width:120px;text-align:center;
+}
+.ltab:hover{color:var(--t2);border-color:var(--bd3)}
+.ltab.on{background:var(--pnl-2);color:var(--t1);border-color:var(--bd3)}
+
+.ltabs-meta{margin-left:auto;display:flex;align-items:center;font-family:'Share Tech Mono';font-size:10px;color:var(--data-b);font-weight:700;letter-spacing:1px}
+
+/* Panel body — 2:1 rectangle */
+.panel{
+  background:var(--pnl);border:1.5px solid var(--bd3);padding:18px 20px;
+  aspect-ratio:2/1;min-height:420px;position:relative;overflow:hidden;
+}
+
+/* ===== HINT bar (no box, text only) ===== */
+.hint-bar{
+  height:40px;margin:0 0 10px;padding:4px 0;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.hint-label{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:2px;color:var(--data-b);
+  margin:0 0 4px;visibility:hidden;
+}
+.hint-body{
+  font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:0.5px;color:var(--t1);
+  visibility:hidden;
+}
+.hint-bar.show .hint-label,
+.hint-bar.show .hint-body{visibility:visible}
+
+/* ===== 2x3 Grid ===== */
+.mod-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:1fr 1fr;
+  gap:10px;height:calc(100% - 50px);
+}
+.mod-cell{
+  background:var(--pnl-3);border:1px solid var(--bd);padding:14px 16px;
+  display:flex;flex-direction:column;position:relative;transition:border-color .15s;
+}
+.mod-cell.ps{
+  background:rgba(26,10,42,0.95);border-color:#7a3fd8;
+}
+.mod-cell.score{border-color:var(--data-b);border-width:1.5px}
+
+.mod-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 12px}
+.mod-title{
+  font-family:'Orbitron';font-size:10px;font-weight:700;letter-spacing:2px;color:var(--t2);
+  text-transform:uppercase;cursor:help;transition:color .15s;
+}
+.mod-title:hover{color:var(--t1)}
+.mod-cell.ps .mod-title{color:#a070e8}
+.mod-cell.ps .mod-title:hover{color:#c890f0}
+.mod-cell.score .mod-title{color:var(--data-b)}
+.mod-default{font-size:8px;color:var(--t3);font-style:italic;letter-spacing:0.3px;font-family:'Share Tech Mono'}
+.mod-cell.ps .mod-default{color:#5a3da0}
+
+/* Option row */
+.mod-row{
+  display:flex;align-items:center;gap:12px;padding:5px 0;cursor:pointer;
+  transition:background .15s;border-radius:0;
+}
+.mod-row:hover{background:rgba(58,122,184,0.12)}
+.mod-row.on .mod-toggle{background:var(--data-b);border-color:var(--data-b)}
+.mod-row.on .mod-toggle.cb{background:var(--data-b)}
+.mod-row.on .mod-name{color:var(--t1);font-weight:700}
+.mod-row.on .mod-pct{color:var(--data-b);font-weight:700}
+
+/* Diamond toggle (radio) */
+.mod-toggle{
+  width:12px;height:12px;background:var(--pnl);border:1px solid var(--bd2);
+  transform:rotate(45deg);flex-shrink:0;transition:all .15s;
+}
+/* Square checkbox */
+.mod-toggle.cb{
+  width:14px;height:14px;background:var(--pnl);border:1px solid var(--bd2);
+  transform:none;
+}
+
+.mod-name{
+  flex:1;font-family:'Orbitron';font-size:11px;font-weight:500;color:var(--t2);
+  letter-spacing:0.5px;
+}
+.mod-pct{
+  font-family:'Share Tech Mono';font-size:10px;color:var(--t3);
+  font-weight:500;letter-spacing:0.3px;
+}
+.mod-pct.minus{color:#a05a5a}
+.mod-pct.plus{color:#5a8aaa}
+
+/* PS sensitivity controls */
+.ps-row{display:flex;align-items:baseline;gap:8px;margin:0 0 8px}
+.ps-lbl{font-family:'Orbitron';font-size:9px;color:#a070e8;letter-spacing:1px}
+.ps-default{font-size:8px;color:#5a3da0;font-style:italic;letter-spacing:0.3px;margin-left:auto}
+
+.ps-controls{display:flex;align-items:center;justify-content:center;gap:0;margin:14px 0}
+.ps-btn{
+  width:36px;height:36px;background:#2a1a4a;border:1px solid #7a3fd8;color:#a070e8;
+  font-family:'Orbitron';font-size:18px;font-weight:700;cursor:pointer;transition:all .15s;
+}
+.ps-btn:hover{background:#3a2a5a;color:#c890f0}
+.ps-val{
+  width:80px;height:36px;background:rgba(10,4,30,0.7);border:1px solid #5a2db8;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron';font-size:16px;font-weight:700;color:#fff;letter-spacing:1px;
+}
+.ps-meta{
+  text-align:center;font-family:'Share Tech Mono';font-size:8px;color:#5a3da0;
+  letter-spacing:0.3px;margin:auto 0 0;cursor:help;
+}
+
+/* Note filter footer */
+.mod-note{
+  margin:auto 0 0;text-align:center;font-family:'Share Tech Mono';font-size:8px;
+  color:var(--t3);font-style:italic;letter-spacing:0.3px;
+}
+
+/* SCORE MODIFIER cell */
+.score-total{
+  font-family:'Orbitron';font-size:42px;font-weight:800;color:var(--data-b);
+  letter-spacing:1px;text-align:center;margin:auto 0;line-height:1;
+  cursor:help;
+}
+.score-empty{
+  text-align:center;font-family:'Share Tech Mono';font-size:9px;color:var(--t3);
+  font-style:italic;letter-spacing:0.5px;margin:8px 0 0;
+}
+.score-breakdown{margin:auto 0 0}
+.score-bd-row{
+  display:flex;justify-content:space-between;font-family:'Share Tech Mono';
+  font-size:9px;letter-spacing:0.3px;padding:2px 0;
+}
+.score-bd-row span:first-child{color:var(--t3)}
+.score-bd-row span:last-child{color:var(--data-b);font-weight:700}
+
+/* ===== SETTING placeholder ===== */
+.setting-placeholder{
+  width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+}
+.sp-label{
+  font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:3px;color:var(--t3);
+  margin:0 0 22px;
+}
+.sp-title{
+  font-family:'Orbitron';font-size:14px;font-weight:700;letter-spacing:2px;color:var(--t2);
+  margin:0 0 8px;
+}
+.sp-sub{
+  font-family:'Share Tech Mono';font-size:11px;color:var(--t3);font-style:italic;
+  letter-spacing:1px;margin:0 0 32px;
+}
+.sp-divider{width:240px;height:1px;background:var(--bd2);margin:0 0 28px}
+.sp-change-lbl{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:2px;color:var(--data-b);
+  margin:0 0 12px;
+}
+.sp-change-body{
+  font-family:'Orbitron';font-size:10px;color:var(--t2);letter-spacing:0.5px;margin:0 0 6px;
+}
+.sp-change-note{
+  font-family:'Share Tech Mono';font-size:9px;color:var(--t3);font-style:italic;letter-spacing:0.3px;
+}
+
+/* Tab content visibility */
+.tab-content{display:none;width:100%;height:100%}
+.tab-content.on{display:flex;flex-direction:column;animation:fadeIn .25s ease-out}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
 <div class="container">
 <a href="index.html" class="back-link">❮ BACK TO LIST</a>
-<div class="hdr">◆ LEFT PANEL · 280px · v0.5</div>
 
-<!-- Modifier / Setting toggle -->
-<div class="pnl">
-<div class="tog">
-  <button class="tog-b on" onclick="togL(this,'mod')">
-    MODIFIER
-    <span class="v-badge">v1.9</span>
-  </button>
-  <button class="tog-b" onclick="togL(this,'set')">SETTING</button>
+<div class="left-panel-wrap">
+
+<!-- ===== Tab bar ===== -->
+<div class="ltabs-wrap">
+<button class="ltab on" data-tab="MODIFIER">MODIFIER</button>
+<button class="ltab" data-tab="SETTING">SETTING</button>
+<span class="ltabs-meta" id="lmeta">v1.9 ACTIVE</span>
 </div>
 
-<!-- Modifier (v1.9 SLOT - UI 보이지만 비활성) -->
-<div id="l-mod" class="mod-disabled">
-<div class="mod-disabled-overlay">V1.9 SLOT</div>
+<!-- ===== Panel ===== -->
+<div class="panel">
 
-<div class="mod-tooltip">All off = default (5 Life, Normal Speed, SB Off, All Notes)</div>
+<!-- =============== MODIFIER TAB =============== -->
+<div class="tab-content on" data-tab="MODIFIER">
 
-<div class="mod-section">
-  LIFE
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: 5 Life</span>
-</div>
-<div class="mod-row">
-  <div class="mod-diamond" data-score="-30"></div>
-  <div class="mod-label">No-Fail <span style="color:var(--fi);font-size:10px">-30%</span></div>
-  <div class="mod-diamond" data-score="0"></div>
-  <div class="mod-label">3 Lifes <span style="color:var(--t3);font-size:10px">0%</span></div>
-</div>
-<div class="mod-row one">
-  <div style="display:flex;align-items:center;gap:8px">
-    <div class="mod-diamond" data-score="25"></div>
-    <div class="mod-label">1 Life <span style="color:var(--gn);font-size:10px">+25%</span></div>
-  </div>
-  <div></div>
+<!-- HINT bar -->
+<div class="hint-bar" id="hintBar">
+<div class="hint-label" id="hintLabel"></div>
+<div class="hint-body" id="hintBody"></div>
 </div>
 
-<div class="mod-section">
-  POWER SHOT SENSITIVITY
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: 0.5</span>
-</div>
-<div class="mod-row one">
-  <div class="mod-label">PS Sensitivity</div>
-  <div class="mod-pm">
-    <div class="mod-pm-btn">-</div>
-    <div class="mod-pm-val">0.5</div>
-    <div class="mod-pm-btn">+</div>
-  </div>
-</div>
+<div class="mod-grid">
 
-<div class="mod-section">
-  SONG SPEED
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: Normal · 2단계 (v1.6 결정)</span>
+<!-- LIFE -->
+<div class="mod-cell">
+<div class="mod-head">
+<span class="mod-title"
+  data-hint-label="LIFE"
+  data-hint-body="How many misses allowed  ·  Score −30% to +25%">LIFE</span>
+<span class="mod-default">radio · default 5 Life</span>
 </div>
-<div class="mod-row one">
-  <div style="display:flex;align-items:center;gap:8px">
-    <div class="mod-diamond" data-score="15"></div>
-    <div class="mod-label">Fast 1.3x <span style="color:var(--gn);font-size:10px">+15%</span></div>
-  </div>
-  <div></div>
+<div class="mod-row" data-cat="life" data-val="nofail"
+  data-hint-label="NO-FAIL  ·  LIFE"
+  data-hint-body="Score −30%  ·  cannot fail">
+<span class="mod-toggle"></span>
+<span class="mod-name">No-Fail</span>
+<span class="mod-pct minus">−30%</span>
 </div>
-
-<div class="mod-section">
-  STRONG BULLET
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: OFF</span>
+<div class="mod-row" data-cat="life" data-val="3lives"
+  data-hint-label="3 LIVES  ·  LIFE"
+  data-hint-body="Score 0%  ·  3 misses allowed">
+<span class="mod-toggle"></span>
+<span class="mod-name">3 Lives</span>
+<span class="mod-pct">0%</span>
 </div>
-<div class="mod-row">
-  <div class="mod-diamond" data-score="10"></div>
-  <div class="mod-label">SB 15% <span style="color:var(--gn);font-size:10px">+10%</span></div>
-  <div class="mod-diamond" data-score="20"></div>
-  <div class="mod-label">SB 30% <span style="color:var(--gn);font-size:10px">+20%</span></div>
-</div>
-
-<div class="mod-section">
-  NOTE FILTER
-  <span style="font-weight:400;color:var(--t3);font-size:10px;letter-spacing:0">&mdash; default: All Notes</span>
-</div>
-<div class="mod-row">
-  <div class="mod-diamond" data-score="0"></div>
-  <div class="mod-label">No Bomb</div>
-  <div class="mod-diamond" data-score="0"></div>
-  <div class="mod-label">No Laser</div>
-</div>
-
-<div class="mod-bonus">
-  <span>SCORE MODIFIER</span>
-  <b>+0%</b>
+<div class="mod-row" data-cat="life" data-val="1life"
+  data-hint-label="1 LIFE  ·  LIFE"
+  data-hint-body="Score +25%  ·  one mistake = end">
+<span class="mod-toggle"></span>
+<span class="mod-name">1 Life</span>
+<span class="mod-pct plus">+25%</span>
 </div>
 </div>
 
-<!-- Setting -->
-<div id="l-set" style="display:none">
-  <div class="set-item"><span>Graphic</span><em>Resolution</em></div>
-  <div class="set-item"><span>Mode</span><em>Manual</em></div>
-  <div class="set-item"><span>Render Scale</span><em>1.0x</em></div>
-  <div class="set-item"><span>Sound</span><em>100%</em></div>
-  <div class="set-item"><span>Controllers</span><em>Default</em></div>
-  <div class="set-item"><span>Display</span><em>72 Hz</em></div>
-  <div class="set-item"><span>Health &amp; Safety</span><em></em></div>
-  <div class="set-item"><span>Privacy Policy</span><em></em></div>
-  <div class="set-item"><span>Credit</span><em></em></div>
+<!-- SONG SPEED -->
+<div class="mod-cell">
+<div class="mod-head">
+<span class="mod-title"
+  data-hint-label="SONG SPEED"
+  data-hint-body="Note arrival speed  ·  Score 0% to +15%">SONG SPEED</span>
+<span class="mod-default">radio · default Normal</span>
+</div>
+<div class="mod-row" data-cat="speed" data-val="normal"
+  data-hint-label="NORMAL  ·  SONG SPEED"
+  data-hint-body="Score 0%  ·  default speed">
+<span class="mod-toggle"></span>
+<span class="mod-name">Normal</span>
+<span class="mod-pct">0%</span>
+</div>
+<div class="mod-row" data-cat="speed" data-val="fast"
+  data-hint-label="FAST 1.3x  ·  SONG SPEED"
+  data-hint-body="Score +15%  ·  1.3x faster notes">
+<span class="mod-toggle"></span>
+<span class="mod-name">Fast 1.3x</span>
+<span class="mod-pct plus">+15%</span>
+</div>
+</div>
+
+<!-- STRONG BULLET -->
+<div class="mod-cell">
+<div class="mod-head">
+<span class="mod-title"
+  data-hint-label="STRONG BULLET"
+  data-hint-body="Multi-hit reflect bullets  ·  Score 0% to +20%">STRONG BULLET</span>
+<span class="mod-default">radio · default OFF</span>
+</div>
+<div class="mod-row" data-cat="sb" data-val="off"
+  data-hint-label="SB OFF  ·  STRONG BULLET"
+  data-hint-body="Score 0%  ·  no strong bullets">
+<span class="mod-toggle"></span>
+<span class="mod-name">SB OFF</span>
+<span class="mod-pct">0%</span>
+</div>
+<div class="mod-row" data-cat="sb" data-val="15"
+  data-hint-label="SB 15%  ·  STRONG BULLET"
+  data-hint-body="Score +10%  ·  15% strong bullets">
+<span class="mod-toggle"></span>
+<span class="mod-name">SB 15%</span>
+<span class="mod-pct plus">+10%</span>
+</div>
+<div class="mod-row" data-cat="sb" data-val="30"
+  data-hint-label="SB 30%  ·  STRONG BULLET"
+  data-hint-body="Score +20%  ·  30% strong bullets">
+<span class="mod-toggle"></span>
+<span class="mod-name">SB 30%</span>
+<span class="mod-pct plus">+20%</span>
+</div>
+</div>
+
+<!-- NOTE FILTER -->
+<div class="mod-cell">
+<div class="mod-head">
+<span class="mod-title"
+  data-hint-label="NOTE FILTER"
+  data-hint-body="Disable specific note types  ·  No score impact">NOTE FILTER</span>
+<span class="mod-default">checkbox · multi</span>
+</div>
+<div class="mod-row" data-cat="filter" data-val="nobomb"
+  data-hint-label="NO BOMB  ·  NOTE FILTER"
+  data-hint-body="Score 0%  ·  bomb notes off">
+<span class="mod-toggle cb"></span>
+<span class="mod-name">No Bomb</span>
+<span class="mod-pct">0%</span>
+</div>
+<div class="mod-row" data-cat="filter" data-val="nolaser"
+  data-hint-label="NO LASER  ·  NOTE FILTER"
+  data-hint-body="Score 0%  ·  laser notes off">
+<span class="mod-toggle cb"></span>
+<span class="mod-name">No Laser</span>
+<span class="mod-pct">0%</span>
+</div>
+<div class="mod-note">both off = all notes (default)</div>
+</div>
+
+<!-- POWER SHOT -->
+<div class="mod-cell ps">
+<div class="mod-head">
+<span class="mod-title"
+  data-hint-label="POWER SHOT"
+  data-hint-body="PS trigger sensitivity  ·  No score impact">POWER SHOT</span>
+<span class="mod-default">moved from SETTING</span>
+</div>
+<div class="ps-row">
+<span class="ps-lbl">PS SENSITIVITY</span>
+<span class="ps-default">default 0.5</span>
+</div>
+<div class="ps-controls">
+<button class="ps-btn" id="psDown"
+  data-hint-label="−  ·  POWER SHOT"
+  data-hint-body="Lower  ·  harder to trigger">−</button>
+<div class="ps-val" id="psVal"
+  data-hint-label="PS VALUE  ·  POWER SHOT"
+  data-hint-body="No score impact  ·  config only">0.5</div>
+<button class="ps-btn" id="psUp"
+  data-hint-label="+  ·  POWER SHOT"
+  data-hint-body="Higher  ·  easier to trigger">+</button>
+</div>
+<div class="ps-meta"
+  data-hint-label="POWER SHOT"
+  data-hint-body="Range 0.0 to 1.0  ·  step 0.1  ·  no score impact">range 0.0 – 1.0  ·  no score impact</div>
+</div>
+
+<!-- SCORE MODIFIER -->
+<div class="mod-cell score">
+<div class="mod-head">
+<span class="mod-title"
+  data-hint-label="SCORE MODIFIER"
+  data-hint-body="Live sum  ·  Final = Base × (1 + sum%)  ·  range −30% to +85%">SCORE MODIFIER</span>
+<span class="mod-default">live total</span>
+</div>
+<div class="score-total" id="scoreTotal"
+  data-hint-label="SCORE MODIFIER  ·  TOTAL"
+  data-hint-body="Final Score = Base × (1 + sum%)  ·  range −30% to +85%">+0%</div>
+<div class="score-empty" id="scoreEmpty">no modifiers active</div>
+<div class="score-breakdown" id="scoreBreakdown" style="display:none"></div>
 </div>
 
 </div>
 
-<!-- Notes -->
-<div style="margin:16px 0 0;padding:10px;background:rgba(18,12,45,0.4);border:1px dashed var(--bd2);font-size:10px;color:var(--t3);line-height:1.6">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v0.5 CHANGES</strong><br>
-  • <strong style="color:var(--fi)">Streak Fire 완전 제거</strong> → S1 공간 홀로그램으로 이관<br>
-  • <strong style="color:var(--gd)">MODIFIER UI 전체 배치</strong> (v1.9 SLOT, 비활성 상태)<br>
-  • Song Speed <strong>2단계로 축소</strong> (Normal / Fast 1.3x — v1.6 결정)<br>
-  • SETTING 토글만 활성
 </div>
 
-<div style="margin:10px 0 0;padding:10px;background:rgba(255,170,0,0.05);border:1px dashed rgba(255,170,0,0.3);font-size:10px;color:var(--t2);line-height:1.6">
-  <strong style="color:var(--gd);font-family:Orbitron;letter-spacing:1.5px;font-size:10px">◆ v1.9 SLOT 의미</strong><br>
-  UI 구조는 v1.8에서 완성 배치. 로직은 v1.9에서 활성화.<br>
-  이렇게 하면 v1.9 출시 시 UI 재작업 없이 로직만 연결.
+<!-- =============== SETTING TAB =============== -->
+<div class="tab-content" data-tab="SETTING">
+<div class="setting-placeholder">
+<div class="sp-label">◆ SETTING</div>
+<div class="sp-title">EXISTING UI</div>
+<div class="sp-sub">Use the existing settings menu as-is</div>
+<div class="sp-divider"></div>
+<div class="sp-change-lbl">v1.9 CHANGE</div>
+<div class="sp-change-body">PS Sensitivity moved out → MODIFIER tab</div>
+<div class="sp-change-note">(now affects gameplay competitive context)</div>
+</div>
+</div>
+
+</div>
 </div>
 
 </div>
 
 <script>
-function togL(btn,which){
-  document.querySelectorAll('.tog-b').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('l-mod').style.display = which==='mod' ? 'block' : 'none';
-  document.getElementById('l-set').style.display = which==='set' ? 'block' : 'none';
+// ===== Tab switcher =====
+document.querySelectorAll('.ltab').forEach(btn => {
+  btn.onclick = () => {
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('.ltab').forEach(b => b.classList.toggle('on', b === btn));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('on', c.dataset.tab === tab));
+    // Update meta indicator
+    document.getElementById('lmeta').textContent = tab === 'MODIFIER' ? 'v1.9 ACTIVE' : 'EXISTING UI';
+  };
+});
+
+// ===== HINT bar (hover) =====
+const hintBar = document.getElementById('hintBar');
+const hintLabel = document.getElementById('hintLabel');
+const hintBody = document.getElementById('hintBody');
+
+function showHint(el) {
+  const label = el.dataset.hintLabel;
+  const body = el.dataset.hintBody;
+  if (!label || !body) return;
+  hintLabel.textContent = '◆ ' + label;
+  hintBody.textContent = body;
+  hintBar.classList.add('show');
+}
+
+function clearHint() {
+  hintBar.classList.remove('show');
+}
+
+document.querySelectorAll('[data-hint-label]').forEach(el => {
+  el.addEventListener('mouseenter', () => showHint(el));
+  el.addEventListener('mouseleave', clearHint);
+});
+
+// ===== Modifier state =====
+const state = {
+  life: null,    // 'nofail' | '3lives' | '1life' | null
+  speed: null,   // 'normal' | 'fast' | null
+  sb: null,      // 'off' | '15' | '30' | null
+  filter: {nobomb: false, nolaser: false},  // multi
+  ps: 0.5
+};
+
+// Score map
+const SCORES = {
+  life: {nofail: -30, '3lives': 0, '1life': 25},
+  speed: {normal: 0, fast: 15},
+  sb: {off: 0, '15': 10, '30': 20}
+};
+
+// Score labels for breakdown
+const LABELS = {
+  life: {nofail: 'No-Fail', '3lives': '3 Lives', '1life': '1 Life'},
+  speed: {normal: 'Normal', fast: 'Fast 1.3x'},
+  sb: {off: 'SB OFF', '15': 'SB 15%', '30': 'SB 30%'}
+};
+
+// ===== Click handler =====
+document.querySelectorAll('.mod-row').forEach(row => {
+  row.onclick = () => {
+    const cat = row.dataset.cat;
+    const val = row.dataset.val;
+    if (cat === 'filter') {
+      // Checkbox toggle
+      state.filter[val] = !state.filter[val];
+      row.classList.toggle('on', state.filter[val]);
+    } else {
+      // Radio
+      const same = state[cat] === val;
+      state[cat] = same ? null : val;
+      document.querySelectorAll(`.mod-row[data-cat="${cat}"]`).forEach(r => {
+        r.classList.toggle('on', state[cat] === r.dataset.val);
+      });
+    }
+    updateScore();
+  };
+});
+
+// ===== PS controls =====
+document.getElementById('psDown').onclick = () => {
+  state.ps = Math.max(0, Math.round((state.ps - 0.1) * 10) / 10);
+  document.getElementById('psVal').textContent = state.ps.toFixed(1);
+};
+document.getElementById('psUp').onclick = () => {
+  state.ps = Math.min(1, Math.round((state.ps + 0.1) * 10) / 10);
+  document.getElementById('psVal').textContent = state.ps.toFixed(1);
+};
+
+// ===== Score calc =====
+function updateScore() {
+  let total = 0;
+  const breakdown = [];
+  if (state.life) {
+    total += SCORES.life[state.life];
+    if (SCORES.life[state.life] !== 0) breakdown.push({n: LABELS.life[state.life], v: SCORES.life[state.life]});
+  }
+  if (state.speed) {
+    total += SCORES.speed[state.speed];
+    if (SCORES.speed[state.speed] !== 0) breakdown.push({n: LABELS.speed[state.speed], v: SCORES.speed[state.speed]});
+  }
+  if (state.sb) {
+    total += SCORES.sb[state.sb];
+    if (SCORES.sb[state.sb] !== 0) breakdown.push({n: LABELS.sb[state.sb], v: SCORES.sb[state.sb]});
+  }
+  // filter has no score impact
+
+  // Clamp to range −30 to +85
+  total = Math.max(-30, Math.min(85, total));
+
+  const totalEl = document.getElementById('scoreTotal');
+  const emptyEl = document.getElementById('scoreEmpty');
+  const bdEl = document.getElementById('scoreBreakdown');
+
+  totalEl.textContent = (total >= 0 ? '+' : '') + total + '%';
+
+  if (breakdown.length === 0) {
+    emptyEl.style.display = 'block';
+    bdEl.style.display = 'none';
+  } else {
+    emptyEl.style.display = 'none';
+    bdEl.style.display = 'block';
+    bdEl.innerHTML = breakdown.map(b =>
+      `<div class="score-bd-row"><span>${b.n}</span><span>${b.v >= 0 ? '+' : ''}${b.v}%</span></div>`
+    ).join('');
+  }
 }
 </script>
-
 </body>
 </html>
