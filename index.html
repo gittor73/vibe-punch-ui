@@ -1,185 +1,81 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Punch v1.8 — UI 목록 (v0.6)</title>
+<title>Vibe Punch v1.8 — UI 목록 (v0.10)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="common.css">
 <style>
-body{padding:30px 14px;background:var(--bg)}
-.container{max-width:900px;margin:0 auto}
+body{padding:24px 16px;background:var(--bg);font-family:'Orbitron'}
+.container{max-width:1080px;margin:0 auto}
 
-.title-block{
-  text-align:center;
-  margin:0 0 30px;
-  padding:0 0 20px;
-  border-bottom:1px solid var(--bd2);
+/* ===== Header ===== */
+.brand-head{text-align:center;margin:0 0 32px}
+.brand-name{
+  font-family:'Orbitron';font-size:32px;font-weight:900;letter-spacing:8px;
+  color:var(--t1);margin:0 0 12px;
 }
-.title-main{
-  font-family:'Orbitron';
-  font-size:32px;
-  font-weight:900;
-  letter-spacing:6px;
-  color:var(--t1);
-  margin:0 0 6px;
+.brand-subtitle{
+  display:inline-block;padding:6px 18px;font-family:'Orbitron';font-size:11px;
+  font-weight:700;letter-spacing:3px;color:var(--t2);
+  border:1px solid var(--bd2);background:var(--pnl-3);
 }
-.title-sub{
-  font-family:'Orbitron';
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:4px;
-  color:var(--p);
-}
-.title-ver{
-  font-family:'Share Tech Mono';
-  font-size:12px;
-  color:var(--t3);
-  margin:8px 0 0;
-}
-
-.list-heading{
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--t3);
-  margin:26px 0 10px;
-}
-
-.list-item{
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  gap:16px;
-  align-items:center;
-  padding:18px 22px;
-  background:rgba(18,12,45,0.6);
-  border:1px solid var(--bd2);
-  margin:0 0 10px;
-  cursor:pointer;
-  transition:all .15s;
-  text-decoration:none;
-  color:var(--t1);
-  clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%);
-}
-.list-item:hover{
-  border-color:var(--p);
-  background:rgba(180,74,255,0.1);
-  transform:translateX(4px);
-}
-.list-item.new{border-color:rgba(57,255,20,0.3);background:rgba(57,255,20,0.03)}
-.list-item.new:hover{border-color:var(--gn)}
-
-.item-num{
-  font-family:'Orbitron';
-  font-size:20px;
-  font-weight:900;
-  color:var(--p);
-  width:40px;
-  text-align:center;
-}
-.list-item.new .item-num{color:var(--gn)}
-
-.item-body{min-width:0}
-.item-name{
-  font-family:'Orbitron';
-  font-size:14px;
-  font-weight:800;
-  color:var(--t1);
-  letter-spacing:1.5px;
-  margin:0 0 2px;
-}
-.item-name-ko{
-  font-size:13px;
-  color:var(--t1);
-  font-weight:500;
-  margin:0 0 4px;
-}
-.item-desc{
-  font-size:12px;
-  color:var(--t2);
-  line-height:1.5;
-}
-
-.item-arrow{
-  font-family:'Orbitron';
-  font-size:16px;
-  font-weight:900;
-  color:var(--p);
-  padding:0 4px;
-}
-
-.badges{
-  display:inline-flex;
-  gap:5px;
-  margin:6px 0 0;
-  flex-wrap:wrap;
-}
-.bdg{
-  padding:2px 7px;
-  font-family:'Orbitron';
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:0.5px;
-}
-.bdg.changed{background:rgba(255,170,0,0.12);color:var(--gd);border:1px solid rgba(255,170,0,0.3)}
-.bdg.new{background:rgba(57,255,20,0.1);color:var(--gn);border:1px solid rgba(57,255,20,0.3)}
-.bdg.hold{background:rgba(0,240,255,0.08);color:var(--cy);border:1px solid rgba(0,240,255,0.3)}
-.bdg.removed{background:rgba(255,68,34,0.08);color:var(--fi);border:1px solid rgba(255,68,34,0.3)}
-.bdg.updated{background:rgba(0,240,255,0.12);color:var(--cy);border:1px solid rgba(0,240,255,0.4)}
-.bdg.hold-gray{background:rgba(90,74,122,0.15);color:var(--t2);border:1px solid var(--bd2)}
-
-.summary-box{
-  margin:30px 0 0;
-  padding:18px 22px;
-  background:rgba(18,12,45,0.4);
-  border:1px dashed var(--bd2);
-  font-size:12px;
-  color:var(--t2);
-  line-height:1.7;
-}
-.summary-box h3{
-  font-family:'Orbitron';
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:2px;
-  color:var(--gd);
-  margin:0 0 10px;
-}
-.summary-box ul{list-style:none;padding:0}
-.summary-box li{padding:4px 0;padding-left:14px;position:relative}
-.summary-box li::before{
-  content:'▸';
-  position:absolute;
-  left:0;
-  color:var(--p);
-}
-
-.version-bar{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  margin:8px 0 0;
-  font-family:'Orbitron';
-  font-size:11px;
+.brand-meta{
+  margin:14px 0 0;font-family:'Share Tech Mono';font-size:11px;color:var(--t3);
   letter-spacing:1px;
 }
-.ver-pill{
-  padding:3px 12px;
-  background:rgba(57,255,20,0.12);
-  color:var(--gn);
-  border:1px solid rgba(57,255,20,0.35);
-  font-weight:800;
-}
-.ver-date{color:var(--t3)}
+.brand-meta strong{color:var(--data-b)}
 
-.footer-note{
-  text-align:center;
-  margin:26px 0 0;
-  font-family:'Share Tech Mono';
-  font-size:11px;
-  color:var(--t3);
+/* ===== Section ===== */
+.sec-head{
+  font-family:'Orbitron';font-size:11px;font-weight:700;letter-spacing:3px;
+  color:var(--t2);margin:32px 0 14px;padding:0 0 8px;
+  border-bottom:1px solid var(--bd2);
+}
+
+/* ===== Card grid ===== */
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (max-width:720px){.card-grid{grid-template-columns:1fr}}
+
+.card{
+  display:block;text-decoration:none;background:var(--pnl-3);border:1px solid var(--bd2);
+  padding:18px 22px;transition:all .2s;position:relative;
+}
+.card:hover{border-color:var(--bd3);background:var(--pnl-2);transform:translateY(-1px)}
+
+.card-no{
+  font-family:'Orbitron';font-size:9px;font-weight:700;letter-spacing:1.5px;
+  color:var(--t3);margin:0 0 4px;
+}
+.card-name{
+  font-family:'Orbitron';font-size:15px;font-weight:800;letter-spacing:1.5px;
+  color:var(--t1);margin:0 0 6px;
+}
+.card-name-kr{
+  font-family:'Orbitron';font-size:12px;font-weight:500;color:var(--t2);
+  letter-spacing:0.5px;margin:0 0 10px;
+}
+.card-desc{
+  font-family:'Share Tech Mono';font-size:11px;color:var(--t3);
+  letter-spacing:0.3px;line-height:1.6;margin:0 0 4px;
+}
+.card-arrow{
+  position:absolute;top:50%;right:22px;transform:translateY(-50%);
+  font-family:'Orbitron';font-size:18px;color:var(--t3);transition:color .2s;
+}
+.card:hover .card-arrow{color:var(--t1)}
+
+.card-tag{
+  display:inline-block;padding:3px 8px;font-family:'Orbitron';font-size:8px;
+  font-weight:700;letter-spacing:1px;background:rgba(58,122,184,0.15);
+  color:var(--data-b);border:1px solid var(--data-b);margin:0 4px 0 0;
+}
+
+/* ===== Footer ===== */
+.foot{
+  margin:48px 0 0;padding:18px 0 0;border-top:1px solid var(--bd2);
+  text-align:center;font-family:'Share Tech Mono';font-size:10px;color:var(--t3);
   letter-spacing:1px;
 }
 </style>
@@ -187,149 +83,75 @@ body{padding:30px 14px;background:var(--bg)}
 <body>
 <div class="container">
 
-<div class="title-block">
-<div class="title-main">VIBE PUNCH</div>
-<div class="title-sub">◆ v1.8 UI 리디자인 ◆</div>
-<div class="version-bar">
-  <span class="ver-pill">v0.6</span>
-  <span class="ver-date">2026.04.21</span>
+<div class="brand-head">
+<div class="brand-name">VIBE PUNCH</div>
+<div class="brand-subtitle">◆ v1.8 UI REDESIGN ◆</div>
+<div class="brand-meta">
+<strong>v0.10</strong>  ·  v10.7.2 IA  ·  XP unified  ·  MODIFIER active (v1.9/v2.0 scope)
 </div>
 </div>
 
-<!-- ========== Panel components ========== -->
-<div class="list-heading">◆ 패널 구성 (PANEL COMPONENTS)</div>
+<!-- ===== PANEL COMPONENTS ===== -->
+<div class="sec-head">◆ PANEL COMPONENTS</div>
+<div class="card-grid">
 
-<a href="left.html" class="list-item">
-<div class="item-num">01</div>
-<div class="item-body">
-  <div class="item-name">LEFT PANEL</div>
-  <div class="item-name-ko">왼쪽 패널</div>
-  <div class="item-desc">280px 고정 — MODIFIER 전체 UI (v1.9 SLOT) + 게임 설정</div>
-  <div class="badges">
-    <span class="bdg hold-gray">v0.5 유지</span>
-    <span class="bdg updated">폰트 확대</span>
-  </div>
-</div>
-<div class="item-arrow">❯</div>
+<a href="left.html" class="card">
+<div class="card-no">01</div>
+<div class="card-name">LEFT PANEL</div>
+<div class="card-name-kr">왼쪽 패널</div>
+<div class="card-desc"><span class="card-tag">v0.10</span> 2:1 ratio · MODIFIER active (LIFE / SPEED / SB / FILTER / PS Sensitivity) + SETTING placeholder · hover hints</div>
+<div class="card-arrow">❯</div>
 </a>
 
-<a href="right.html" class="list-item">
-<div class="item-num">02</div>
-<div class="item-body">
-  <div class="item-name">RIGHT PANEL</div>
-  <div class="item-name-ko">오른쪽 패널</div>
-  <div class="item-desc">홈 / 통계 / 뱃지 / 리더보드 — 4개 탭 구조</div>
-  <div class="badges">
-    <span class="bdg hold-gray">v0.5 유지</span>
-    <span class="bdg updated">폰트 확대</span>
-  </div>
-</div>
-<div class="item-arrow">❯</div>
+<a href="right.html" class="card">
+<div class="card-no">02</div>
+<div class="card-name">RIGHT PANEL</div>
+<div class="card-name-kr">오른쪽 패널</div>
+<div class="card-desc"><span class="card-tag">v0.10</span> 2:1 ratio · dynamic tabs (HOME / MY SCORE / LEADERBOARD by screen context) · HOME 4-section dashboard + 4 drill-downs · boss MY SCORE</div>
+<div class="card-arrow">❯</div>
 </a>
 
-<!-- ========== Space hologram ========== -->
-<div class="list-heading">◆ 공간 홀로그램 (SPACE HOLOGRAM)</div>
-
-<a href="space.html" class="list-item">
-<div class="item-num">03</div>
-<div class="item-body">
-  <div class="item-name">SPACE HOLOGRAM (S1 + S2 통합)</div>
-  <div class="item-name-ko">공간 홀로그램 전체 통합본</div>
-  <div class="item-desc">S1 마일스톤 링(24개) + S2 오버헤드 배지 한 페이지</div>
-  <div class="badges">
-    <span class="bdg hold-gray">v0.5 유지 (건들지 않음)</span>
-  </div>
 </div>
-<div class="item-arrow">❯</div>
+
+<!-- ===== SPACE HOLOGRAM ===== -->
+<div class="sec-head">◆ SPACE HOLOGRAM</div>
+<div class="card-grid">
+
+<a href="space.html" class="card">
+<div class="card-no">03</div>
+<div class="card-name">S1 · CENTRAL FLOOR HOLOGRAM</div>
+<div class="card-name-kr">바닥 중앙 홀로그램</div>
+<div class="card-desc">24 milestones ring + central streak week counter + animated flame effect</div>
+<div class="card-arrow">❯</div>
 </a>
 
-<a href="s1.html" class="list-item new">
-<div class="item-num">04</div>
-<div class="item-body">
-  <div class="item-name">S1 · CENTRAL FLOOR HOLOGRAM</div>
-  <div class="item-name-ko">S1 · 바닥 중앙 홀로그램 (분리)</div>
-  <div class="item-desc">24 마일스톤 링 + 중앙 Streak 주차 + 애니메이션 불꽃</div>
-  <div class="badges">
-    <span class="bdg new">v0.6 NEW</span>
-    <span class="bdg">space.html에서 분리</span>
-  </div>
 </div>
-<div class="item-arrow">❯</div>
+
+<!-- ===== POPUPS & RESULT ===== -->
+<div class="sec-head">◆ POPUPS &amp; RESULT</div>
+<div class="card-grid">
+
+<a href="popups.html" class="card">
+<div class="card-no">04</div>
+<div class="card-name">POPUPS × 4</div>
+<div class="card-name-kr">팝업 4종</div>
+<div class="card-desc">Diamond-style popups · FIST earned / Badge unlocked / Rank up / Review prompt</div>
+<div class="card-arrow">❯</div>
 </a>
 
-<a href="s2.html" class="list-item new">
-<div class="item-num">05</div>
-<div class="item-body">
-  <div class="item-name">S2 · OVERHEAD RANK BADGE · 3 VARIATIONS</div>
-  <div class="item-name-ko">S2 · 오버헤드 RANK 배지 3배리에이션 비교</div>
-  <div class="item-desc">CLASSIC / MINIMAL / ORBIT — 팀 선택용 후보</div>
-  <div class="badges">
-    <span class="bdg new">v0.6 NEW</span>
-    <span class="bdg">팀 검토 필요</span>
-  </div>
-</div>
-<div class="item-arrow">❯</div>
+<a href="result.html" class="card">
+<div class="card-no">05</div>
+<div class="card-name">TRACK RESULT SCREEN</div>
+<div class="card-name-kr">트랙 종료 결과 화면</div>
+<div class="card-desc"><span class="card-tag">v0.10</span> Hex frame · XP/FITNESS top split · 3 grades stacked (PASS/GOOD/PERFECT) · 6 stats including POWER SHOTS · 3 reward slots · "SCORE = X XP" unified</div>
+<div class="card-arrow">❯</div>
 </a>
 
-<!-- ========== Popups ========== -->
-<div class="list-heading">◆ 팝업 (POPUPS)</div>
-
-<a href="popups.html" class="list-item">
-<div class="item-num">06</div>
-<div class="item-body">
-  <div class="item-name">POPUPS × 4</div>
-  <div class="item-name-ko">다이아몬드 스타일 팝업 4종</div>
-  <div class="item-desc">FIST 획득 / Badge 해금 / Rank Up / 리뷰 유도</div>
-  <div class="badges">
-    <span class="bdg removed">자물쇠 🔓 삭제</span>
-    <span class="bdg removed">P6 분리</span>
-    <span class="bdg updated">폰트 확대</span>
-  </div>
-</div>
-<div class="item-arrow">❯</div>
-</a>
-
-<a href="result.html" class="list-item new">
-<div class="item-num">07</div>
-<div class="item-body">
-  <div class="item-name">TRACK RESULT SCREEN</div>
-  <div class="item-name-ko">트랙 종료 결과 화면 (분리)</div>
-  <div class="item-desc">PERFECT/GOOD/POOR 등급 + XP Reward + 액션 3버튼</div>
-  <div class="badges">
-    <span class="bdg new">v0.6 NEW</span>
-    <span class="bdg">popups P6에서 분리</span>
-  </div>
-</div>
-<div class="item-arrow">❯</div>
-</a>
-
-<!-- ========== Summary v0.5 → v0.6 ========== -->
-<div class="summary-box">
-<h3>◆ v0.5 → v0.6 변경 요약</h3>
-<ul>
-  <li><strong style="color:var(--t1)">전체 폰트 계층별 차등 확대</strong> — 본문 라벨 11→13px, 본문 12→14px, 섹션 헤딩 11→13px (탭/뱃지 유지)</li>
-  <li><strong style="color:var(--t1)">팝업 자물쇠 🔓 아이콘 삭제</strong> — P1 FIST + P2 BADGE 2군데, 미사용 .lock-badge CSS도 제거</li>
-  <li><strong style="color:var(--t1)">게임 종료 화면 분리</strong> — popups.html P6 블록을 독립 result.html로 이관</li>
-  <li><strong style="color:var(--t1)">공간 홀로그램 S1 분리</strong> — s1.html 신규 (space.html은 중복 허용, 그대로 유지)</li>
-  <li><strong style="color:var(--t1)">S2 오버헤드 배지 3배리에이션</strong> — s2.html 신규, 팀 선택용 CLASSIC/MINIMAL/ORBIT 후보</li>
-  <li><strong style="color:var(--t1)">리스트 페이지 한글화</strong> — index.html만 한글 (UI 화면 5개는 영문 유지)</li>
-  <li><strong style="color:var(--t1)">Boss Rush UI 미포함</strong> — v2.0 설계 별도 세션에서 진행 예정</li>
-</ul>
 </div>
 
-<!-- Summary v0.6 slot principle -->
-<div class="summary-box" style="border-color:rgba(255,170,0,0.25);background:rgba(255,170,0,0.04)">
-<h3 style="color:var(--gd)">◆ v1.9 SLOT 원칙 (유지)</h3>
-<ul>
-  <li>UI 구조는 v1.8에서 <strong>완성 배치</strong>. 로직은 v1.9에서 활성화</li>
-  <li>MODIFIER 전체 UI가 좌측 패널에 보임 (사선 패턴 + V1.9 SLOT 배지로 비활성 표시)</li>
-  <li>MODIFIER BONUS SLOT도 Track Result 화면에 시각 배치 (result.html)</li>
-  <li>v1.9 출시 시 <strong>UI 재작업 불필요</strong> — 로직만 연결</li>
-  <li>유저에게 "곧 활성화"라는 기대감 조성 효과</li>
-</ul>
+<div class="foot">
+VIBE PUNCH v1.8  ·  UI REDESIGN v0.10  ·  LILA SOFT 2026
 </div>
-
-<div class="footer-note">VIBE PUNCH v1.8 · UI 리디자인 v0.6 · LILA SOFT 2026</div>
 
 </div>
 </body>
